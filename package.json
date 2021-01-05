@@ -1,0 +1,44 @@
+{
+  "name": "growing-shade",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "14.15.x",
+    "npm": "6.x"
+  },
+  "scripts": {
+    "start": "node -r esm index.js",
+    "client": "npm run start --prefix client",
+    "server": "nodemon -r esm index.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install --prefix client && npm run build --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/..."
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/..."
+  },
+  "homepage": "https://github.com/...#readme",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-promise-router": "^4.0.1",
+    "helmet": "^4.3.1",
+    "miniprofiler": "^1.2.3",
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.1",
+    "node-postgres": "^0.6.2",
+    "pg": "^8.5.1"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.6"
+  }
+}
