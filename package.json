@@ -2,15 +2,15 @@
   "name": "growing-shade",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "engines": {
     "node": "14.15.x",
     "npm": "6.x"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "ts-node index.ts",
     "client": "npm run start --prefix client",
-    "server": "nodemon index.js",
+    "server": "nodemon --ext 'ts,json' --exec 'ts-node index.ts'",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install --prefix client && npm run build --prefix client"
   },
@@ -27,6 +27,7 @@
   "dependencies": {
     "compression": "^1.7.4",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-promise-router": "^4.0.1",
     "helmet": "^4.3.1",
@@ -34,9 +35,12 @@
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.1",
     "node-postgres": "^0.6.2",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
   },
   "devDependencies": {
+    "@types/node": "^14.14.20",
     "concurrently": "^5.3.0",
     "nodemon": "^2.0.6"
   }
