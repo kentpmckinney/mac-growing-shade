@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -7,17 +8,17 @@ const { Pool } = require('pg');
 const app = express();
 
 /* Heroku free postgres allows up to 20 concurrent connections */
-// const pool = new Pool({
-//   connectionString: keys.DATABASE_URL,
-//   max: 20,
-//   ssl: { rejectUnauthorized: false }
-// });
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  max: 20,
+  ssl: { rejectUnauthorized: false }
+});
 
-// pool.on('error', async (error, client) => {
-//   if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== "production") {
-//     console.error(`Database pool error: ${error}; Connection string: ${keys.DATABASE_URL}`);
-//   }
-// });
+pool.on('error', async (error: any, client: any) => {
+  if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== "production") {
+    console.error(`Database pool error: ${error}`);
+  }
+});
 
 /* Middleware */
 app.use(cors());
@@ -27,7 +28,7 @@ app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 
 /* Routes */
-// require("./routes/query")(app, pool);
+require("./routes/test")(app, pool);
 // require("./routes/query-staging")(app, pool);
 // require("./routes/last-update")(app, pool);
 // require("./routes/admin")(app, pool);
