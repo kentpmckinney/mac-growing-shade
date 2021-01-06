@@ -8,8 +8,7 @@
     height: 56px;
     width: 100%;
     background-color: $ui-white;
-    border-bottom: 1px solid $ui-black;
-    box-shadow: 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.5);
   }
   
   .nav-inner-container {
@@ -22,8 +21,7 @@
     align-items: center;
   
     .nav-link-active {
-      background-color: $ui-black;
-      color: $ui-white;
+      color: $ui-black;
     }
   
     // spacer
@@ -34,12 +32,14 @@
     //all divs and links
     div,
     a {
-      color: $ui-black;
+      color: $ui-dark-gray;
       background-color: $ui-white;
       height: 100%;
       line-height: 56px;
       padding: 0 10px;
       border-right: 1px solid $ui-white;
+      text-decoration: none;
+      outline: none;
   
       img {
         max-height: 56px;
@@ -49,8 +49,7 @@
   
     //all links
     a:hover {
-      color: $ui-white;
-      background-color: $ui-black;
+      color: $ui-black;
     }
   
     //spacer

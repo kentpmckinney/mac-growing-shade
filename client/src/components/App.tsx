@@ -2,18 +2,24 @@ import { memo } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './NavBar/NavBar';
 import Map from './Map/Map';
+import Home from './Home/Home';
+import ProjectOverview from './Project/ProjectOverview';
 import './App.scss';
 
 function App() {
   return (
     <Router>
+      <div className={'App-header'}>
         <NavBar />
+      </div>
+      <div className={'App-content'}>
         <Switch>
-          <Route exact path={["/", "/the-issue"]} component={Map}></Route>
-          {/* <Route exact path={"/mapping-tool"} component={Map}></Route>
-          <Route exact path={"/join-us"} component={Map}></Route> */}
+          <Route exact path={["/", "/home"]} component={Home}></Route>
+          <Route exact path={"/project"} component={ProjectOverview}></Route>
+          <Route exact path={"/map"} component={Map}></Route>
         </Switch>
-      </Router>
+      </div>
+    </Router>
   );
 }
 

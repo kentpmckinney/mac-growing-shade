@@ -5,7 +5,6 @@ import ReactMapGL from 'react-map-gl';
 const onMapLoad = (event: any) => console.log(event);
 
 function Map (props: any) {
-  console.log(process.env);
     const [viewport, setViewport] = useState({
         latitude: 45.5099,
         longitude: -122.4348,
@@ -27,4 +26,4 @@ function Map (props: any) {
     );
 }
 
-export default Map;//memo(Map);
+export default memo(Map);
