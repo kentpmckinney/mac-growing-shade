@@ -1,0 +1,70 @@
+/* ----- fonts ----- */
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:wght@400;900&display=swap");
+/*
+font-family: 'Archivo Narrow', sans-serif;
+font-family: 'Roboto', sans-serif;
+*/
+
+/* ------- colors ------- */
+$ui-black: #000000;
+$ui-white: #ffffff;
+$ui-off-white: #f8f8f0;
+$ui-light-gray: #dcdcdc;
+$ui-gray: #808080;
+$ui-dark-gray: #404040;
+$ui-transparent-white: rgba(255, 255, 255, 0.6);
+$ui-transparent-white-2: rgba(255, 255, 255, 0.9);
+$ui-transparent-dark: rgba(0, 0, 0, 0.8);
+$ui-red: #ed1c34;
+$ui-yellow: #fff100;
+$ui-green: #00a750;
+$ui-link-light: #6699cc;
+$ui-link: #004170;
+$pdi-low: #fd8d3c;
+$pdi-medium: #e31a1c;
+$pdi-high: #800026;
+$active-marker: #00abdf;
+
+/* ------- breakpoints ------- */
+$mobile-small: 400px;
+$mobile: 600px;
+$desktop: 768px;
+$large-desktop: 1000px;
+$largest-desktop: 1200px;
+$small-landscape-height: 300px;
+$landscape-height: 400px;
+$large-landscape-height: 500px;
+$largest-landscape-height: 700px;
+
+/* ------- typography ------- */
+$font-size-smallest: 10px;
+$font-size-smaller: 12px;
+$font-size-small: 14px;
+$font-size-medium: 18px;
+$font-size-base: 16px;
+$font-size-large: 20px;
+$font-size-h1: 34px;
+$font-size-h3: 20px;
+$font-size-h5: 16px;
+
+$desktop-font-size-base: 18px;
+$desktop-font-size-h1: 51px;
+$desktop-font-size-h3: 48px;
+$desktop-font-size-h5: 36px;
+
+$font-family-narrow: "Archivo Narrow", sans-serif;
+
+/*---------exports----------*/
+:export {
+  uiBlack: $ui-black;
+  uiWhite: $ui-white;
+  uiGray: $ui-gray;
+  uiDarkGray: $ui-dark-gray;
+  uiRed: $ui-red;
+  uiYellow: $ui-yellow;
+  uiGreen: $ui-green;
+  pdiLow: $pdi-low;
+  pdiMed: $pdi-medium;
+  pdiHigh: $pdi-high;
+  activeMarker: $active-marker;
+}

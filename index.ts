@@ -1,10 +1,11 @@
-require('dotenv').config();
-const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const compression = require("compression");
-const path = require("path");
-const { Pool } = require('pg');
+import * as dotenv from "dotenv";
+dotenv.config({path: __dirname + '/.env'});
+import * as express from "express";
+import * as cors from "cors";
+import * as helmet from "helmet";
+import * as compression from "compression";
+import * as path from "path";
+import { Pool } from 'pg';
 const app = express();
 
 /* Heroku free postgres allows up to 20 concurrent connections */
@@ -23,7 +24,7 @@ pool.on('error', async (error: any, client: any) => {
 /* Middleware */
 app.use(cors());
 app.use(helmet())
-app.use(helmet.hidePoweredBy({ setTo: 'Blood, Sweat and Tears' }));
+app.use(helmet.hidePoweredBy());
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 
