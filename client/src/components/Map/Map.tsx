@@ -1,7 +1,10 @@
 import { memo, useState } from "react";
 import ReactMapGL from 'react-map-gl';
+import ControlOverlay from './ControlOverlay/ControlOverlay';
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
+import 'mapbox-gl-infobox/styles.css';
+import './Map.scss';
 
-// eslint-disable-next-line
 const onMapLoad = (event: any) => console.log(event);
 
 function Map (props: any) {
@@ -19,10 +22,11 @@ function Map (props: any) {
           height="100vh"
           onViewportChange={(viewport) => setViewport(viewport)}
           mapboxApiAccessToken={'pk.eyJ1Ijoia2VudHBtY2tpbm5leSIsImEiOiJjamV1ZzFyMmIxbjdkMnhwOTh5MjdnaHUyIn0.F_H5tFsVF3NyPDpy0nKKNg'}
-          mapStyle="mapbox://styles/mapbox/streets-v11"
+          mapStyle="mapbox://styles/mapbox/light-v9"
           onLoad={onMapLoad}
-          reuseMaps={true}
-        />
+          reuseMaps={true}>
+            <ControlOverlay/>
+        </ReactMapGL>
     );
 }
 

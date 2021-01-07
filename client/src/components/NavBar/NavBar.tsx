@@ -8,11 +8,11 @@ function NavBar (props: any) {
     return (
         <div className="NavBar">
             <Navbar bg="light" expand="lg">
-                <Navbar.Brand href="/home">Branch Out Gresham</Navbar.Brand>
+                <Navbar.Brand as={NavLink} exact to="/">Branch Out Gresham</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link as={NavLink} exact to="/home">Home</Nav.Link>
+                        <Nav.Link as={NavLink} exact to="/">Home</Nav.Link>
                         <NavDropdown title="Project" id="basic-nav-dropdown">
                             <NavDropdown.Item as={NavLink} exact to="/project-overview">Overview</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} exact to="/project-timeline">Timeline</NavDropdown.Item>

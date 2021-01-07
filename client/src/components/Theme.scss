@@ -5,6 +5,13 @@ font-family: 'Archivo Narrow', sans-serif;
 font-family: 'Roboto', sans-serif;
 */
 
+/* Override default Bootstrap colors */
+$theme-colors: (
+
+);
+@import "~bootstrap/scss/bootstrap";
+
+
 /* ------- colors ------- */
 $ui-black: #000000;
 $ui-white: #ffffff;

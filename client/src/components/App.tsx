@@ -16,8 +16,10 @@ function App() {
       </div>
       <div className={'App-content'}>
         <Switch>
-          <Route exact path={["/", "/home"]} component={Home}></Route>
-          <Route exact path={"/project"} component={ProjectOverview}></Route>
+          <Route exact path={["/"]} component={Home}></Route>
+          <Route exact path={"/project-overview"} component={ProjectOverview}></Route>
+          <Route exact path={"/project-timeline"} component={ProjectOverview}></Route>
+          <Route exact path={"/project-team"} component={ProjectOverview}></Route>
           <Route exact path={"/map"} component={Map}></Route>
         </Switch>
       </div>
