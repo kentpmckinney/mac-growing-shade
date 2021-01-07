@@ -4,6 +4,8 @@ import NavBar from './NavBar/NavBar';
 import Map from './Map/Map';
 import Home from './Home/Home';
 import ProjectOverview from './Project/ProjectOverview';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Map/mapbox-gl.css';
 import './App.scss';
 
 function App() {

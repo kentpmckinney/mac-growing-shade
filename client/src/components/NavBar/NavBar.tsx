@@ -1,37 +1,29 @@
 import React, { memo } from "react";
 import { NavLink } from "react-router-dom";
-import './NavBar.scss';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 
 function NavBar (props: any) {
-    //const { isOpen } = this.props.navbar;
     return (
-        <nav className="nav-outer-container">
-            <div className="nav-inner-container" /*style={isOpen ? { height: "auto" } : null}*/>
-                <div>
-                    <NavLink exact to="/home">
-                    <div>Branch Out Gresham</div>
-                    </NavLink>
-                </div>
-                <div></div>
-                <NavLink exact to="/home"
-                    activeClassName="nav-link-active"
-                    onClick={() => { /*this.props.dispatch(togglenavDrawerAction(false));*/}}>HOME</NavLink>
-                <NavLink exact to="/project"
-                    activeClassName="nav-link-active"
-                    onClick={() => { /*this.props.dispatch(togglenavDrawerAction(false));*/}}>PROJECT</NavLink>
-                <NavLink exact to="/map"
-                    activeClassName="nav-link-active"
-                    onClick={() => { /*this.props.dispatch(togglenavDrawerAction(false));*/}}>MAPPING TOOL</NavLink>
-            </div>
-            <div
-                className="hamburger-button"
-                onClick={() => { /*this.props.dispatch(togglenavDrawerAction(!isOpen));*/}}>&#x2630;</div>
-        </nav>
+        <div className="NavBar">
+            <Navbar bg="light" expand="lg">
+                <Navbar.Brand href="/home">Branch Out Gresham</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <Nav.Link as={NavLink} exact to="/home">Home</Nav.Link>
+                        <NavDropdown title="Project" id="basic-nav-dropdown">
+                            <NavDropdown.Item as={NavLink} exact to="/project-overview">Overview</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} exact to="/project-timeline">Timeline</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} exact to="/project-team">Team</NavDropdown.Item>
+                        </NavDropdown>
+                        <Nav.Link as={NavLink} exact to="/map">Mapping Tool</Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
+        </div>
     );
 }
 
-// function mapStateToProps({ navbar }) {
-//   return { navbar };
-// }
-//export default connect(mapStateToProps)(Navbar);
 export default memo(NavBar);

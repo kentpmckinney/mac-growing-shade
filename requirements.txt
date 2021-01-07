@@ -1,0 +1,2 @@
+# Heroku should automatically install the following Python modules
+psycopg2-binary==2.8.6
