@@ -1,5 +1,9 @@
 import { Message, SEND_MESSAGE, DELETE_MESSAGE, ChatActionTypes } from './types';
-import { SystemState, UPDATE_SESSION, SystemActionTypes, ChatState } from './types'
+import { SystemState, UPDATE_SESSION, SystemActionTypes, ChatState, SliderState } from './types'
+
+export const sliderState: SliderState = {
+  keyValuePairs: {}
+}
 
 // TypeScript infers that this function is returning SendMessageAction
 export function sendMessage(newMessage: Message): ChatActionTypes {

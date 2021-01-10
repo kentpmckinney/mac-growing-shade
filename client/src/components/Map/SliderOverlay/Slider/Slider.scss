@@ -1,0 +1,22 @@
+.slider-container {
+    width: 260px;
+    min-height: 85px;
+}
+
+.slider-with-min-max {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider-min-value {
+    margin-right: 4px;
+}
+
+.slider-max-value {
+    margin-left: 4px;
+}
+
+.slider-label:hover {
+    font-weight: bold;
+}

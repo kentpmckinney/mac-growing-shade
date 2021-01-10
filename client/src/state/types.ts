@@ -1,7 +1,23 @@
+export const UPDATE_SLIDER_VALUE = 'UPDATE_SLIDER_VALUE';
+
+export type SliderState = {
+  keyValuePairs: {}
+}
+
+export interface UpdateSliderValue {
+  type: typeof UPDATE_SLIDER_VALUE
+  payload: SliderState[]
+}
+
+
+
+
+// ---------------------------
+
 export interface SystemState {
-    loggedIn: boolean
-    session: string
-    userName: string
+  loggedIn: boolean
+  session: string
+  userName: string
 }
 
 export const UPDATE_SESSION = 'UPDATE_SESSION'

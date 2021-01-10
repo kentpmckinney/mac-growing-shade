@@ -1,33 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { combineReducers } from '@reduxjs/toolkit'
-import { configureStore } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
-import thunk from 'redux-thunk';
-import './index.scss';
+import { Provider } from 'react-redux';
+import Store from './state/store';
 import App from './components/App';
-import reportWebVitals from './reportWebVitals';
-import { systemReducer, chatReducer } from './redux/reducers'
-
-const rootReducer = combineReducers({
-  system: systemReducer,
-  chat: chatReducer
-})
-
-export type RootState = ReturnType<typeof rootReducer>
-export type AppDispatch = typeof store.dispatch
-export const useAppDispatch = () => useDispatch<AppDispatch>() // Export a hook that can be reused to resolve types
-
-const store = configureStore({
-  reducer: rootReducer,
-  middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk)
-})
+import './index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={Store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-//reportWebVitals(console.log);
