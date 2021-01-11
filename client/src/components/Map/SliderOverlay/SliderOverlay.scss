@@ -1,24 +1,25 @@
 .slider-overlay-container {
-    width: 280px;
-    height: auto;
-    max-height: 80vh;
-    font-size: 0.7rem;
-    margin-left: 10px;
-    margin-top: 10px;
-    background-color: rgba(255, 255, 255, 1);
-    opacity: 0.9;
+  width: 280px;
+  height: auto;
+  max-height: 80vh;
+  font-size: 0.7rem;
+  margin-left: 10px;
+  margin-top: 10px;
+  background-color: rgba(255, 255, 255, 1);
+  opacity: 0.9;
+  cursor: pointer;
 }
 
 .slider-overlay-header {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .slider-overlay-body {
-    overflow-x: hidden;
-    overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .slider-overlay-section-label {
-    color: navy;
+  color: navy;
 }

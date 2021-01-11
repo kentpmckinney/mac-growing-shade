@@ -1,16 +1,11 @@
 /* ----- fonts ----- */
 @import url("https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:wght@400;900&display=swap");
-/*
-font-family: 'Archivo Narrow', sans-serif;
-font-family: 'Roboto', sans-serif;
-*/
 
 /* Override default Bootstrap colors */
 $theme-colors: (
 
 );
 @import "~bootstrap/scss/bootstrap";
-
 
 /* ------- colors ------- */
 $ui-black: #000000;

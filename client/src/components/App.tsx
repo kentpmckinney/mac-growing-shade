@@ -3,15 +3,13 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './NavBar/NavBar';
 import Map from './Map/Map';
 import Home from './Home/Home';
+import Contact from './Contact/Contact';
 import ProjectOverview from './Project/ProjectOverview';
-import LogRocket from 'logrocket';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Map/mapbox-gl.css';
 import './App.scss';
 
 function App() {
-
-  LogRocket.init('hbumel/mac-growing-shade'); /* For early development use */
 
   return (
     <div className='app-container'>
@@ -25,12 +23,14 @@ function App() {
             <Route exact path={"/project-overview"} component={ProjectOverview}></Route>
             <Route exact path={"/project-timeline"} component={ProjectOverview}></Route>
             <Route exact path={"/project-team"} component={ProjectOverview}></Route>
-            <Route exact path={"/map"} component={Map}></Route>
+            <Route path={"/map*"} component={Map}></Route>
+            <Route exact path={"/contact"} component={Contact}></Route>
           </Switch>
         </div>
       </Router>
     </div>
   );
+  
 }
 
 export default memo(App);

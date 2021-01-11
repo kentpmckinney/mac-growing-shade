@@ -1,12 +1,17 @@
-import React, { memo } from "react";
+import { memo } from "react";
+import { Container } from 'react-bootstrap';
 
 function ProjectOverview (props: any) {
-    return (
-        <React.Fragment>
-            <h1>The Project Overview Page</h1>
-            <div>Add Images, text, and compatible HTML content</div> 
-        </React.Fragment>
-    );
+
+  return (
+    <Container>
+      <br/>
+      <br/>
+      <h1>The Project Overview Page</h1>
+      <div>Add Images, text, and compatible HTML content</div> 
+    </Container>
+  );
+
 }
 
 export default memo(ProjectOverview);

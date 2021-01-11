@@ -1,15 +1,15 @@
 {
-    "layers": {
-        "Layer 1": {
-            "name": "Layer 1",
-            "zIndex": 1
-        }
-    },
-    "filters": {
-        "Filter 1": {
-            "layer": "Layer 1"
-        }
-    },
-    "apiKey1": "API keys are stored as environment variables",
-    "connectionString": "Database credentials are stored as environment variables"
+  "layers": {
+    "Layer 1": {
+      "name": "Layer 1",
+      "zIndex": 1
+    }
+  },
+  "filters": {
+    "Filter 1": {
+      "layer": "Layer 1"
+    }
+  },
+  "apiKey1": "API keys are stored as environment variables",
+  "connectionString": "Database credentials are stored as environment variables"
 }
