@@ -1,8 +1,6 @@
-import { Fragment } from 'react';
 import { BaseControl } from 'react-map-gl';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 import ReactPlayer from 'react-player';
 import './HelpOverlay.scss';
 
@@ -16,12 +14,14 @@ class HelpOverlay extends BaseControl<any, any> {
 
     return (
       /* ref={this._containerRef} stops mouse/touch events over the control propagating to the map */
-      <Fragment>
-        <div className='help-overlay-container' ref={this._containerRef}>
+      <div ref={this._containerRef}>
+        <div className='help-overlay-container'>
           <span>ⓘ&nbsp;</span><span className='help-overlay-text' onClick={openModal}>Guide</span>
         </div>
         <Modal show={this.state.showModal} onHide={closeModal} size="xl" centered>
             <Modal.Body>
+              <div>Video Guide For Using The Mapping Tool</div>
+              <div>&nbsp;</div>
               <div className='player-container'>
                 <ReactPlayer width='auto' height='auto' className='react-player' url="https://www.youtube.com/watch?v=HPJKxAhLw5I" controls/>
               </div>
@@ -31,7 +31,7 @@ class HelpOverlay extends BaseControl<any, any> {
               </div>
             </Modal.Body>
         </Modal>
-      </Fragment>
+      </div>
     );
   }
   

@@ -3,9 +3,9 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ReactMapGL, { NavigationControl, Source, Layer } from 'react-map-gl';
 import SliderOverlay from './SliderOverlay/SliderOverlay';
+import ImageryOverlay from './ImageryOverlay/ImageryOverlay';
 import HelpOverlay from './HelpOverlay/HelpOverlay';
 import { RootState } from '../../state/rootReducer';
-
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import './Map.scss';
 
@@ -24,10 +24,9 @@ function Map (props: any) {
     pitch: 0
   });
 
-  /* Read the sliders' values from the Redux store */
-  const { sliders } = useSelector(
-    (state: RootState) => state.sliders
-  );
+  /* Read settings from the Redux store */
+  const sliders = useSelector((state: RootState) => state.sliders).sliders;
+  const imageryEnabled = useSelector((state: RootState) => state.imagery).enabled;
 
   /* Update the URL bar with slider values, lat, lon, and zoom level without triggering a render */
   window.history.replaceState(null, "Branch Out Gresham",
@@ -35,8 +34,9 @@ function Map (props: any) {
     + `&lat=${viewport.latitude}&lon=${viewport.longitude}&zoom=${viewport.zoom}`
   )
   
-  /* Display slider values to the console for development purposes */
+  /* Display state values to the console for development purposes */
   console.log(sliders);
+  console.log(imageryEnabled);
 
   /* API key for MapBox */
   const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2VudHBtY2tpbm5leSIsImEiOiJjamV1ZzFyMmIxbjdkMnhwOTh5MjdnaHUyIn0.F_H5tFsVF3NyPDpy0nKKNg';
@@ -50,19 +50,20 @@ function Map (props: any) {
       }
     ]
   };
+  
+  const imageryStyleUrl = 'mapbox://styles/mapbox/satellite-v9';
+  const mapStyleUrl = 'mapbox://styles/kentpmckinney/ckjqgjo3452ue19o1elkq69kb';
+  const mapStyle = imageryEnabled ? imageryStyleUrl : mapStyleUrl
 
   return (
     <div className='map-container'>
-
-                
-            
       <ReactMapGL
         {...viewport}
         width='100%'
         height='100%'
         onViewportChange={onViewportChange}
         mapboxApiAccessToken={MAPBOX_TOKEN}
-        mapStyle="mapbox://styles/kentpmckinney/ckjqgjo3452ue19o1elkq69kb"
+        mapStyle={mapStyle}
         reuseMaps={true}>
 
           {/* The overlay containing the sliders */}
@@ -71,6 +72,11 @@ function Map (props: any) {
           {/* The overlay containing help options */}
           <div className='help-overlay'>
             <HelpOverlay captureScroll={true} captureClick={true}/>
+          </div>
+
+          {/* The overlay containing an interface to choose between map and imagery */}
+          <div className='imagery-overlay'>
+            <ImageryOverlay captureScroll={true} captureClick={true}/>
           </div>
 
           {/* The navigation control with zoom in/out */}
@@ -91,9 +97,7 @@ function Map (props: any) {
               }}
             />
           </Source>
-
       </ReactMapGL>
-
     </div>
   );
 
