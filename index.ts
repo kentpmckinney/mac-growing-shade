@@ -29,7 +29,7 @@ app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 
 /* Routes */
-require("./routes/test")(app, pool);
+//require("./routes/test")(app, pool);
 // require("./routes/query-staging")(app, pool);
 // require("./routes/last-update")(app, pool);
 // require("./routes/admin")(app, pool);
