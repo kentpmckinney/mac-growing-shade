@@ -1,5 +1,8 @@
 import * as dotenv from "dotenv";
-dotenv.config({path: __dirname + '/.env'});
+if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== "production") {
+  /* Read environment variables from a .env file in the root folder for local development */
+  dotenv.config({path: __dirname + '/.env'});
+}
 import * as express from "express";
 import * as cors from "cors";
 import * as helmet from "helmet";
