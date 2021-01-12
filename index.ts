@@ -1,15 +1,14 @@
-import * as dotenv from "dotenv";
-if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== "production") {
+import * as Dotenv from 'dotenv';
+if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== 'production') {
   /* Read environment variables from a .env file in the root folder for local development */
-  dotenv.config({path: __dirname + '/.env'});
+  Dotenv.config({path: __dirname + '/.env'});
 }
-import * as express from "express";
-import * as cors from "cors";
-import * as helmet from "helmet";
-import * as compression from "compression";
-import * as path from "path";
+import * as Express from 'express';
+import * as Cors from 'cors';
+import * as Compression from 'compression';
+import * as Path from 'path';
 import { Pool } from 'pg';
-const app = express();
+const app = Express();
 
 /* Heroku free postgres allows up to 20 concurrent connections */
 const pool = new Pool({
@@ -18,24 +17,19 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-pool.on('error', async (error: any, client: any) => {
-  if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== "production") {
-    console.error(`Database pool error: ${error}`);
+pool.on('error', (e: Error) => {
+  if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== 'production') {
+    console.error(`Database pool error: ${e}`);
   }
 });
 
 /* Middleware */
-app.use(cors());
-//app.use(helmet())
-//app.use(helmet.hidePoweredBy());
-//app.use(compression());
-app.use(express.urlencoded({ extended: false }));
+app.use(Cors());
+app.use(Compression());
+app.use(Express.urlencoded({ extended: false }));
 
 /* Routes */
-//require("./routes/test")(app, pool);
-// require("./routes/query-staging")(app, pool);
-// require("./routes/last-update")(app, pool);
-// require("./routes/admin")(app, pool);
+require("./routes/status")(app, pool);
 
 /* Check for database connectivity and provide a human-friendly message on failure */
 // pool.query(`select last_update from production_meta`, (err, res) => {
@@ -49,12 +43,14 @@ app.use(express.urlencoded({ extended: false }));
 
 /* Default handler for requests not handled by one of the above routes */
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  app.use(Express.static("client/build"));
+  app.get("*", (request: Express.Request, response: Express.Response) => {
+    response.sendFile(Path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
 
 /* Listen for and handle incoming requests */
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.info(`Server running on port ${PORT}`)
+});
