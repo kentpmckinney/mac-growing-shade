@@ -1,0 +1,18 @@
+@import "../Theme.scss";
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  font-family: $font-family-nav-text;
+  
+  .logo-text {
+    font-family: $font-family-nav-logo;
+    font-size: $font-size-nav-logo;
+  }
+
+  .navbar {
+    width: 100vw;
+    background-color: $color-nav-bar-background;
+  }
+
+}

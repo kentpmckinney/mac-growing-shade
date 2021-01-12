@@ -1,23 +1,28 @@
+@import "./Theme.scss";
+
 .app-container {
+
   height: 100vh;
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 56px auto;
-}
+  grid-template-columns: auto;
+  grid-auto-rows: min-content auto;
+  font-family: $font-family-text;
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $font-family-heading;
+  }
+  
+  .app-header {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  
+  .app-content {
+    grid-area: 2 / 1 / 3 / 2;
+  }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.app-header {
-  grid-area: 1 / 1 / 2 / 2;
-}
-
-.app-content {
-  grid-area: 2 / 1 / 3 / 2;
-}
-
-.App-link {
-  color: #61dafb;
+  .map-modal {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
 }

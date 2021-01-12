@@ -3,13 +3,14 @@ import { NavLink } from "react-router-dom";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import './NavBar.scss';
 
-function NavBar(props: any) {
+function NavBar() {
 
   return (
-    <div className="NavBar">
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand as={NavLink} exact to="/">Branch Out Gresham</Navbar.Brand>
+    <div className='nav-container'>
+      <Navbar className='navbar' bg="light" expand="sm">
+        <Navbar.Brand as={NavLink} exact to="/" className='logo-text'>Branch Out Gresham</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">

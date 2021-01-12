@@ -1,3 +1,5 @@
+@import '../../../Theme.scss';
+
 .slider-container {
   width: 260px;
   min-height: 85px;
@@ -17,6 +19,15 @@
   margin-left: 4px;
 }
 
+.slider-label {
+  font-family: $font-family-slider-label;
+  span {
+    display: none;
+  }
+}
 .slider-label:hover {
-  font-weight: bold;
+  span {
+    display: inline;
+    color: blue;
+  }
 }

@@ -63,7 +63,7 @@ function Slider (props: SliderProps) {
 
       {/* Show a label that can be clicked on to view a popover */}
       <OverlayTrigger trigger="click" placement="right" overlay={popover} rootClose>
-        <div className='slider-label'>{props.label}</div>
+        <div className='slider-label'>{props.label} <span>ⓘ</span></div>
       </OverlayTrigger>
 
       {/* Show the slider with min and max values on each side */}

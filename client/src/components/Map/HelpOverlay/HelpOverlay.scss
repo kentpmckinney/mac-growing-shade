@@ -1,0 +1,35 @@
+@import '../../Theme.scss';
+
+.help-overlay-container {
+  width: auto;
+  height: auto;
+  font-size: 0.7rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.help-overlay-text:hover {
+  text-decoration: underline;
+}
+
+.player-container {
+  height: auto;
+  width: auto;
+}
+
+.react-player {
+  padding-top: 56.25%; /* Scale using a 16:9 aspect ratio */
+  position: relative;
+}
+
+.react-player > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.close-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

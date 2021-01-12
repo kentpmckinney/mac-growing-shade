@@ -3,7 +3,9 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ReactMapGL, { NavigationControl, Source, Layer } from 'react-map-gl';
 import SliderOverlay from './SliderOverlay/SliderOverlay';
+import HelpOverlay from './HelpOverlay/HelpOverlay';
 import { RootState } from '../../state/rootReducer';
+
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import './Map.scss';
 
@@ -15,9 +17,9 @@ function Map (props: any) {
 
   /* The map's viewport state */
   const [viewport, setViewport] = useState({
-    latitude: parseInt(new URLSearchParams(location.search).get('lat') || '') || 45.5099,
-    longitude: parseInt(new URLSearchParams(location.search).get('lon') || '') || -122.4348,
-    zoom: parseInt(new URLSearchParams(location.search).get('zoom') || '') || 11,
+    latitude: parseFloat(new URLSearchParams(location.search).get('lat') || '45.5099'),
+    longitude: parseFloat(new URLSearchParams(location.search).get('lon') || '-122.4348'),
+    zoom: parseFloat(new URLSearchParams(location.search).get('zoom') || '11'),
     bearing: 0,
     pitch: 0
   });
@@ -51,6 +53,9 @@ function Map (props: any) {
 
   return (
     <div className='map-container'>
+
+                
+            
       <ReactMapGL
         {...viewport}
         width='100%'
@@ -62,6 +67,11 @@ function Map (props: any) {
 
           {/* The overlay containing the sliders */}
           <SliderOverlay captureScroll={true} captureClick={true}/>
+
+          {/* The overlay containing help options */}
+          <div className='help-overlay'>
+            <HelpOverlay captureScroll={true} captureClick={true}/>
+          </div>
 
           {/* The navigation control with zoom in/out */}
           <div className='navigation-control'>
@@ -83,6 +93,7 @@ function Map (props: any) {
           </Source>
 
       </ReactMapGL>
+
     </div>
   );
 
