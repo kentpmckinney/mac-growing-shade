@@ -26,9 +26,9 @@ pool.on('error', async (error: any, client: any) => {
 
 /* Middleware */
 app.use(cors());
-app.use(helmet())
+//app.use(helmet())
 //app.use(helmet.hidePoweredBy());
-app.use(compression());
+//app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 
 /* Routes */
