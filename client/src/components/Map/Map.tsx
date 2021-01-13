@@ -4,12 +4,20 @@ import { useSelector } from 'react-redux';
 import ReactMapGL, { NavigationControl, Source, Layer } from 'react-map-gl';
 import SliderOverlay from './SliderOverlay/SliderOverlay';
 import ImageryOverlay from './ImageryOverlay/ImageryOverlay';
-import HelpOverlay from './HelpOverlay/HelpOverlay';
+import InfoOverlay from './InfoOverlay/InfoOverlay';
 import { RootState } from '../../state/rootReducer';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import './Map.scss';
 
-function Map (props: any) {
+type MapProps = {}
+
+interface MapState {
+  latitude: number
+  longitude: number
+  zoom: number
+}
+
+function Map (props: MapProps) {
 
   const mapRef = useRef();
   const onViewportChange = (v: any) => setViewport(v);
@@ -19,10 +27,8 @@ function Map (props: any) {
   const [viewport, setViewport] = useState({
     latitude: parseFloat(new URLSearchParams(location.search).get('lat') || '45.5099'),
     longitude: parseFloat(new URLSearchParams(location.search).get('lon') || '-122.4348'),
-    zoom: parseFloat(new URLSearchParams(location.search).get('zoom') || '11'),
-    bearing: 0,
-    pitch: 0
-  });
+    zoom: parseFloat(new URLSearchParams(location.search).get('zoom') || '11')
+  } as MapState);
 
   /* Read settings from the Redux store */
   const sliders = useSelector((state: RootState) => state.sliders).sliders;
@@ -51,6 +57,7 @@ function Map (props: any) {
     ]
   };
   
+  /* Determine the style of the map to display */
   const imageryStyleUrl = 'mapbox://styles/mapbox/satellite-v9';
   const mapStyleUrl = 'mapbox://styles/kentpmckinney/ckjqgjo3452ue19o1elkq69kb';
   const mapStyle = imageryEnabled ? imageryStyleUrl : mapStyleUrl
@@ -70,8 +77,8 @@ function Map (props: any) {
           <SliderOverlay captureScroll={true} captureClick={true}/>
 
           {/* The overlay containing help options */}
-          <div className='help-overlay'>
-            <HelpOverlay captureScroll={true} captureClick={true}/>
+          <div className='info-overlay'>
+            <InfoOverlay captureScroll={true} captureClick={true}/>
           </div>
 
           {/* The overlay containing an interface to choose between map and imagery */}

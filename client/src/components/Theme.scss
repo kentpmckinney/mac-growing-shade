@@ -32,29 +32,44 @@ $color-heading: black;
 $color-text: darkgray;
 $color-background: white;
 $color-nav-bar-background: white;
+$slider-overlay-background-color: rgba(255, 255, 255, 1);
+$slider-overlay-section-label-color: navy;
 
 @media (prefers-color-scheme: dark) {
   
 }
 
+/* ------- positions -------- */
+
+$navigation-control-right: 10px;
+$navigation-control-top: 85px;
+$info-overlay-right: 10px;
+$info-overlay-top: 55px;
+$imagery-overlay-right: 10px;
+$imagery-overlay-top: 10px;
+
 /* ------- sizes and breakpoints ------- */
 
 $navbar-height: 56px;
 $font-size-nav-logo: 2rem;
+$info-guide-font-size: 0.7rem;
+$slider-height: 85px;
+$slider-overlay-width: 280px;
+$slider-overlay-height: 70vh;
+$slider-overlay-min-height: 30vh;
+$slider-overlay-max-height: 550px;
+$slider-overlay-opacity: 0.9;
 
 @include media-breakpoint-down(lg) {
-  $navbar-height: 56px;
-  $font-size-nav-logo: 2rem;
+
 }
 
 @include media-breakpoint-down(md) {
-  $navbar-height: 56px;
-  $font-size-nav-logo: 2rem;  
+  
 }
 
 @include media-breakpoint-down(sm) {
-  $navbar-height: 56px;
-  $font-size-nav-logo: 2rem;
+
 }
 
 $font-size-smallest: 10px;

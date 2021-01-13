@@ -1,8 +1,8 @@
 @import '../../../Theme.scss';
 
 .slider-container {
-  width: 260px;
-  min-height: 85px;
+  width: auto;
+  min-height: $slider-height;
 }
 
 .slider-with-min-max {

@@ -1,7 +1,9 @@
 import { memo } from "react";
 import { Container } from 'react-bootstrap';
 
-function Home (props: any) {
+type HomeProps = {}
+
+function Home (props: HomeProps) {
   return (
     <Container>
       <br/>

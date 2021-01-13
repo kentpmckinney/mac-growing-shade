@@ -1,14 +1,14 @@
 @import '../../Theme.scss';
 
 .slider-overlay-container {
-  width: 280px;
+  width: $slider-overlay-width;
   height: auto;
   max-height: 80vh;
   font-size: 0.7rem;
   margin-left: 10px;
   margin-top: 10px;
-  background-color: rgba(255, 255, 255, 1);
-  opacity: 0.9;
+  background-color: $slider-overlay-background-color;
+  opacity: $slider-overlay-opacity;
   cursor: pointer;
 }
 
@@ -18,10 +18,13 @@
 }
 
 .slider-overlay-body {
+  height: $slider-overlay-height;
+  min-height: $slider-overlay-min-height;
+  max-height: $slider-overlay-max-height;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 .slider-overlay-section-label {
-  color: navy;
+  color: $slider-overlay-section-label-color;
 }

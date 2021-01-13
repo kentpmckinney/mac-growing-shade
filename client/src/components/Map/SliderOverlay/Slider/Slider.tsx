@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../../state/store';
 import { RootState } from '../../../../state/rootReducer';
-import { updateSliderValue } from './SliderStateSlice';
+import { updateSliderValue, SliderItem, SliderCollection } from './SliderStateSlice';
 import { Popover, OverlayTrigger } from 'react-bootstrap';
 import RangeSlider from 'react-bootstrap-range-slider';
 import './Slider.scss';
@@ -31,23 +31,17 @@ function Slider (props: SliderProps) {
   let value = parseInt(new URLSearchParams(location.search).get(name) || '') || props.defaultValue;  
 
   /* Write the slider's default value to the Redux store once after the component loads */
-  useEffect(() => {
-    dispatch(updateSliderValue({ name, value }))},
-  []);
+  useEffect( (): void => { dispatch(updateSliderValue({ name, value})) }, [] );
 
   /* Read the slider's value from the Redux store */
-  const { sliders } = useSelector(
-    (state: RootState) => state.sliders
-  );
-  const slider = sliders.filter(x => x.name === props.name)[0];
-  if (slider !== undefined) {
-    value = slider.value;
-  }
+  const { sliders } = useSelector( (state: RootState): SliderCollection => state.sliders );
+  const slider = sliders.filter( (x: SliderItem): boolean => x.name === props.name )[0];
+  if (slider !== undefined) { value = slider.value; }
 
   /* Write the slider's value to the Redux store as the value changes */
   const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const value = parseInt(e.currentTarget.value);
-    dispatch(updateSliderValue({ name, value }));
+    dispatch( updateSliderValue( { name, value } ) );
   }
 
   /* Define a popover that lets the user click to see a description for the slider's value */

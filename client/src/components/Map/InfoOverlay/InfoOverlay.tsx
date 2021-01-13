@@ -2,23 +2,32 @@ import { BaseControl } from 'react-map-gl';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import ReactPlayer from 'react-player';
-import './HelpOverlay.scss';
+import './InfoOverlay.scss';
+
+interface HelpOverlayState {
+  showModal: boolean
+}
 
 class HelpOverlay extends BaseControl<any, any> {
-  state = { showModal: true }
+
+  state = { showModal: true } as HelpOverlayState
 
   _render() {
   
-    const closeModal = () => this.setState({ showModal: false });
-    const openModal = () => this.setState({ showModal: true });
+    const closeModal = (): void => this.setState<never>({ showModal: false });
+    const openModal = (): void => this.setState<never>({ showModal: true });
 
     return (
       /* ref={this._containerRef} stops mouse/touch events over the control propagating to the map */
       <div ref={this._containerRef}>
-        <div className='help-overlay-container'>
-          <span>ⓘ&nbsp;</span><span className='help-overlay-text' onClick={openModal}>Guide</span>
+
+        {/* The clickable UI 'Guide' element on the map */}
+        <div className='info-overlay-container'>
+          <span>ⓘ&nbsp;</span><span className='info-overlay-text' onClick={openModal}>Guide</span>
         </div>
-        <Modal show={this.state.showModal} onHide={closeModal} size="xl" centered>
+
+        {/* The modal box that appears with a video guide for usage of the map */}
+        <Modal show={this.state.showModal} onHide={closeModal} size='xl' centered>
             <Modal.Body>
               <div>Video Guide For Using The Mapping Tool</div>
               <div>&nbsp;</div>

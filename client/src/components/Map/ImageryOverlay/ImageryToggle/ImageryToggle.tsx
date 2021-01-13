@@ -3,14 +3,15 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../../state/store';
 import { RootState } from '../../../../state/rootReducer';
-import { updateImageryValue } from './ImageryToggleStateSlice';
+import { updateImageryValue, ImageryOptions } from './ImageryToggleStateSlice';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import './ImageryToggle.scss';
 
-function ImageryToggle (props: any) {
+type ImageryToggleProps = {}
 
-  const unit = props.unit || '';
-  const name = props.name || '';
+function ImageryToggle (props: ImageryToggleProps) {
+
   const dispatch = useAppDispatch();
 
   /* Use a URL query parameter as the default value if available */
@@ -18,10 +19,10 @@ function ImageryToggle (props: any) {
   let value = new URLSearchParams(location.search).get('imagery') || 'no';  
 
   /* Write the default value to the Redux store once after the component loads */
-  useEffect(() => { dispatch(updateImageryValue({ enabled: false })) }, []);
+  useEffect( (): void => { dispatch(updateImageryValue({ enabled: false })) }, [] );
 
   /* Read state from the Redux store */
-  const enabled = useSelector((state: RootState) => state.imagery).enabled || false;
+  const enabled = useSelector( (state: RootState): ImageryOptions => state.imagery ).enabled || false;
 
   /* Write the value to the Redux store as the value changes */
   const onChange = (e: ChangeEvent<HTMLInputElement>): void => {

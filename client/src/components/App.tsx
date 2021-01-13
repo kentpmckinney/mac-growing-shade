@@ -9,8 +9,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Map/mapbox-gl.css';
 import './App.scss';
 
-function App() {
+type AppProps = {}
 
+function App(props: AppProps) {
 
   return (
     <div className='app-container'>

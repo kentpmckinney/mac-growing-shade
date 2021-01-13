@@ -12,7 +12,7 @@ const imagery = createSlice({
   name: 'imagery',
   initialState,
   reducers: {
-    updateImageryValue(state, { payload }: PayloadAction<ImageryOptions>) {
+    updateImageryValue(state: ImageryOptions, { payload }: PayloadAction<ImageryOptions>) {
       state.enabled = payload.enabled;
     },
   },

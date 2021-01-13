@@ -6,7 +6,10 @@ import { BaseControl } from 'react-map-gl';
 import './SliderOverlay.scss';
 import './AccordionToggle/AccordionToggle.scss';
 
+interface SliderOverlayState {}
+
 class SliderOverlay extends BaseControl<any, any> {
+  state = { } as SliderOverlayState
 
   _render() {
     return (
@@ -16,7 +19,7 @@ class SliderOverlay extends BaseControl<any, any> {
           <Card>
             <Card.Header>
               <div className="slider-overlay-header">
-                <AccordionToggle children={{}} eventKey='0' />
+                <AccordionToggle eventKey='0' />
               </div>
             </Card.Header>
             <Accordion.Collapse eventKey='0'>

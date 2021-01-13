@@ -10,22 +10,22 @@
   position: absolute;
   right: 0;
   top: 0;
-  margin-right: 10px;
-  margin-top: 85px;
+  margin-right: $navigation-control-right;
+  margin-top: $navigation-control-top;
 }
 
-.help-overlay {
+.info-overlay {
   position: absolute;
   right: 0;
   top: 0;
-  margin-right: 10px;
-  margin-top: 55px;
+  margin-right: $info-overlay-right;
+  margin-top: $info-overlay-top;
 }
 
 .imagery-overlay {
   position: absolute;
   right: 0;
   top: 0;
-  margin-right: 10px;
-  margin-top: 10px;
+  margin-right: $imagery-overlay-right;
+  margin-top: $imagery-overlay-top;
 }

@@ -1,20 +1,24 @@
 @import '../../Theme.scss';
 
-.help-overlay-container {
+.info-overlay-container {
   width: auto;
   height: auto;
-  font-size: 0.7rem;
+  font-size: $info-guide-font-size;
   background-color: transparent;
   cursor: pointer;
 }
 
-.help-overlay-text:hover {
+.info-overlay-text:hover {
   text-decoration: underline;
 }
 
 .player-container {
   height: auto;
   width: auto;
+}
+
+.player-modal {
+  size: 'lg';
 }
 
 .react-player {
