@@ -1,19 +1,8 @@
 /* Fonts */
 
-@font-face {
-  font-family: 'Roboto';
-  src: local('typeface-roboto'), url(./../../node_modules/typeface-roboto/files/roboto-latin-400.woff) format('woff');
-}
-
-@font-face {
-  font-family: 'Amatic SC';
-  src: local('typeface-amatic-sc'), url(./../../node_modules/typeface-amatic-sc/files/amatic-sc-latin-400.woff) format('woff');
-}
-
-@font-face {
-  font-family: 'Nanum Gothic';
-  src: local('typeface-nanum-gothic'), url(./../../node_modules/typeface-nanum-gothic/files/nanum-gothic-latin-400.woff) format('woff');
-}
+@import "~@fontsource/roboto/latin.css";
+@import "~@fontsource/amatic-sc/latin.css";
+@import "~@fontsource/nanum-gothic/latin.css";
 
 $font-family-heading: "Nanum Gothic";
 $font-family-text: "Roboto";
@@ -39,7 +28,7 @@ $slider-overlay-section-label-color: navy;
   
 }
 
-/* ------- positions -------- */
+/* Positions */
 
 $navigation-control-right: 10px;
 $navigation-control-top: 85px;
@@ -48,7 +37,7 @@ $info-overlay-top: 55px;
 $imagery-overlay-right: 10px;
 $imagery-overlay-top: 10px;
 
-/* ------- sizes and breakpoints ------- */
+/* Sizes and breakpoints */
 
 $navbar-height: 56px;
 $font-size-nav-logo: 2rem;
@@ -60,24 +49,37 @@ $slider-overlay-min-height: 30vh;
 $slider-overlay-max-height: 550px;
 $slider-overlay-opacity: 0.9;
 
-@include media-breakpoint-down(lg) {
-
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 767px) { 
+  .slider-overlay-container { width: 220px; }
+  .slider-container { height: 35px; }
+  html { font-size: 14px; }
 }
 
-@include media-breakpoint-down(md) {
-  
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .slider-overlay-container { width: 250px; }
+  .slider-container { height: 65px; }
+  html { font-size: 16px; }
 }
 
-@include media-breakpoint-down(sm) {
-
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .slider-overlay-container { width: 280px; }
+  .slider-container { height: 85px; }
+  html { font-size: 18px; }
 }
 
-$font-size-smallest: 10px;
-$font-size-smaller: 12px;
-$font-size-small: 14px;
-$font-size-medium: 18px;
-$font-size-base: 16px;
-$font-size-large: 20px;
-$font-size-h1: 34px;
-$font-size-h3: 20px;
-$font-size-h5: 16px;
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .slider-overlay-container { width: 320px; }
+  .slider-container { height: 100px; }
+  html { font-size: 20px; }
+}
+
+/* Miscellaneous */
+
+a {
+  outline: 0;
+  user-select: none;
+}

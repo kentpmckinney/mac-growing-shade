@@ -1,9 +1,7 @@
 import { memo } from "react";
 import { Container } from 'react-bootstrap';
 
-type ContactProps = {}
-
-function Contact (props: ContactProps) {
+function Contact () {
   return (
     <Container>
       <br/>

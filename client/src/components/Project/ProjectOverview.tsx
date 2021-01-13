@@ -1,9 +1,7 @@
 import { memo } from "react";
 import { Container } from 'react-bootstrap';
 
-type ProjectOverviewProps = {}
-
-function ProjectOverview (props: ProjectOverviewProps) {
+function ProjectOverview () {
 
   return (
     <Container>

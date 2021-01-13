@@ -27,7 +27,7 @@ class HelpOverlay extends BaseControl<any, any> {
         </div>
 
         {/* The modal box that appears with a video guide for usage of the map */}
-        <Modal show={this.state.showModal} onHide={closeModal} size='xl' centered>
+        <Modal show={this.state.showModal} onHide={closeModal} size='lg' centered>
             <Modal.Body>
               <div>Video Guide For Using The Mapping Tool</div>
               <div>&nbsp;</div>

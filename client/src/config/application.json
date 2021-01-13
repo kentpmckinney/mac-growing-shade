@@ -1,4 +1,41 @@
 {
+  "mapStyle": {
+    "street": "mapbox://styles/kentpmckinney/ckjqgjo3452ue19o1elkq69kb",
+    "satellite": "mapbox://styles/mapbox/satellite-v9"
+  },
+  "sliderSets":
+  [
+    {
+      "name": "Environmental",
+      "sliders": [
+        {
+          "min": 0, "max": 100, "label": "Tree Cover (%)", "name": "treeCover", "unit": "%", "width": "240px", "defaultValue": 50, "step": 1,
+          "description": "The percentage of canopy (tree) cover over an area"
+        },
+        {
+          "min": 0, "max": 10, "label": "Urban Heat Index", "name": "urbanHeatIndex", "unit": "", "width": "240px", "defaultValue": 5, "step": 1,
+          "description": "A measure of the degree of the Heat Island Effect, where higher values indicate higher temperatures compared to surrounding rural areas"
+        },
+        {
+          "min": 0, "max": 10, "label": "Air Pollution Index", "name": "airPollutionIndex", "unit": "", "width": "240px", "defaultValue": 5, "step": 1,
+          "description": "A measure of the quality of air"
+        }
+      ]
+    },
+    {
+      "name": "Social",
+      "sliders": [
+        {
+          "min": 0, "max": 260000, "label": "Median Household Income", "name": "medianIncome", "unit": "", "width": "230px", "defaultValue": 50000, "step": 2000,
+          "description": "The median household income"
+        },
+        {
+          "min": 0, "max": 100, "label": "People of Color (%)", "name": "peopleOfColor", "unit": "%", "width": "240px", "defaultValue": 50, "step": 1,
+          "description": "The percentage of residents who are people of color"
+        }
+      ]
+    }
+  ],
   "layers": {
     "Layer 1": {
       "name": "Layer 1",
@@ -10,6 +47,7 @@
       "layer": "Layer 1"
     }
   },
-  "apiKey1": "API keys are stored as environment variables",
-  "connectionString": "Database credentials are stored as environment variables"
+  "mapboxPublicToken": "pk.eyJ1Ijoia2VudHBtY2tpbm5leSIsImEiOiJjamV1ZzFyMmIxbjdkMnhwOTh5MjdnaHUyIn0.F_H5tFsVF3NyPDpy0nKKNg",
+  "privateApiKey": "Private API keys are stored as environment variables to prevent exposure",
+  "connectionString": "Database credentials are stored as environment variables to prevent exposure"
 }

@@ -8,7 +8,7 @@ import { Popover, OverlayTrigger } from 'react-bootstrap';
 import RangeSlider from 'react-bootstrap-range-slider';
 import './Slider.scss';
 
-type SliderProps = {
+export type SliderProps = {
   min: number
   max: number
   label: string

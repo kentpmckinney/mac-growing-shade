@@ -5,9 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import './NavBar.scss';
 
-type NavBarProps = {}
-
-function NavBar(props: NavBarProps) {
+function NavBar() {
 
   return (
     <div className='nav-container'>

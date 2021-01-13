@@ -1,10 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import sliderReducer from '../components/Map/SliderOverlay/Slider/SliderStateSlice';
-import imageryReducer from '../components/Map/ImageryOverlay/ImageryToggle/ImageryToggleStateSlice';
+import viewportReducer from '../components/Map/mapViewportStateSlice';
 
 const rootReducer = combineReducers({
   sliders: sliderReducer,
-  imagery: imageryReducer
+  viewport: viewportReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
