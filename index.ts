@@ -23,19 +23,23 @@ pool.on('error', (e: Error) => {
   }
 });
 
-/* Add a CSP header */
+/* Middleware */
+app.use(Cors());
+app.use(Compression());
+app.use(Express.urlencoded({ extended: false }));
+
+/* Headers */
 app.use(function (req, res, next) {
   res.setHeader(
     'Content-Security-Policy-Report-Only',
     "default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'"
   );
+  res.setHeader(
+    'Access-Control-Allow-Origin',
+    '*'
+  )
   next();
 });
-
-/* Middleware */
-app.use(Cors());
-app.use(Compression());
-app.use(Express.urlencoded({ extended: false }));
 
 /* Routes */
 require("./routes/status")(app, pool);
@@ -53,7 +57,7 @@ require("./routes/status")(app, pool);
 /* Default handler for requests not handled by one of the above routes */
 if (process.env.NODE_ENV === "production") {
   app.use(Express.static("client/build"));
-  app.get("*", (request: Express.Request, response: Express.Response) => {
+  app.get("/", (request: Express.Request, response: Express.Response) => {
     response.sendFile(Path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
