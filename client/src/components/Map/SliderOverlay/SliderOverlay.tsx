@@ -39,19 +39,20 @@ class SliderOverlay extends BaseControl<any, any> {
                 <div className="slider-overlay-body">
 
                   {/* Dynamically render sliders as they can change based on context */}
-                  {this.sliderDefinitionSets.map((sliderDefinitionSet) => 
-                    <Fragment>
+                  {this.sliderDefinitionSets.map((sliderDefinitionSet, i) => 
+                    <Fragment key={`sliderSet-${i}`}>
                       <div className='slider-overlay-section-label'>{sliderDefinitionSet.name}</div>
                       <br/>
-                      {sliderDefinitionSet.sliders.map((s) => 
-                        <Slider
+                      {sliderDefinitionSet.sliders.map((s, j) => 
+                        <Slider key={`slider-${j}`}
                           min={s.min} max={s.max} defaultValue={s.defaultValue} step={s.step} name={s.name}
                           label={s.label} unit={s.unit} width={s.width} description={s.description}
                         />
                       )}
                     </Fragment>
                   ).reduce((a: any, c: any) => [...a, <hr/>, c], []).slice(1)} {/* Join slider sets with <hr/> */}
-                  {/* The above reduce() always produces an extra leading <hr/> due to starting [] value hence the slice */}
+                  {/* The above reduce() always produces an extra leading <hr/> due to the starting [] value hence the slice */}
+
                 </div>
               </Card.Body>
             </Accordion.Collapse>

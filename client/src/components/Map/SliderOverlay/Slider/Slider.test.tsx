@@ -1,3 +1,6 @@
+import { StrictMode } from 'react';
+import { Provider } from 'react-redux';
+import Store from '../../../../state/store';
 import { cleanup } from '@testing-library/react';
 import Adapter from 'enzyme-adapter-react-16';
 import { configure, shallow } from 'enzyme';
@@ -10,9 +13,14 @@ describe('Test the Slider component', () => {
 
   it('Renders without crashing', () => {
     shallow(
-    <Slider
-      min={0} max={100} label='Label' name='Name' width='100px' unit='' defaultValue={50} step={1} description=''
-    />);
-  });
+        <StrictMode>
+          <Provider store={Store}>
+            <Slider
+              min={0} max={100} label='Label' name='Name' width='100px' unit=''
+              defaultValue={50} step={1} description=''
+            />
+          </Provider>
+        </StrictMode>
+  )});
 
 });

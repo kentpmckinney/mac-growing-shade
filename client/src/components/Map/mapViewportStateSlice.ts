@@ -1,18 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import * as Config from '../../config/application.json';
 
 export interface ViewportState {
   latitude: number
   longitude: number
   zoom: number
-  style?: string
+  style: string
 }
 
 const initialState: ViewportState = {
   latitude: 45.5099,
   longitude: -122.4348,
   zoom: 11,
-  style: Config.mapStyle.street
+  style: 'street'
 };
 
 const viewport = createSlice({

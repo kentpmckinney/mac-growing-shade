@@ -10,6 +10,7 @@
   background-color: $slider-overlay-background-color;
   opacity: $slider-overlay-opacity;
   cursor: pointer;
+  z-index: 999999999999999;
 }
 
 .slider-overlay-header {

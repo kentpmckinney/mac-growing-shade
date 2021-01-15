@@ -1,17 +1,15 @@
 import { cleanup } from '@testing-library/react';
 import Adapter from 'enzyme-adapter-react-16';
-import { configure, shallow } from 'enzyme';
+import { configure, render } from 'enzyme';
 configure({ adapter: new Adapter() })
-import Home from './Home';
+import App from '../src/components/App';
 
 afterEach(cleanup)
 
-describe('Test the Home component', () => {
+describe('Test the App component', () => {
 
   it('Renders without crashing', () => {
-    shallow(<Home/>);
+    render(<App/>);
   });
-
-  
 
 });
