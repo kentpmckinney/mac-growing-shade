@@ -23,6 +23,15 @@ pool.on('error', (e: Error) => {
   }
 });
 
+/* Add a CSP header */
+app.use(function (req, res, next) {
+  res.setHeader(
+    'Content-Security-Policy-Report-Only',
+    "default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'"
+  );
+  next();
+});
+
 /* Middleware */
 app.use(Cors());
 app.use(Compression());
@@ -51,6 +60,6 @@ if (process.env.NODE_ENV === "production") {
 
 /* Listen for and handle incoming requests */
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.info(`Server running on port ${PORT}`)
+const server = app.listen(PORT, () => {
+  console.info(`Server running on PORT ${PORT}`);
 });
