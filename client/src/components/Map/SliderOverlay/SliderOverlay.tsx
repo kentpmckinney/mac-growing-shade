@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 import Slider, { SliderProps } from './Slider/Slider';
@@ -40,7 +39,7 @@ class SliderOverlay extends BaseControl<any, any> {
 
                   {/* Dynamically render sliders as they can change based on context */}
                   {this.sliderDefinitionSets.map((sliderDefinitionSet, i) => 
-                    <Fragment key={`sliderSet-${i}`}>
+                    <div key={`sliderSet-${i}`}>
                       <div className='slider-overlay-section-label'>{sliderDefinitionSet.name}</div>
                       <br/>
                       {sliderDefinitionSet.sliders.map((s, j) => 
@@ -49,8 +48,8 @@ class SliderOverlay extends BaseControl<any, any> {
                           label={s.label} unit={s.unit} width={s.width} description={s.description}
                         />
                       )}
-                    </Fragment>
-                  ).reduce((a: any, c: any) => [...a, <hr/>, c], []).slice(1)} {/* Join slider sets with <hr/> */}
+                    </div>
+                  ).reduce((a: any, c: any, i: number) => [...a, <hr key={`hr-${i}`}/>, c], []).slice(1)} {/* Join slider sets with <hr/> */}
                   {/* The above reduce() always produces an extra leading <hr/> due to the starting [] value hence the slice */}
 
                 </div>

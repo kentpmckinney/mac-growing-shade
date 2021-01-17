@@ -25,7 +25,7 @@ const initialState: SliderCollection = {
   )
 */
 
-const sliders = createSlice({
+const sliders = createSlice({ 
   name: 'sliders',
   initialState,
   reducers: {

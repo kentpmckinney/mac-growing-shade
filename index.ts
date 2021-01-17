@@ -43,6 +43,7 @@ app.use(function (req, res, next) {
 
 /* Routes */
 require("./routes/status")(app, pool);
+require("./routes/geojson")(app, pool);
 
 /* Check for database connectivity and provide a human-friendly message on failure */
 // pool.query(`select last_update from production_meta`, (err, res) => {
@@ -64,6 +65,6 @@ if (process.env.NODE_ENV === "production") {
 
 /* Listen for and handle incoming requests */
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.info(`Server running on PORT ${PORT}`);
 });

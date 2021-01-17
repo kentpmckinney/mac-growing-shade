@@ -1,6 +1,7 @@
-import { memo, useEffect, ChangeEvent } from "react";
+import { memo, ChangeEvent } from "react";
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useMount } from 'react-use';
 import { useAppDispatch } from '../../../../state/store';
 import { RootState } from '../../../../state/rootReducer';
 import { updateSliderValue, SliderItem, SliderCollection } from './SliderStateSlice';
@@ -30,8 +31,8 @@ function Slider (props: SliderProps) {
   const location = useLocation();
   let value = parseInt(new URLSearchParams(location.search).get(name) || '') || props.defaultValue;  
 
-  /* Write the slider's default value to the Redux store once after the component loads */
-  useEffect( (): void => { dispatch(updateSliderValue({ name, value})) }, [] );
+  /* Write the slider's default value to the Redux store on component mount */
+  useMount( (): void => { dispatch(updateSliderValue({ name, value})) } );
 
   /* Read the slider's value from the Redux store */
   const { sliders } = useSelector( (state: RootState): SliderCollection => state.sliders );
@@ -53,7 +54,7 @@ function Slider (props: SliderProps) {
   );
 
   return (
-    <div className='slider-container'>
+    <div className='slider-container' key={`slider-${name}`}>
 
       {/* Show a label that can be clicked on to view a popover */}
       <OverlayTrigger trigger="click" placement="right" overlay={popover} rootClose>

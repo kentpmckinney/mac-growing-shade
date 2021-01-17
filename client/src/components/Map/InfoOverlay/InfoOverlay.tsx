@@ -4,13 +4,13 @@ import Button from 'react-bootstrap/Button';
 import ReactPlayer from 'react-player';
 import './InfoOverlay.scss';
 
-interface HelpOverlayState {
+interface InfoOverlayState {
   showModal: boolean
 }
 
-class HelpOverlay extends BaseControl<any, any> {
+class InfoOverlay extends BaseControl<any, any> {
 
-  state = { showModal: true } as HelpOverlayState
+  state = { showModal: true } as InfoOverlayState
 
   _render() {
   
@@ -32,7 +32,7 @@ class HelpOverlay extends BaseControl<any, any> {
               <div>Video Guide For Using The Mapping Tool</div>
               <div>&nbsp;</div>
               <div className='player-container'>
-                <ReactPlayer width='auto' height='auto' className='react-player' url="https://www.youtube.com/watch?v=HPJKxAhLw5I" controls/>
+                <ReactPlayer width='auto' height='auto' className='react-player' url="http://www.youtube.com/watch?v=HPJKxAhLw5I" controls/>
               </div>
               <div>&nbsp;</div>
               <div className='close-button-container'>
@@ -46,4 +46,4 @@ class HelpOverlay extends BaseControl<any, any> {
   
 }
 
-export default HelpOverlay;
+export default InfoOverlay;

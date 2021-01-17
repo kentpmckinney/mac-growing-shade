@@ -1,5 +1,6 @@
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import { useSelector } from 'react-redux';
+import { useMount } from 'react-use';
 import { useAppDispatch } from '../../../../state/store';
 import { RootState } from '../../../../state/rootReducer';
 import { setViewport, ViewportState } from '../../mapViewportStateSlice';
@@ -15,8 +16,8 @@ function StyleToggle () {
   const viewport: ViewportState = useSelector((state: RootState) => state.viewport);
   let style = viewport.style;
 
-  /* Write the default value to the Redux store once after the component loads */
-  useEffect( (): void => { dispatch(setViewport({...viewport, style})) }, [] );
+  /* Write the default value to the Redux store on component mount */
+  useMount( (): void => { dispatch(setViewport({...viewport, style})) } );
 
   /* Write the value to the Redux store as the value changes */
   const onChange = (() => {

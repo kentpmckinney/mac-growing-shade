@@ -1,7 +1,8 @@
 import { memo } from "react";
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import ReactMapGL, { ContextViewportChangeHandler, NavigationControl, ViewportProps } from 'react-map-gl';
+import { useMount } from 'react-use';
+import ReactMapGL, { ContextViewportChangeHandler, NavigationControl, ViewportProps, Source, Layer } from 'react-map-gl';
 import SliderOverlay from './SliderOverlay/SliderOverlay';
 import MapStyleOverlay from './MapStyleOverlay/MapStyleOverlay';
 import InfoOverlay from './InfoOverlay/InfoOverlay';
@@ -12,26 +13,39 @@ import * as Config from '../../config/application.json';
 import { RootState } from '../../state/rootReducer';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import './Map.scss';
+//import { Feature, Geometry, GeoJsonProperties } from "geojson";
+import * as sampleJson from './geo.json';
 
 function Map () {
 
   /* Read settings from the Redux store */
   const viewport: ViewportState = useSelector((state: RootState) => state.viewport);
   const sliderValues = useSelector((state: RootState) => state.sliders).sliders;
+  let latitude = viewport.latitude;
+  let longitude = viewport.longitude;
+  let zoom = viewport.zoom;
+  let mapStyleName = viewport.style;
 
-  /* Synchronize viewport settings with URL parameters */
+  /* Synchronize viewport settings with URL parameters on component mount */
   const location = useLocation();
-  const latitude = parseFloat(new URLSearchParams(location.search).get('lat') || '') || viewport.latitude;
-  const longitude = parseFloat(new URLSearchParams(location.search).get('lon') || '') || viewport.longitude;
-  const zoom = parseFloat(new URLSearchParams(location.search).get('zoom') || '') || viewport.zoom;
-  const mapStyleName = new URLSearchParams(location.search).get('style') || viewport.style;
+  useMount(() => {
+    latitude = parseFloat(new URLSearchParams(location.search).get('lat') || '') || viewport.latitude;
+    longitude = parseFloat(new URLSearchParams(location.search).get('lon') || '') || viewport.longitude;
+    zoom = parseFloat(new URLSearchParams(location.search).get('zoom') || '') || viewport.zoom;
+    mapStyleName = new URLSearchParams(location.search).get('style') || viewport.style;
+  })
   const mapStyleUrl = (mapStyleName === 'street') ? Config.mapStyle.street : Config.mapStyle.satellite;
-
+ 
   /* Update the URL bar with viewport settings without triggering a render */
-  window.history.replaceState(null, "Branch Out Gresham",
+  try {
+    window.history.replaceState(null, "Branch Out Gresham",
     "/map?" + new URLSearchParams(sliderValues.map(x => [x.name, x.value.toString()])).toString()
     + `&lat=${viewport.latitude}&lon=${viewport.longitude}&zoom=${viewport.zoom}&style=${mapStyleName}`
   );
+  }
+  catch (e) {
+    console.error(`Error updating URL params. Details: ${e}`);
+  }
 
   /* Update viewport state in Redux as changes occur */
   const dispatch = useAppDispatch();
@@ -42,6 +56,19 @@ function Map () {
   /* Display state values to the console for development purposes */
   console.log(sliderValues);
   console.log(viewport);
+
+  // const geojson: Feature<Geometry, GeoJsonProperties> = {
+  //     "type": "Feature" as const,
+  //     "geometry": {
+  //       "type": "Point" as const,
+  //       "coordinates": [-122.4348, 45.5099]
+  //     },
+  //     "properties": {
+  //       "name": "Coors Field",
+  //       "amenity": "Baseball Stadium",
+  //       "popupContent": "This is where the Rockies play!"
+  //   },
+  // };
 
   return (
     <div className='map-container'>
@@ -80,6 +107,17 @@ function Map () {
           <div className='navigation-control'>
             <NavigationControl showCompass={false}/>
           </div>
+          
+          {/* Data source and interactive layer */}
+          <Source id="my-data" type="geojson" data={sampleJson.layers[0].geometryType}>
+            <Layer
+              id="point"
+              type="circle"
+              paint={{
+                'circle-radius': 10,
+                'circle-color': '#007cbf'
+              }} />
+          </Source>
 
       </ReactMapGL>
     </div>
