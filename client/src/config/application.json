@@ -47,7 +47,7 @@
       "layer": "Layer 1"
     }
   },
-  "attribution": "Web Design and Data © <a href='https://www.capastrategies.com/'>CAPA Strategies</a>",
+  "attribution": "<a href='https://www.capastrategies.com/'>© CAPA Strategies</a>",
   "mapboxPublicToken": "pk.eyJ1Ijoia2VudHBtY2tpbm5leSIsImEiOiJjamV1ZzFyMmIxbjdkMnhwOTh5MjdnaHUyIn0.F_H5tFsVF3NyPDpy0nKKNg",
   "privateApiKey": "Private API keys are stored as environment variables to prevent exposure",
   "connectionString": "Database connection string must be stored in the 'DATABASE_URL' environment variable"

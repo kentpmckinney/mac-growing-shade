@@ -1,0 +1,35 @@
+$ui-black: #000000;
+$ui-white: #ffffff;
+$ui-off-white: #f8f8f0;
+$ui-dark-gray: #343332;
+$ui-med-gray: #a9a9a9;
+$ui-light-gray: #dddddd;
+$ui-trasparent: rgba(0, 0, 0, 0.5);
+$pp-green: #9ac0a2;
+$pp-rose: #e4002c; // to match logo
+
+// #f6d2a9,#f5b78e,#f19c7c,#ea8171,#dd686c,#ca5268,#b13f64
+$parcel-stop-1: #f6d2a9;
+$parcel-stop-2: #f5b78e;
+$parcel-stop-3: #f19c7c;
+$parcel-stop-4: #ea8171;
+$parcel-stop-5: #dd686c;
+$parcel-stop-6: #ca5268;
+$parcel-stop-7: #b13f64;
+
+:export {
+  ppGreen: $pp-green;
+  ppRose: $pp-rose;
+  uiWhite: $ui-white;
+  uiLightGray: $ui-light-gray;
+  uiMedGray: $ui-med-gray;
+  uiTransparent: $ui-trasparent;
+  parcelStop1: $parcel-stop-1;
+  parcelStop2: $parcel-stop-2;
+  parcelStop3: $parcel-stop-3;
+  parcelStop4: $parcel-stop-4;
+  parcelStop5: $parcel-stop-5;
+  parcelStop6: $parcel-stop-6;
+  parcelStop7: $parcel-stop-7;
+}
+
