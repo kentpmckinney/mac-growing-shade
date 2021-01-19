@@ -60,7 +60,7 @@ function Map () {
   console.log(sliderValues);
   console.log(viewport);
 
-  const sliderValue = 50;
+ 
   // const _stops1 = [
   //   [1, styleVars.parcelStop1],
   //   [2, styleVars.parcelStop2],
@@ -82,7 +82,7 @@ function Map () {
   ];
 
  const blockLayerGeoJsonSourceUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}` +
-   `/api/geojson?layer=block_groups_2010_test`;
+   `/api/geojson?layer=${Config.postgresTableNames.blockLayer}`;
 
   // const handleMapHover = (info: any) => {
   //   info.features[0].layer.paint["fill-outline-color"] = "#000"
@@ -94,18 +94,18 @@ function Map () {
     ));
   }
 
-  /* Create a filter for the Layer component in the map below which determines if a feature is shown on the map */
+  /* Create a 'filter' for the Layer component in the map below which determines if a feature is shown on the map */
   /* The overall purpose of this is to map slider values to the data 'columns' they represent */
   /* The format is ['expression affecting all arguments', ['expression', column, value], ['expression', column, value], ...] */
   /* The first expression affects all subsequent arguments, and the expression within an argument affects 'column' and 'value' */
   /* 'All' means the feature will show if all of the other expressions are true, and those are all 'column >= value' */
-  /* The filter breaks if s.column is an empty string hence the filter function to remove entries where that is the case */
+  /* The 'filter' breaks if s.column is an empty string hence the Array.filter function to remove invalid entries */
   const blockLayerFilter = [ 'all',
     ...sliderValues
       .map(s => ['>=', s.column, s.value])
       .filter(s => (typeof s === 'string') || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
   ]
-  
+
   return (
     <div className='map-container'>
       <ReactMapGL
@@ -162,7 +162,7 @@ function Map () {
                   property: "own_group",
                   stops: _stops,
                 },
-                "fill-opacity": sliderValue / 100,
+                "fill-opacity": 30 / 100,
                 "fill-outline-color": "rgba(255,255,255,1)",
               }}
               filter={blockLayerFilter}

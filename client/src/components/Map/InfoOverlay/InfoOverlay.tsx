@@ -1,6 +1,8 @@
 import { BaseControl } from 'react-map-gl';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 import ReactPlayer from 'react-player';
 import './InfoOverlay.scss';
 
@@ -8,9 +10,16 @@ interface InfoOverlayState {
   showModal: boolean
 }
 
+/* Define a popover that lets the user click to see a description for the slider's value */
+const popover = (
+  <Popover id="popover-basic">
+    <Popover.Content>Click here for a video guide to using this map</Popover.Content>
+  </Popover>
+);
+
 class InfoOverlay extends BaseControl<any, any> {
 
-  state = { showModal: true } as InfoOverlayState
+  state = { showModal: false } as InfoOverlayState
 
   _render() {
   
@@ -22,9 +31,11 @@ class InfoOverlay extends BaseControl<any, any> {
       <div ref={this._containerRef}>
 
         {/* The clickable UI 'Guide' element on the map */}
-        <div className='info-overlay-container'>
-          <span>ⓘ&nbsp;</span><span className='info-overlay-text' onClick={openModal}>Guide</span>
-        </div>
+        <OverlayTrigger defaultShow={true} placement="left" overlay={popover} rootClose>
+          <div className='info-overlay-container'>
+            <span>ⓘ&nbsp;</span><span className='info-overlay-text' onClick={openModal}>Guide</span>
+          </div>
+        </OverlayTrigger>
 
         {/* The modal box that appears with a video guide for usage of the map */}
         <Modal show={this.state.showModal} onHide={closeModal} size='lg' centered>

@@ -1,3 +1,5 @@
+"use strict";
+
 import * as Dotenv from 'dotenv';
 if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== 'production') {
   /* Read environment variables from a .env file in the root folder for local development */

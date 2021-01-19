@@ -14,10 +14,38 @@ type SliderDefinitionSet = {
   sliders: SliderDefinition[]
 }
 
+const baseUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}`;
+
 class SliderOverlay extends BaseControl<any, any> {
   constructor(props: any) {
     super(props);
-    this.sliderDefinitionSets = Config.sliderSets;
+    this.sliderDefinitionSets = [];
+
+    /* Query the server for its status and also to get the min/max values for each slider which is part of the server response */
+    const serverStatusUrl = `${baseUrl}/api/status`;
+    console.log(serverStatusUrl)
+    fetch(serverStatusUrl).then(r => r.json()).then(j => {
+      const dynamicMinMaxValues = j.sliderMinMaxValues;
+      /* Create a copy of the slider definitions from the config file and then inject the min and max values so they are dynamic rather than hard-coded */
+      const finalSliderSets =
+        Config.sliderSets
+          .map((set: any) => {
+            /* This first map iterates through each slider set in the config file */
+            return {
+              name: set.name,
+              sliders: [...set.sliders.map((slider: SliderDefinition) => {
+                /* This second map iterates through each individual slider in the config file and it replaces the min and max values as it maps */
+                return {
+                  ...slider,
+                  min: dynamicMinMaxValues.filter((x: SliderDefinition) => x.name === slider.name)[0].min,
+                  max: dynamicMinMaxValues.filter((x: SliderDefinition) => x.name === slider.name)[0].max
+                }
+              })]
+            }
+          });
+      this.sliderDefinitionSets = finalSliderSets;
+      this._render();
+    });
   }
 
   sliderDefinitionSets: SliderDefinitionSet[];
