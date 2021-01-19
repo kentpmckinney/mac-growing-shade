@@ -39,7 +39,7 @@
     "react-bootstrap": "^1.4.0",
     "react-bootstrap-range-slider": "^2.0.2",
     "react-dom": "^17.0.1",
-    "react-map-gl": "^6.0.2",
+    "react-map-gl": "^5.2.11",
     "react-player": "^2.7.2",
     "react-popper": "^2.2.4",
     "react-redux": "^7.2.2",
