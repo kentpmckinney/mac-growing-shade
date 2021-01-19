@@ -19,20 +19,28 @@ export type SliderProps = {
   defaultValue: number
   step: number
   description: string
+  table: string
+  column: string
 }
 
 function Slider (props: SliderProps) {
 
   const unit = props.unit || '';
   const name = props.name || '';
+  const table = props.table || '';
+  const column = props.column || '';
   const dispatch = useAppDispatch();
+
+  /* Distinguish between monetary and other types of units */
+  const monetaryUnit = (unit === '$') ? '$' : '';
+  const otherUnit = (unit !== '$') ? unit : '';
 
   /* Use a URL query parameter as the default value if available */
   const location = useLocation();
   let value = parseInt(new URLSearchParams(location.search).get(name) || '') || props.defaultValue;  
 
   /* Write the slider's default value to the Redux store on component mount */
-  useMount( (): void => { dispatch(updateSliderValue({ name, value})) } );
+  useMount( (): void => { dispatch(updateSliderValue({ name, value, table, column })) } );
 
   /* Read the slider's value from the Redux store */
   const { sliders } = useSelector( (state: RootState): SliderCollection => state.sliders );
@@ -42,7 +50,7 @@ function Slider (props: SliderProps) {
   /* Write the slider's value to the Redux store as the value changes */
   const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const value = parseInt(e.currentTarget.value);
-    dispatch( updateSliderValue( { name, value } ) );
+    dispatch( updateSliderValue( { name, value, table, column } ) );
   }
 
   /* Define a popover that lets the user click to see a description for the slider's value */
@@ -63,7 +71,7 @@ function Slider (props: SliderProps) {
 
       {/* Show the slider with min and max values on each side */}
       <div className='slider-with-min-max'>
-        <span className='slider-min-value'>{props.min}</span>
+        <span className='slider-min-value'>{monetaryUnit}{props.min}{otherUnit}</span>
         <RangeSlider
           min={props.min}
           max={props.max}
@@ -72,9 +80,9 @@ function Slider (props: SliderProps) {
           size="sm"
           onChange={onChange}
           tooltip="on"
-          tooltipLabel={(v: number) => `${v}${unit}`}
+          tooltipLabel={(v: number) => `${monetaryUnit}${v}${otherUnit}`}
           variant='secondary'/> 
-        <span className='slider-max-value'>{props.max}</span>
+        <span className='slider-max-value'>{monetaryUnit}{props.max}{otherUnit}</span>
       </div>
 
     </div>

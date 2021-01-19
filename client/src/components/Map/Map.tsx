@@ -15,7 +15,7 @@ import { RootState } from '../../state/rootReducer';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import './Map.scss';
 // @ts-ignore
-import * as styleVars from './MapColors.scss';
+//import * as styleVars from './MapColors.scss';
 
 //import { Feature, Geometry, GeoJsonProperties } from "geojson";
 
@@ -61,16 +61,16 @@ function Map () {
   console.log(viewport);
 
   const sliderValue = 50;
-  const _stops1 = [
-    [1, styleVars.parcelStop1],
-    [2, styleVars.parcelStop2],
-    [3, styleVars.parcelStop3],
-    [4, styleVars.parcelStop4],
-    [5, styleVars.parcelStop5],
-    [6, styleVars.parcelStop6],
-    [7, styleVars.parcelStop7],
-  ];
-  console.info(_stops1[2][1])
+  // const _stops1 = [
+  //   [1, styleVars.parcelStop1],
+  //   [2, styleVars.parcelStop2],
+  //   [3, styleVars.parcelStop3],
+  //   [4, styleVars.parcelStop4],
+  //   [5, styleVars.parcelStop5],
+  //   [6, styleVars.parcelStop6],
+  //   [7, styleVars.parcelStop7],
+  // ];
+
   const _stops = [
     [1, '#f6d2a9'],
     [2, '#f5b78e'],
@@ -81,7 +81,7 @@ function Map () {
     [7, '#b13f64'],
   ];
 
- const geoJsonDataSourceUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}` +
+ const blockLayerGeoJsonSourceUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}` +
    `/api/geojson?layer=block_groups_2010_test`;
 
   // const handleMapHover = (info: any) => {
@@ -94,10 +94,22 @@ function Map () {
     ));
   }
 
+  /* Create a filter for the Layer component in the map below which determines if a feature is shown on the map */
+  /* The overall purpose of this is to map slider values to the data 'columns' they represent */
+  /* The format is ['expression affecting all arguments', ['expression', column, value], ['expression', column, value], ...] */
+  /* The first expression affects all subsequent arguments, and the expression within an argument affects 'column' and 'value' */
+  /* 'All' means the feature will show if all of the other expressions are true, and those are all 'column >= value' */
+  /* The filter breaks if s.column is an empty string hence the filter function to remove entries where that is the case */
+  const blockLayerFilter = [ 'all',
+    ...sliderValues
+      .map(s => ['>=', s.column, s.value])
+      .filter(s => (typeof s === 'string') || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
+  ]
+  
   return (
     <div className='map-container'>
       <ReactMapGL
-        ref={ref => console.log(ref)}
+        // ref={ref => console.log(ref)}
         latitude={latitude}
         longitude={longitude}
         zoom={zoom}
@@ -109,7 +121,7 @@ function Map () {
         transitionDuration={2000}
         transitionInterpolator={new FlyToInterpolator()}
         transitionEasing={easeCubic}
-        interactiveLayerIds={['censusBlockGroups']}
+        interactiveLayerIds={['blockLayer']}
         // onHover={handleMapHover}
         onClick={handleMapClick}
         mapOptions={{
@@ -140,10 +152,9 @@ function Map () {
           </div>
           
           {/* Data source and interactive layer */}
-          <Source id="my-data" type="geojson" data={geoJsonDataSourceUrl}>
-          <Layer
-              key="parcel-layer"
-              id="censusBlockGroups"
+          <Source id="my-data" type="geojson" data={blockLayerGeoJsonSourceUrl}>
+            <Layer
+              id="blockLayer"
               type="fill"
               minzoom={10}
               paint={{
@@ -154,12 +165,7 @@ function Map () {
                 "fill-opacity": sliderValue / 100,
                 "fill-outline-color": "rgba(255,255,255,1)",
               }}
-              filter={['all',
-                ['>=', 'UHI', sliderValues[1]?.value],
-                ['>=', 'API', sliderValues[2]?.value],
-                ['>=', 'HH_INCOME', sliderValues[3]?.value],
-                ['>=', 'BIPOC', sliderValues[4]?.value]
-              ]}
+              filter={blockLayerFilter}
             />
           </Source>
 

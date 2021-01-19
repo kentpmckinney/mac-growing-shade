@@ -46,6 +46,7 @@ class SliderOverlay extends BaseControl<any, any> {
                         <Slider key={`slider-${j}`}
                           min={s.min} max={s.max} defaultValue={s.defaultValue} step={s.step} name={s.name}
                           label={s.label} unit={s.unit} width={s.width} description={s.description}
+                          table={s.table} column={s.column}
                         />
                       )}
                     </div>
