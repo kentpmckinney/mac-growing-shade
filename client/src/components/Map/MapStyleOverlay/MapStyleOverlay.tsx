@@ -6,11 +6,11 @@ class MapStyleOverlay extends BaseControl<any, any> {
   _render() {
 
     return (
-      /* ref={this._containerRef} stops mouse/touch events over the control propagating to the map */
-      <div ref={this._containerRef} className='style-overlay-container'>
+      <div className='style-overlay-container' ref={this._containerRef} /* ref stops propagation of mouse/touch events */>
         <StyleToggle/>
       </div>
     );
+
   }
   
 }

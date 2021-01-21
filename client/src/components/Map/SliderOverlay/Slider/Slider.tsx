@@ -1,4 +1,4 @@
-import { memo, ChangeEvent } from "react";
+import { memo, useMemo, ChangeEvent } from "react";
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMount } from 'react-use';
@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../../../state/store';
 import { RootState } from '../../../../state/rootReducer';
 import { updateSliderValue, SliderItem, SliderCollection } from './SliderStateSlice';
 import { Popover, OverlayTrigger } from 'react-bootstrap';
-import RangeSlider from 'react-bootstrap-range-slider';
+import RangeSlider, { RangeSliderProps } from 'react-bootstrap-range-slider';
 import './Slider.scss';
 
 export type SliderProps = {
@@ -40,7 +40,10 @@ function Slider (props: SliderProps) {
   let value = parseInt(new URLSearchParams(location.search).get(name) || '') || props.defaultValue;  
 
   /* Write the slider's default value to the Redux store on component mount */
-  useMount( (): void => { dispatch(updateSliderValue({ name, value, table, column })) } );
+  useMount((): void => {
+      dispatch(updateSliderValue({ name, value, table, column }))
+    }
+  );
 
   /* Read the slider's value from the Redux store */
   const { sliders } = useSelector( (state: RootState): SliderCollection => state.sliders );
@@ -54,12 +57,26 @@ function Slider (props: SliderProps) {
   }
 
   /* Define a popover that lets the user click to see a description for the slider's value */
-  const popover = (
+  const popover: JSX.Element = useMemo(() => 
     <Popover id="popover-basic">
       <Popover.Title as="h3">{props.label}</Popover.Title>
       <Popover.Content>{props.description}</Popover.Content>
     </Popover>
-  );
+  , [props.label, props.description]);
+
+  /* Props for the RangeSlider component */
+  const sliderProps: Partial<RangeSliderProps> = useMemo(() => {
+    return {
+      size: "sm",
+      variant: "secondary",
+      min: props.min,
+      max: props.max,
+      value: value,
+      step: props.step,
+      tooltip: "on",
+      tooltipLabel: (v: number) => `${monetaryUnit}${v}${otherUnit}`
+    }
+  }, [props.min, props.max, props.step, value, monetaryUnit, otherUnit])
 
   return (
     <div className='slider-container' key={`slider-${name}`}>
@@ -72,16 +89,7 @@ function Slider (props: SliderProps) {
       {/* Show the slider with min and max values on each side */}
       <div className='slider-with-min-max'>
         <span className='slider-min-value'>{monetaryUnit}{props.min}{otherUnit}</span>
-        <RangeSlider
-          min={props.min}
-          max={props.max}
-          value={value}
-          step={props.step}
-          size="sm"
-          onChange={onChange}
-          tooltip="on"
-          tooltipLabel={(v: number) => `${monetaryUnit}${v}${otherUnit}`}
-          variant='secondary'/> 
+        <RangeSlider {...sliderProps} onChange={onChange}/> 
         <span className='slider-max-value'>{monetaryUnit}{props.max}{otherUnit}</span>
       </div>
 

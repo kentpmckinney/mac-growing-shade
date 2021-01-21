@@ -1,7 +1,7 @@
 "use strict";
 
 import * as Express from "express";
-import { Pool, PoolClient, QueryResult } from "pg";
+import { Pool, PoolClient } from "pg";
 import * as Config from '../client/src/config/application.json';
 
 type SliderMinMax = {
@@ -61,7 +61,6 @@ module.exports = (app: Express.Application, pool: Pool) => {
           time: new Date(),
           sliderMinMaxValues: sliders
         }
-        
         response.json(responseJson);
 
         client.release();

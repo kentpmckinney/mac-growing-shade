@@ -6,7 +6,6 @@ import Home from './Home/Home';
 import Contact from './Contact/Contact';
 import ProjectOverview from './Project/ProjectOverview';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Map/mapbox-gl.css';
 import './App.scss';
 
 function App() {

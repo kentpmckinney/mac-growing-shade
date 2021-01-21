@@ -10,15 +10,15 @@ interface InfoOverlayState {
   showModal: boolean
 }
 
-/* Define a popover that lets the user click to see a description for the slider's value */
-const popover = (
+/* Define a popover that informs the user there is a video guide available */
+const infoPopover: JSX.Element = (
   <Popover id="popover-basic">
-    <Popover.Content>Click here for a video guide to using this map</Popover.Content>
+    <Popover.Content>Click here to watch a video guide for using this map</Popover.Content>
   </Popover>
 );
 
+/* This is a class-based component in order to inherit from BaseControl as there is no equivalent hook for a functional component to use */
 class InfoOverlay extends BaseControl<any, any> {
-
   state = { showModal: false } as InfoOverlayState
 
   _render() {
@@ -27,11 +27,11 @@ class InfoOverlay extends BaseControl<any, any> {
     const openModal = (): void => this.setState<never>({ showModal: true });
 
     return (
-      /* ref={this._containerRef} stops mouse/touch events over the control propagating to the map */
-      <div ref={this._containerRef}>
+
+      <div ref={this._containerRef} /* ref stops propagation of mouse/touch events */>
 
         {/* The clickable UI 'Guide' element on the map */}
-        <OverlayTrigger defaultShow={true} placement="left" overlay={popover} rootClose>
+        <OverlayTrigger defaultShow={true} placement="left" overlay={infoPopover} rootClose>
           <div className='info-overlay-container'>
             <span>ⓘ&nbsp;</span><span className='info-overlay-text' onClick={openModal}>Guide</span>
           </div>
@@ -52,6 +52,7 @@ class InfoOverlay extends BaseControl<any, any> {
             </Modal.Body>
         </Modal>
       </div>
+
     );
   }
   

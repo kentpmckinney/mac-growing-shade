@@ -15,15 +15,13 @@ type SliderDefinitionSet = {
 }
 
 const baseUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}`;
+const serverStatusUrl = `${baseUrl}/api/status`;
 
 class SliderOverlay extends BaseControl<any, any> {
-  constructor(props: any) {
-    super(props);
-    this.sliderDefinitionSets = [];
+  state = { sliderDefinitionSets: [] as SliderDefinitionSet[]}
 
-    /* Query the server for its status and also to get the min/max values for each slider which is part of the server response */
-    const serverStatusUrl = `${baseUrl}/api/status`;
-    console.log(serverStatusUrl)
+  componentDidMount() {
+    /* Query the server for its status and also to get the dynamic min/max values for each slider which is part of the server response */
     fetch(serverStatusUrl).then(r => r.json()).then(j => {
       const dynamicMinMaxValues = j.sliderMinMaxValues;
       /* Create a copy of the slider definitions from the config file and then inject the min and max values so they are dynamic rather than hard-coded */
@@ -33,32 +31,28 @@ class SliderOverlay extends BaseControl<any, any> {
             /* This first map iterates through each slider set in the config file */
             return {
               name: set.name,
-              sliders: [...set.sliders.map((slider: SliderDefinition) => {
+              sliders: [...set.sliders.map((configSlider: SliderDefinition) => {
                 /* This second map iterates through each individual slider in the config file and it replaces the min and max values as it maps */
                 return {
-                  ...slider,
-                  min: dynamicMinMaxValues.filter((x: SliderDefinition) => x.name === slider.name)[0].min,
-                  max: dynamicMinMaxValues.filter((x: SliderDefinition) => x.name === slider.name)[0].max
+                  ...configSlider,
+                  min: dynamicMinMaxValues.filter((dynamicSlider: SliderDefinition) => dynamicSlider.name === configSlider.name)[0].min,
+                  max: dynamicMinMaxValues.filter((dynamicSlider: SliderDefinition) => dynamicSlider.name === configSlider.name)[0].max
                 }
               })]
             }
           });
-      this.sliderDefinitionSets = finalSliderSets;
-      this._render();
-    });
+      this.setState({ sliderDefinitionSets: finalSliderSets });
+    }).catch(e => `Error fetching /api/status: ${console.error(e)}`);
   }
-
-  sliderDefinitionSets: SliderDefinitionSet[];
 
   _render() {
     return (
-      /* ref={this._containerRef} stops mouse/touch events over the control propagating to the map */
-      <div className='slider-overlay-container' ref={this._containerRef}>
+      <div className='slider-overlay-container' ref={this._containerRef} /* ref stops propagation of mouse/touch events */>
         <Accordion defaultActiveKey='0'>
           <Card>
             <Card.Header>
               <div className="slider-overlay-header">
-                <AccordionToggle eventKey='0' />
+                <AccordionToggle eventKey='0'></AccordionToggle>
               </div>
             </Card.Header>
             <Accordion.Collapse eventKey='0'>
@@ -66,7 +60,7 @@ class SliderOverlay extends BaseControl<any, any> {
                 <div className="slider-overlay-body">
 
                   {/* Dynamically render sliders as they can change based on context */}
-                  {this.sliderDefinitionSets.map((sliderDefinitionSet, i) => 
+                  {this.state.sliderDefinitionSets.map((sliderDefinitionSet, i) => 
                     <div key={`sliderSet-${i}`}>
                       <div className='slider-overlay-section-label'>{sliderDefinitionSet.name}</div>
                       <br/>

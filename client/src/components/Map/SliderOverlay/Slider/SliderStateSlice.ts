@@ -15,18 +15,6 @@ const initialState: SliderCollection = {
   sliders: []
 };
 
-/*
-  import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-  import { userAPI } from './userAPI'
-  const fetchUserById = createAsyncThunk(
-    'users/fetchByIdStatus',
-    async (userId, thunkAPI) => {
-      const response = await userAPI.fetchById(userId);
-      return response.data;
-    }
-  )
-*/
-
 const sliders = createSlice({ 
   name: 'sliders',
   initialState,
@@ -42,21 +30,8 @@ const sliders = createSlice({
         state.sliders.push({name, value, table, column});
       }
     },
-  },
-  extraReducers: {
-    /*
-      [fetchUserById.fulfilled]: (state, action) => {
-        // Add user to the state array
-        state.entities.push(action.payload)
-      }
-    */
   }
 });
-
-/*
-  // Later, dispatch the thunk as needed in the app
-  dispatch(fetchUserById(123));
-*/
 
 export const { updateSliderValue } = sliders.actions;
 export default sliders.reducer;

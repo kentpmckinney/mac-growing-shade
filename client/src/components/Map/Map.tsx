@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMount } from 'react-use';
@@ -13,11 +13,49 @@ import { setViewport, ViewportState } from './mapViewportStateSlice';
 import * as Config from '../../config/application.json';
 import { RootState } from '../../state/rootReducer';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
+import Colors from './Colors.module.scss';
 import './Map.scss';
-// @ts-ignore
-//import * as styleVars from './MapColors.scss';
 
-//import { Feature, Geometry, GeoJsonProperties } from "geojson";
+// Below is regarding the bug in mapbox-gl and how to use the latest version of react-map-gl in Heroku (currently using a downgraded version instead):
+// https://github.com/mapbox/mapbox-gl-js/issues/10173
+//Just making it super concrete for future create-react-users that come across this, a non-eject production build solution is to import mapboxgl like this:
+//import 'mapbox-gl/dist/mapbox-gl.css';
+//import mapboxgl from 'mapbox-gl';
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+//mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+// @rsippl - wow! thanks for the tip! I had added it before my imports (specifically AFTER the mapbox-gl import). I really appreciate that!
+
+const baseUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}`;
+const blockLayerGeoJsonSourceUrl = `${baseUrl}/api/geojson?layer=${Config.postgresTableNames.blockLayer}`;
+
+const _stops = [
+  [1, Colors.parcelStop1],
+  [2, Colors.parcelStop2],
+  [3, Colors.parcelStop3],
+  [4, Colors.parcelStop4],
+  [5, Colors.parcelStop5],
+  [6, Colors.parcelStop6],
+  [7, Colors.parcelStop7],
+];
+
+const mapProps = {
+  width:'100%',
+  height:'100%',
+  mapboxApiAccessToken: Config.mapboxPublicToken,
+  reuseMaps: true,
+  interactiveLayerIds: ['blockLayer'],
+  transitionDuration: 2000,
+  transitionInterpolator: new FlyToInterpolator(),
+  transitionEasing: easeCubic,
+  mapOptions: {
+    logoPosition: 'bottom-right',
+    customAttribution: sanitizeHtml(Config.attribution, {
+      allowedTags: [ 'b', 'i', 'em', 'strong', 'a' ],
+      allowedAttributes: { 'a': ['href'] } 
+    })
+  }
+}
 
 function Map () {
 
@@ -30,64 +68,36 @@ function Map () {
   let mapStyleName = viewport.style;
 
   /* Synchronize viewport settings with URL parameters on component mount */
+  const dispatch = useAppDispatch();
   const location = useLocation();
   useMount(() => {
     latitude = parseFloat(new URLSearchParams(location.search).get('lat') || '') || viewport.latitude;
     longitude = parseFloat(new URLSearchParams(location.search).get('lon') || '') || viewport.longitude;
     zoom = parseFloat(new URLSearchParams(location.search).get('zoom') || '') || viewport.zoom;
     mapStyleName = new URLSearchParams(location.search).get('style') || viewport.style;
+    dispatch(setViewport({ latitude, longitude, zoom, style: mapStyleName }));
   })
   const mapStyleUrl = (mapStyleName === 'street') ? Config.mapStyle.street : Config.mapStyle.satellite;
  
   /* Update the URL bar with viewport settings without triggering a render */
-  try {
-    window.history.replaceState(null, "Branch Out Gresham",
-    "/map?" + new URLSearchParams(sliderValues.map(x => [x.name, x.value.toString()])).toString()
-    + `&lat=${viewport.latitude}&lon=${viewport.longitude}&zoom=${viewport.zoom}&style=${mapStyleName}`
-  );
-  }
-  catch (e) {
-    console.error(`Error updating URL params. Details: ${e}`);
-  }
+  useMemo(() => {
+    try {
+      window.history.replaceState(null, "Branch Out Gresham",
+      "/map?" + new URLSearchParams(sliderValues.map(x => [x.name, x.value.toString()])).toString()
+      + `&lat=${viewport.latitude}&lon=${viewport.longitude}&zoom=${viewport.zoom}&style=${mapStyleName}`
+    );
+    }
+    catch (e) {
+      console.error(`Error updating URL params. Details: ${e}`);
+    }
+  }, [sliderValues, viewport.latitude, viewport.longitude, viewport.zoom, mapStyleName])
 
   /* Update viewport state in Redux as changes occur */
-  const dispatch = useAppDispatch();
   const onViewportChange: ContextViewportChangeHandler = (v: ViewportProps) => dispatch(setViewport(
     {latitude: v.latitude, longitude: v.longitude, zoom: v.zoom, style: mapStyleName}
   ));
 
-  /* Display state values to the console for development purposes */
-  console.log(sliderValues);
-  console.log(viewport);
-
- 
-  // const _stops1 = [
-  //   [1, styleVars.parcelStop1],
-  //   [2, styleVars.parcelStop2],
-  //   [3, styleVars.parcelStop3],
-  //   [4, styleVars.parcelStop4],
-  //   [5, styleVars.parcelStop5],
-  //   [6, styleVars.parcelStop6],
-  //   [7, styleVars.parcelStop7],
-  // ];
-
-  const _stops = [
-    [1, '#f6d2a9'],
-    [2, '#f5b78e'],
-    [3, '#f19c7c'],
-    [4, '#ea8171'],
-    [5, '#dd686c'],
-    [6, '#ca5268'],
-    [7, '#b13f64'],
-  ];
-
- const blockLayerGeoJsonSourceUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}` +
-   `/api/geojson?layer=${Config.postgresTableNames.blockLayer}`;
-
-  // const handleMapHover = (info: any) => {
-  //   info.features[0].layer.paint["fill-outline-color"] = "#000"
-  // }
-
+  /* Handle interactive clicks or presses on the map */
   const handleMapClick = (info: any) => {
     dispatch(setViewport(
       {latitude: info.lngLat[1], longitude: info.lngLat[0], zoom: 14, style: mapStyleName}
@@ -100,74 +110,64 @@ function Map () {
   /* The first expression affects all subsequent arguments, and the expression within an argument affects 'column' and 'value' */
   /* 'All' means the feature will show if all of the other expressions are true, and those are all 'column >= value' */
   /* The 'filter' breaks if s.column is an empty string hence the Array.filter function to remove invalid entries */
-  const blockLayerFilter = [ 'all',
+  const blockLayerFilter = useMemo(() => [ 'all',
     ...sliderValues
       .map(s => ['>=', s.column, s.value])
       .filter(s => (typeof s === 'string') || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
-  ]
+  ], [sliderValues]);
 
   return (
     <div className='map-container'>
       <ReactMapGL
-        // ref={ref => console.log(ref)}
+        {...mapProps}
+        zoom={zoom}
         latitude={latitude}
         longitude={longitude}
-        zoom={zoom}
-        width='100%'
-        height='100%'
-        onViewportChange={onViewportChange}
-        mapboxApiAccessToken={Config.mapboxPublicToken}
         mapStyle={mapStyleUrl}
-        transitionDuration={2000}
-        transitionInterpolator={new FlyToInterpolator()}
-        transitionEasing={easeCubic}
-        interactiveLayerIds={['blockLayer']}
-        // onHover={handleMapHover}
         onClick={handleMapClick}
-        mapOptions={{
-          logoPosition: 'bottom-right',
-          customAttribution: sanitizeHtml(Config.attribution, {
-            allowedTags: [ 'b', 'i', 'em', 'strong', 'a' ],
-            allowedAttributes: { 'a': ['href'] } 
-          })
-        }}
-        reuseMaps={true}>
+        onViewportChange={onViewportChange}    
+      >
         
-          {/* The overlay containing the sliders */}
-          <SliderOverlay captureScroll={true} captureClick={true}/>
+        {/* The overlay containing the sliders */}
+        <SliderOverlay captureScroll={true} captureClick={true}/>
+
+        {/* Overlay components in the upper-right that respond to viewport changes as a group */}
+        <div className='overlay-group'>
+
+          {/* The overlay containing an interface to choose the style of the map */}
+          <div className='style-overlay'>
+            <MapStyleOverlay captureScroll={true} captureClick={true}/>
+          </div>
 
           {/* The overlay containing the info guide */}
           <div className='info-overlay'>
             <InfoOverlay captureScroll={true} captureClick={true}/>
           </div>
 
-          {/* The overlay containing an interface to choose the style of the map */}
-          <div className='imagery-overlay'>
-            <MapStyleOverlay captureScroll={true} captureClick={true}/>
-          </div>
-
           {/* The navigation control with zoom in/out */}
           <div className='navigation-control'>
             <NavigationControl showCompass={false}/>
           </div>
-          
-          {/* Data source and interactive layer */}
-          <Source id="my-data" type="geojson" data={blockLayerGeoJsonSourceUrl}>
-            <Layer
-              id="blockLayer"
-              type="fill"
-              minzoom={10}
-              paint={{
-                "fill-color": {
-                  property: "own_group",
-                  stops: _stops,
-                },
-                "fill-opacity": 30 / 100,
-                "fill-outline-color": "rgba(255,255,255,1)",
-              }}
-              filter={blockLayerFilter}
-            />
-          </Source>
+
+        </div>
+
+        {/* Data source and interactive layer */}
+        <Source id="my-data" type="geojson" data={blockLayerGeoJsonSourceUrl}>
+          <Layer
+            id="blockLayer"
+            type="fill"
+            minzoom={10}
+            paint={{
+              "fill-color": {
+                property: "own_group",
+                stops: _stops,
+              },
+              "fill-opacity": 30 / 100,
+              "fill-outline-color": "rgba(255,255,255,1)",
+            }}
+            filter={blockLayerFilter}
+          />
+        </Source>
 
       </ReactMapGL>
     </div>

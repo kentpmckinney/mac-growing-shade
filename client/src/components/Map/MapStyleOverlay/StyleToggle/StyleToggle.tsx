@@ -14,24 +14,23 @@ function StyleToggle () {
 
   /* Read settings from the Redux store */
   const viewport: ViewportState = useSelector((state: RootState) => state.viewport);
-  let style = viewport.style;
+  const style = viewport.style;
 
   /* Write the default value to the Redux store on component mount */
-  useMount( (): void => { dispatch(setViewport({...viewport, style})) } );
+  useMount((): void => {
+    dispatch(setViewport({...viewport, style}))
+  });
 
   /* Write the value to the Redux store as the value changes */
-  const onChange = (() => {
-    style = style === 'street' ? 'satellite' : 'street';
-    dispatch(setViewport({...viewport, style}));
+  const onChange = ((e: string) => {
+    dispatch(setViewport({...viewport, style: e}));
   });
 
   return (
     <div className='imagery-toggle-container'>
-      <ToggleButtonGroup type='radio' name='imagery' defaultValue={1}>
-          <ToggleButton key='map' type='radio' variant='secondary' name='style' value='street' size='sm'
-            checked={style === 'street'} onChange={onChange}>Street</ToggleButton>
-          <ToggleButton key='imagery' type='radio' variant='secondary' name='style' value='satellite' size='sm'
-            checked={style !== 'street'} onChange={onChange}>Satellite</ToggleButton>
+      <ToggleButtonGroup type='radio' name='imagery' value={style} onChange={onChange} size='sm'>
+          <ToggleButton key='street' type='radio' variant='secondary' name='styleToggle' value='street' size='sm'>Street</ToggleButton>
+          <ToggleButton key='satellite' type='radio' variant='secondary' name='styleToggle' value='satellite' size='sm'>Satellite</ToggleButton>
       </ToggleButtonGroup>
     </div>
   );

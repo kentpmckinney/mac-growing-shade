@@ -6,27 +6,28 @@
   position: relative;
 }
 
-.navigation-control {
+.overlay-group {
   position: absolute;
   right: 0;
   top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.navigation-control {
   margin-right: $navigation-control-right;
   margin-top: $navigation-control-top;
 }
 
 .info-overlay {
-  position: absolute;
-  right: 0;
-  top: 0;
   margin-right: $info-overlay-right;
   margin-top: $info-overlay-top;
 }
 
-.imagery-overlay {
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-right: $imagery-overlay-right;
-  margin-top: $imagery-overlay-top;
+.style-overlay {
+  margin-right: $style-overlay-right;
+  margin-top: $style-overlay-top;
+  transform-origin: top right;
+  transform: scale(0.85);
 }
-

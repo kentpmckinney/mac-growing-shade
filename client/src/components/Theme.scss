@@ -1,3 +1,5 @@
+@import '~mapbox-gl/dist/mapbox-gl.css';
+
 /* Fonts */
 
 @import "~@fontsource/roboto/latin.css";
@@ -35,11 +37,11 @@ $slider-overlay-section-label-color: navy;
 /* Positions */
 
 $navigation-control-right: 10px;
-$navigation-control-top: 85px;
+$navigation-control-top: 5px;
 $info-overlay-right: 10px;
-$info-overlay-top: 55px;
-$imagery-overlay-right: 10px;
-$imagery-overlay-top: 10px;
+$info-overlay-top: 5px;
+$style-overlay-right: 5px;
+$style-overlay-top: 5px;
 
 /* Sizes and breakpoints */
 
