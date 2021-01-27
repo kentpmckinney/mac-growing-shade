@@ -2,8 +2,7 @@ import { memo, useMemo } from "react";
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMount } from 'react-use';
-import ReactMapGL, { Source, Layer, FlyToInterpolator, NavigationControl } from 'react-map-gl';
-import { easeCubic } from 'd3-ease';
+import ReactMapGL, { Source, Layer, NavigationControl } from 'react-map-gl';//FlyToInterpolator, 
 //import SliderOverlay from './SliderOverlay/SliderOverlay';
 import MapStyleOverlay from './MapStyleOverlay/MapStyleOverlay';
 import InfoOverlay from './InfoOverlay/InfoOverlay';
@@ -45,9 +44,8 @@ const mapProps = {
   mapboxApiAccessToken: Config.mapboxPublicToken,
   reuseMaps: true,
   interactiveLayerIds: ['blockLayer'],
-  transitionDuration: 2000,
-  transitionInterpolator: new FlyToInterpolator(),
-  transitionEasing: easeCubic,
+  // transitionDuration: 2000,
+  // transitionInterpolator: new FlyToInterpolator(),
   mapOptions: {
     logoPosition: 'bottom-right',
     customAttribution: sanitizeHtml(Config.attribution, {
