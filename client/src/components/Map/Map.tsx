@@ -2,9 +2,9 @@ import { memo, useMemo } from "react";
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMount } from 'react-use';
-import ReactMapGL, { ContextViewportChangeHandler, NavigationControl, ViewportProps, Source, Layer, FlyToInterpolator } from 'react-map-gl';
+import ReactMapGL, { Source, Layer, FlyToInterpolator, NavigationControl } from 'react-map-gl';
 import { easeCubic } from 'd3-ease';
-import SliderOverlay from './SliderOverlay/SliderOverlay';
+//import SliderOverlay from './SliderOverlay/SliderOverlay';
 import MapStyleOverlay from './MapStyleOverlay/MapStyleOverlay';
 import InfoOverlay from './InfoOverlay/InfoOverlay';
 import sanitizeHtml from 'sanitize-html';
@@ -93,7 +93,7 @@ function Map () {
   }, [sliderValues, viewport.latitude, viewport.longitude, viewport.zoom, mapStyleName])
 
   /* Update viewport state in Redux as changes occur */
-  const onViewportChange: ContextViewportChangeHandler = (v: ViewportProps) => dispatch(setViewport(
+  const onViewportChange: Function = (v: ViewportState) => dispatch(setViewport(
     {latitude: v.latitude, longitude: v.longitude, zoom: v.zoom, style: mapStyleName}
   ));
 
@@ -129,19 +129,20 @@ function Map () {
       >
         
         {/* The overlay containing the sliders */}
-        <SliderOverlay captureScroll={true} captureClick={true}/>
+        {/* <SliderOverlay captureScroll={true} captureClick={true} captureDoubleClick={true}
+          captureDrag={true} capturePointerMove={true} /> */}
 
         {/* Overlay components in the upper-right that respond to viewport changes as a group */}
         <div className='overlay-group'>
 
           {/* The overlay containing an interface to choose the style of the map */}
           <div className='style-overlay'>
-            <MapStyleOverlay captureScroll={true} captureClick={true}/>
+            <MapStyleOverlay/>
           </div>
 
           {/* The overlay containing the info guide */}
           <div className='info-overlay'>
-            <InfoOverlay captureScroll={true} captureClick={true}/>
+            <InfoOverlay/>
           </div>
 
           {/* The navigation control with zoom in/out */}

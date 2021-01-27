@@ -1,8 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+export type SliderValue = {
+  min: number
+  max: number
+}
+
 export interface SliderItem {
   name: string
-  value: number
+  value: SliderValue
   table: string
   column: string
 }
@@ -24,7 +29,7 @@ const sliders = createSlice({
       let s = state.sliders.find( (x: SliderItem): boolean => x.name === name );
       if (s !== undefined)
       {
-        s.value = value;
+        s.value = { min: value.min, max: value.max };
       }
       else {
         state.sliders.push({name, value, table, column});

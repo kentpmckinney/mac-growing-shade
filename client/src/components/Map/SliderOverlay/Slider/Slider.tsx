@@ -1,12 +1,14 @@
-import { memo, useMemo, ChangeEvent } from "react";
+import { memo, useMemo } from "react"; //, ChangeEvent
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMount } from 'react-use';
 import { useAppDispatch } from '../../../../state/store';
 import { RootState } from '../../../../state/rootReducer';
-import { updateSliderValue, SliderItem, SliderCollection } from './SliderStateSlice';
+import { updateSliderValue, SliderItem, SliderCollection, SliderValue } from './SliderStateSlice';
 import { Popover, OverlayTrigger } from 'react-bootstrap';
-import RangeSlider, { RangeSliderProps } from 'react-bootstrap-range-slider';
+//import RangeSlider, { RangeSliderProps } from 'react-bootstrap-range-slider';
+import InputRange from 'react-input-range';//, { InputRangeProps }
+import 'react-input-range/lib/css/index.css';
 import './Slider.scss';
 
 export type SliderProps = {
@@ -16,7 +18,7 @@ export type SliderProps = {
   name: string
   unit: string
   width: string
-  defaultValue: number
+  defaultValue: SliderValue
   step: number
   description: string
   table: string
@@ -37,7 +39,10 @@ function Slider (props: SliderProps) {
 
   /* Use a URL query parameter as the default value if available */
   const location = useLocation();
-  let value = parseInt(new URLSearchParams(location.search).get(name) || '') || props.defaultValue;  
+  let param = new URLSearchParams(location.search).get(name);
+  let min = parseInt(param?.split(',')[0] || '') || props.defaultValue.min;
+  let max = parseInt(param?.split(',')[1] || '') || props.defaultValue.max;
+  let value = { min, max };  
 
   /* Write the slider's default value to the Redux store on component mount */
   useMount((): void => {
@@ -51,8 +56,8 @@ function Slider (props: SliderProps) {
   if (slider !== undefined) { value = slider.value; }
 
   /* Write the slider's value to the Redux store as the value changes */
-  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const value = parseInt(e.currentTarget.value);
+  const onChange = (e: any): void => {
+    const value = e.min || props.min;
     dispatch( updateSliderValue( { name, value, table, column } ) );
   }
 
@@ -65,18 +70,18 @@ function Slider (props: SliderProps) {
   , [props.label, props.description]);
 
   /* Props for the RangeSlider component */
-  const sliderProps: Partial<RangeSliderProps> = useMemo(() => {
-    return {
-      size: "sm",
-      variant: "secondary",
-      min: props.min,
-      max: props.max,
-      value: value,
-      step: props.step,
-      tooltip: "on",
-      tooltipLabel: (v: number) => `${monetaryUnit}${v}${otherUnit}`
-    }
-  }, [props.min, props.max, props.step, value, monetaryUnit, otherUnit])
+  // const sliderProps: Partial<RangeSliderProps> = useMemo(() => {
+  //   return {
+  //     size: "sm",
+  //     variant: "secondary",
+  //     min: props.min,
+  //     max: props.max,
+  //     value: value,
+  //     step: props.step,
+  //     tooltip: "on",
+  //     tooltipLabel: (v: number) => `${monetaryUnit}${v}${otherUnit}`
+  //   }
+  // }, [props.min, props.max, props.step, value, monetaryUnit, otherUnit])
 
   return (
     <div className='slider-container' key={`slider-${name}`}>
@@ -88,9 +93,21 @@ function Slider (props: SliderProps) {
 
       {/* Show the slider with min and max values on each side */}
       <div className='slider-with-min-max'>
-        <span className='slider-min-value'>{monetaryUnit}{props.min}{otherUnit}</span>
-        <RangeSlider {...sliderProps} onChange={onChange}/> 
-        <span className='slider-max-value'>{monetaryUnit}{props.max}{otherUnit}</span>
+        {/* <span className='slider-min-value'>{monetaryUnit}{props.min}{otherUnit}</span> */}
+        {/* <div style={{display: 'none'}}>
+          <RangeSlider {...sliderProps} onChange={value => console.log(value)}/> 
+        </div> */}
+        
+        <InputRange
+          maxValue={props.max}
+          minValue={props.min}
+          step={props.step}
+          formatLabel={v => `${monetaryUnit}${v}${otherUnit}`}
+          value={value}
+          onChange={onChange}
+          //onChangeComplete={value => console.log(value)}
+           />
+        {/* <span className='slider-max-value'>{monetaryUnit}{props.max}{otherUnit}</span> */}
       </div>
 
     </div>

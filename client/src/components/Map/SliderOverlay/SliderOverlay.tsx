@@ -1,3 +1,4 @@
+import { RefObject } from 'react';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 import Slider, { SliderProps } from './Slider/Slider';
@@ -17,7 +18,8 @@ type SliderDefinitionSet = {
 const baseUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}`;
 const serverStatusUrl = `${baseUrl}/api/status`;
 
-class SliderOverlay extends BaseControl<any, any> {
+class SliderOverlay extends BaseControl {
+  [x: string]: any;
   state = { sliderDefinitionSets: [] as SliderDefinitionSet[]}
 
   componentDidMount() {
@@ -47,7 +49,7 @@ class SliderOverlay extends BaseControl<any, any> {
 
   _render() {
     return (
-      <div className='slider-overlay-container' ref={this._containerRef} /* ref stops propagation of mouse/touch events */>
+      <div className='slider-overlay-container' ref={this._containerRef as RefObject<HTMLDivElement>} /* ref stops propagation of mouse/touch events */>
         <Accordion defaultActiveKey='0'>
           <Card>
             <Card.Header>

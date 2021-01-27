@@ -1,18 +1,14 @@
-import { BaseControl } from 'react-map-gl';
+import { memo } from 'react';
+//import { RefObject } from 'react';
+//import { BaseControl } from 'react-map-gl';
 import StyleToggle from './StyleToggle/StyleToggle';
 
-class MapStyleOverlay extends BaseControl<any, any> {
+function MapStyleOverlay() {
 
-  _render() {
+  return (
+      <StyleToggle/>
+  );
 
-    return (
-      <div className='style-overlay-container' ref={this._containerRef} /* ref stops propagation of mouse/touch events */>
-        <StyleToggle/>
-      </div>
-    );
-
-  }
-  
 }
 
-export default MapStyleOverlay;
+export default memo(MapStyleOverlay);
