@@ -34,7 +34,7 @@ app.use(Express.urlencoded({ extended: false }));
 app.use(function (req, res, next) {
   res.setHeader(
     'Content-Security-Policy',
-    "default-src *; style-src 'self' 'unsafe-inline'; img-src 'self' * data: * blob: 'unsafe-inline'; script-src 'self' * blob: 'unsafe-inline' 'unsafe-eval' https://mac-growing-shade.herokuapp.com http://localhost"
+    "default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: 'unsafe-inline'; child-src blob: ; worker-src blob: ; script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' "
   );
   next();
 });
