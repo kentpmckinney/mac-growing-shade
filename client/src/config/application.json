@@ -49,7 +49,7 @@
   ],
   "attribution": "<a href='https://www.capastrategies.com/'>© CAPA Strategies</a>",
   "mapboxPublicTokenNote": "There is no way to prevent exposing mapboxPublicToken to users of the site, but URL restrictions can be set up to limit usage",
-  "mapboxPublicToken": "pk.eyJ1Ijoia2VudHBtY2tpbm5leSIsImEiOiJjamV1ZzFyMmIxbjdkMnhwOTh5MjdnaHUyIn0.F_H5tFsVF3NyPDpy0nKKNg",
+  "mapboxPublicToken": "pk.eyJ1Ijoia2VudHBtY2tpbm5leSIsImEiOiJja2tmczNrb3owOHgyMm9ud2dvbG04ZjZmIn0._IHY0VcihVc0gMNm1eLzAg",
   "privateApiKey": "Private API keys are stored as environment variables to prevent exposure",
   "connectionString": "The database connection string must be stored in the 'DATABASE_URL' environment variable"
 }

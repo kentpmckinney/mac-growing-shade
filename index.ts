@@ -33,13 +33,9 @@ app.use(Express.urlencoded({ extended: false }));
 /* Headers */
 app.use(function (req, res, next) {
   res.setHeader(
-    'Content-Security-Policy-Report-Only',
-    "default-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self'"
+    'Content-Security-Policy',
+    "default-src *; style-src 'self' 'unsafe-inline'; img-src 'self' * data: * blob: 'unsafe-inline'; script-src 'self' * blob: 'unsafe-inline' 'unsafe-eval' https://mac-growing-shade.herokuapp.com http://localhost"
   );
-  res.setHeader(
-    'Access-Control-Allow-Origin',
-    '*'
-  )
   next();
 });
 
