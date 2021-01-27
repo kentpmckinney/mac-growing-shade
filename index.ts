@@ -25,19 +25,19 @@ pool.on('error', (e: Error) => {
   }
 });
 
-/* Middleware */
-app.use(Cors());
-app.use(Compression());
-app.use(Express.urlencoded({ extended: false }));
-
 /* Headers */
 app.use(function (req, res, next) {
   res.setHeader(
     'Content-Security-Policy',
-    "default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: 'unsafe-inline'; child-src blob: ; worker-src blob: ; script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' "
+    "default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: 'unsafe-inline'; child-src blob: ; worker-src 'self' blob: ; script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' "
   );
   next();
 });
+
+/* Middleware */
+app.use(Cors());
+app.use(Compression());
+app.use(Express.urlencoded({ extended: false }));
 
 /* Routes */
 require("./routes/status")(app, pool);

@@ -18,11 +18,11 @@ import './Map.scss';
 // Below is regarding the bug in mapbox-gl and how to use the latest version of react-map-gl in Heroku (currently using a downgraded version instead):
 // https://github.com/mapbox/mapbox-gl-js/issues/10173
 //Just making it super concrete for future create-react-users that come across this, a non-eject production build solution is to import mapboxgl like this:
-//import 'mapbox-gl/dist/mapbox-gl.css';
-//import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from 'mapbox-gl';
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
-//mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 // @rsippl - wow! thanks for the tip! I had added it before my imports (specifically AFTER the mapbox-gl import). I really appreciate that!
 
 const baseUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}`;
