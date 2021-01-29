@@ -36,3 +36,12 @@
   height: 1.5rem !important;
   width: 80% !important;
 }
+
+.input-range__slider {
+  background: #6dd0f7;
+  border: 3px solid #0095ce;
+}
+
+.input-range__track--active {
+  background: #0095ce;
+}

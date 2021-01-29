@@ -1,15 +1,10 @@
-import { useState } from 'react'; //RefObject, useContext, 
-//import { BaseControl, MapContext } from 'react-map-gl';
+import { memo, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import ReactPlayer from 'react-player';
 import './InfoOverlay.scss';
-
-// interface InfoOverlayState {
-//   showModal: boolean
-// }
 
 /* Define a popover that informs the user there is a video guide available */
 const infoPopover: JSX.Element = (
@@ -19,10 +14,8 @@ const infoPopover: JSX.Element = (
 );
 
 function InfoOverlay() {
-  //const context = useContext(MapContext);
-  //const [x, y] = context.viewport.project([longitude, latitude]);
+
   const [showModal, setShowModal] = useState(false);
-  
   const closeModal = (): void => setShowModal(false);
   const openModal = (): void => setShowModal(true);
 
@@ -57,4 +50,4 @@ function InfoOverlay() {
   
 }
 
-export default InfoOverlay;
+export default memo(InfoOverlay);

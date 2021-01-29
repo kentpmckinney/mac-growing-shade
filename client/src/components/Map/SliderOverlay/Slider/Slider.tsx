@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react"; //, ChangeEvent
+import { memo, useMemo } from "react";
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMount } from 'react-use';
@@ -6,8 +6,7 @@ import { useAppDispatch } from '../../../../state/store';
 import { RootState } from '../../../../state/rootReducer';
 import { updateSliderValue, SliderItem, SliderCollection, SliderValue } from './SliderStateSlice';
 import { Popover, OverlayTrigger } from 'react-bootstrap';
-//import RangeSlider, { RangeSliderProps } from 'react-bootstrap-range-slider';
-import InputRange from 'react-input-range';//, { InputRangeProps }
+import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
 import './Slider.scss';
 
@@ -57,7 +56,7 @@ function Slider (props: SliderProps) {
 
   /* Write the slider's value to the Redux store as the value changes */
   const onChange = (e: any): void => {
-    const value = e.min || props.min;
+    const value = {min: e.min || props.min, max: e.max || props.max};
     dispatch( updateSliderValue( { name, value, table, column } ) );
   }
 
@@ -69,20 +68,6 @@ function Slider (props: SliderProps) {
     </Popover>
   , [props.label, props.description]);
 
-  /* Props for the RangeSlider component */
-  // const sliderProps: Partial<RangeSliderProps> = useMemo(() => {
-  //   return {
-  //     size: "sm",
-  //     variant: "secondary",
-  //     min: props.min,
-  //     max: props.max,
-  //     value: value,
-  //     step: props.step,
-  //     tooltip: "on",
-  //     tooltipLabel: (v: number) => `${monetaryUnit}${v}${otherUnit}`
-  //   }
-  // }, [props.min, props.max, props.step, value, monetaryUnit, otherUnit])
-
   return (
     <div className='slider-container' key={`slider-${name}`}>
 
@@ -91,23 +76,20 @@ function Slider (props: SliderProps) {
         <div className='slider-label'>{props.label} <span>ⓘ</span></div>
       </OverlayTrigger>
 
+      <br/>
+
       {/* Show the slider with min and max values on each side */}
       <div className='slider-with-min-max'>
-        {/* <span className='slider-min-value'>{monetaryUnit}{props.min}{otherUnit}</span> */}
-        {/* <div style={{display: 'none'}}>
-          <RangeSlider {...sliderProps} onChange={value => console.log(value)}/> 
-        </div> */}
-        
+
         <InputRange
-          maxValue={props.max}
           minValue={props.min}
+          maxValue={props.max}
           step={props.step}
           formatLabel={v => `${monetaryUnit}${v}${otherUnit}`}
           value={value}
           onChange={onChange}
-          //onChangeComplete={value => console.log(value)}
-           />
-        {/* <span className='slider-max-value'>{monetaryUnit}{props.max}{otherUnit}</span> */}
+        />
+
       </div>
 
     </div>

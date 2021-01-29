@@ -2,8 +2,8 @@ import { memo, useMemo } from "react";
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMount } from 'react-use';
-import ReactMapGL, { Source, Layer, NavigationControl } from 'react-map-gl';//FlyToInterpolator, 
-//import SliderOverlay from './SliderOverlay/SliderOverlay';
+import ReactMapGL, { Source, Layer, NavigationControl } from 'react-map-gl';
+import SliderOverlay from './SliderOverlay/SliderOverlay';
 import MapStyleOverlay from './MapStyleOverlay/MapStyleOverlay';
 import InfoOverlay from './InfoOverlay/InfoOverlay';
 import sanitizeHtml from 'sanitize-html';
@@ -11,32 +11,26 @@ import { useAppDispatch } from '../../state/store';
 import { setViewport, ViewportState } from './mapViewportStateSlice';
 import * as Config from '../../config/application.json';
 import { RootState } from '../../state/rootReducer';
-import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
-import Colors from './Colors.module.scss';
 import './Map.scss';
 
-// Below is regarding the bug in mapbox-gl and how to use the latest version of react-map-gl in Heroku (currently using a downgraded version instead):
-// https://github.com/mapbox/mapbox-gl-js/issues/10173
-//Just making it super concrete for future create-react-users that come across this, a non-eject production build solution is to import mapboxgl like this:
-import 'mapbox-gl/dist/mapbox-gl.css';
+// Below is regarding the bug in mapbox-gl and how to use the latest version of react-map-gl in Heroku:
 import mapboxgl from 'mapbox-gl';
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
-// @rsippl - wow! thanks for the tip! I had added it before my imports (specifically AFTER the mapbox-gl import). I really appreciate that!
 
 const baseUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}`;
 const blockLayerGeoJsonSourceUrl = `${baseUrl}/api/geojson?layer=${Config.postgresTableNames.blockLayer}`;
 
-const _stops = [
-  [1, Colors.parcelStop1],
-  [2, Colors.parcelStop2],
-  [3, Colors.parcelStop3],
-  [4, Colors.parcelStop4],
-  [5, Colors.parcelStop5],
-  [6, Colors.parcelStop6],
-  [7, Colors.parcelStop7],
-];
+// const _stops = [
+//   [1, Colors.parcelStop1],
+//   [2, Colors.parcelStop2],
+//   [3, Colors.parcelStop3],
+//   [4, Colors.parcelStop4],
+//   [5, Colors.parcelStop5],
+//   [6, Colors.parcelStop6],
+//   [7, Colors.parcelStop7],
+// ];
 
 const mapProps = {
   width:'100%',
@@ -77,12 +71,16 @@ function Map () {
   })
   const mapStyleUrl = (mapStyleName === 'street') ? Config.mapStyle.street : Config.mapStyle.satellite;
  
+  //// TODO: SLIDER VALUES AREN'T BEING READ IN FROM THE URL BAR
+
   /* Update the URL bar with viewport settings without triggering a render */
   useMemo(() => {
     try {
+      const sliderUrlValues = new URLSearchParams(
+        sliderValues.map(x => [x.name, (x.value && x.value.min) ? `${x.value.min}-${x.value.max}` : ""])
+      ).toString()
       window.history.replaceState(null, "Branch Out Gresham",
-      "/map?" + new URLSearchParams(sliderValues.map(x => [x.name, x.value.toString()])).toString()
-      + `&lat=${viewport.latitude}&lon=${viewport.longitude}&zoom=${viewport.zoom}&style=${mapStyleName}`
+      "/map?" + sliderUrlValues + `&lat=${viewport.latitude}&lon=${viewport.longitude}&zoom=${viewport.zoom}&style=${mapStyleName}`
     );
     }
     catch (e) {
@@ -102,6 +100,30 @@ function Map () {
     ));
   }
 
+  /*
+    export const countiesLayer = {
+      id: 'counties',
+      type: 'fill',
+      'source-layer': 'original',
+      paint: {
+        'fill-outline-color': 'rgba(0,0,0,0.1)',
+        'fill-color': 'rgba(0,0,0,0.1)'
+      }
+    };
+    // Highlighted county polygons
+    export const highlightLayer = {
+      id: 'counties-highlighted',
+      type: 'fill',
+      source: 'counties',
+      'source-layer': 'original',
+      paint: {
+        'fill-outline-color': '#484896',
+        'fill-color': '#6e599f',
+        'fill-opacity': 0.75
+      }
+    };
+  */
+
   /* Create a 'filter' for the Layer component in the map below which determines if a feature is shown on the map */
   /* The overall purpose of this is to map slider values to the data 'columns' they represent */
   /* The format is ['expression affecting all arguments', ['expression', column, value], ['expression', column, value], ...] */
@@ -110,12 +132,22 @@ function Map () {
   /* The 'filter' breaks if s.column is an empty string hence the Array.filter function to remove invalid entries */
   const blockLayerFilter = useMemo(() => [ 'all',
     ...sliderValues
-      .map(s => ['>=', s.column, s.value])
+      .flatMap(s => [['>=', s.column, s.value.min],['<=', s.column, s.value.max]])
       .filter(s => (typeof s === 'string') || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
   ], [sliderValues]);
 
+  const onMapLoaded = (event: any) => {
+    const map = event.target;
+    map.setFeatureState({source: 'my-data', id: 'blockLayer'}, { hover: true});
+  };
+
+  console.info(viewport);
+  console.info(sliderValues);
+  console.info(blockLayerFilter);
+
   return (
     <div className='map-container'>
+
       <ReactMapGL
         {...mapProps}
         zoom={zoom}
@@ -123,13 +155,14 @@ function Map () {
         longitude={longitude}
         mapStyle={mapStyleUrl}
         onClick={handleMapClick}
-        onViewportChange={onViewportChange}    
+        onViewportChange={onViewportChange}   
+        onLoad={onMapLoaded} 
       >
         
         {/* The overlay containing the sliders */}
-        {/* <SliderOverlay captureScroll={true} captureClick={true} captureDoubleClick={true}
-          captureDrag={true} capturePointerMove={true} /> */}
-
+        {/* @ts-ignore */}
+        <SliderOverlay captureClick={true} captureScroll={true} captureDrag={true}/>
+        
         {/* Overlay components in the upper-right that respond to viewport changes as a group */}
         <div className='overlay-group'>
 
@@ -157,12 +190,35 @@ function Map () {
             type="fill"
             minzoom={10}
             paint={{
-              "fill-color": {
-                property: "own_group",
-                stops: _stops,
-              },
-              "fill-opacity": 30 / 100,
-              "fill-outline-color": "rgba(255,255,255,1)",
+              "fill-color": [
+                'case',
+                ["boolean", ["feature-state", "hover"], false], "#6dd0f7",
+                "#1890d7"
+              ],
+              "fill-opacity": [
+                'case',
+                ["boolean", ["feature-state", "hover"], false], 0.3,
+                0.6
+              ],
+              "fill-outline-color": [
+                'case',
+                ["boolean", ["feature-state", "hover"], false], "#2ebaaf",
+                "#0095ce"
+              ]
+            }}
+            filter={blockLayerFilter}
+          />
+          <Layer
+            id="blockLayer-line"
+            type="line"
+            minzoom={10}
+            paint={{
+              "line-color": '#0076a3',
+              "line-width": [
+                'case',
+                ["boolean", ["feature-state", "hover"], false], 5,
+                3
+              ]
             }}
             filter={blockLayerFilter}
           />
