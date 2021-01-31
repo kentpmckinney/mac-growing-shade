@@ -59,5 +59,23 @@ export const blockOutlineLayer: any = {
 /* Define static properties of the parcel layer */
 export const parcelLayer: any = {
   id: 'parcel-layer',
-  type: 'fill'
+  type: 'fill',
+  minzoom: 10,
+  paint: {
+    "fill-color": [
+      'case',
+      ["boolean", ["feature-state", "hover"], false], "#6dd0f7",
+      "#1890d7"
+    ],
+    "fill-opacity": [
+      'case',
+      ["boolean", ["feature-state", "hover"], false], 0.7,
+      0.7
+    ],
+    "fill-outline-color": [
+      'case',
+      ["boolean", ["feature-state", "hover"], false], "#0000ff",
+      "#0000ff"
+    ]
+  }
 }

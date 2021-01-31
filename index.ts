@@ -29,7 +29,7 @@ pool.on('error', (e: Error) => {
 app.use(function (req, res, next) {
   res.setHeader(
     'Content-Security-Policy',
-    "default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: 'unsafe-inline'; child-src blob: ; worker-src 'self' blob: ; script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' "
+    "default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: 'unsafe-inline'; child-src blob: ; worker-src 'self' blob: ; script-src 'self' https://www.youtube.com blob: 'unsafe-inline' 'unsafe-eval' "
   );
   next();
 });
