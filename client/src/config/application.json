@@ -9,6 +9,14 @@
     "street": "mapbox://styles/kentpmckinney/ckjqgjo3452ue19o1elkq69kb",
     "satellite": "mapbox://styles/mapbox/satellite-v9"
   },
+  "startingMapProperties": {
+    "center": {
+      "longitude": -122.4348,
+      "latitude": 45.5099
+    },
+    "zoom": 11,
+    "style": "street"
+  },
   "sliderSets":
   [
     {

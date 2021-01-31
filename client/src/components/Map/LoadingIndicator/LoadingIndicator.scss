@@ -1,0 +1,23 @@
+@import '../../../config/theme.scss';
+
+.loading-indicator-container {
+  width: auto;
+  height: auto;
+  font-size: $info-guide-font-size;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.loading-indicator-text {
+  background-color: white;
+  opacity: 0.5;
+  border: 1px solid gray;
+  border-radius: 4px;
+  margin-left: 10px;
+  padding-left: 6px;
+  padding-right: 6px;
+}

@@ -1,10 +1,14 @@
-@import '../../Theme.scss';
+@import '../../../config/theme.scss';
 
 .info-overlay-container {
   width: auto;
   height: auto;
   font-size: $info-guide-font-size;
-  background-color: transparent;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding-left: 4px;
+  padding-right: 4px;
   cursor: pointer;
 }
 

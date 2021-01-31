@@ -1,4 +1,4 @@
-@import '../Theme.scss';
+@import '../../config/theme.scss';
 
 .map-container {
   width: 100%;
@@ -30,4 +30,19 @@
   margin-top: $style-overlay-top;
   transform-origin: top right;
   transform: scale(0.85);
+}
+
+.loading-indicator {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.centered-container {
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }

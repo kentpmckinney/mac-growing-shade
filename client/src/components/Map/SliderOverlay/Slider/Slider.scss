@@ -1,4 +1,4 @@
-@import '../../../Theme.scss';
+@import '../../../../config/theme.scss';
 
 .slider-container {
   width: auto;
@@ -44,4 +44,5 @@
 
 .input-range__track--active {
   background: #0095ce;
+  opacity: 0.4;
 }

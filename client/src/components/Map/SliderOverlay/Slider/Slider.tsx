@@ -38,9 +38,12 @@ function Slider (props: SliderProps) {
 
   /* Use a URL query parameter as the default value if available */
   const location = useLocation();
-  let param = new URLSearchParams(location.search).get(name);
-  let min = parseInt(param?.split(',')[0] || '') || props.defaultValue.min;
-  let max = parseInt(param?.split(',')[1] || '') || props.defaultValue.max;
+  const getUrlParam = ((p: string) => new URLSearchParams(location.search).get(p));
+  let param = getUrlParam(name);
+  const getMin = (() => parseInt(param?.split(',')[0] || ''));
+  const getMax = (() => parseInt(param?.split(',')[1] || ''));
+  let min = getMin() || props.defaultValue.min;
+  let max = getMax() || props.defaultValue.max;
   let value = { min, max };  
 
   /* Write the slider's default value to the Redux store on component mount */
