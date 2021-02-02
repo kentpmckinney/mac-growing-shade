@@ -17,9 +17,11 @@ function AccordionToggle (props: AccordionToggleProps) {
   return (
     <div className='accordion-toggle-container' onClick={onSelect}>
       <div>Measurements</div>
-      {value 
-        ? <FontAwesomeIcon icon={faChevronUp} />
-        : <FontAwesomeIcon icon={faChevronDown} />}
+      <div className='accordion-toggle-button'>
+        {value 
+          ? <FontAwesomeIcon icon={faChevronUp} />
+          : <FontAwesomeIcon icon={faChevronDown} />}
+      </div>
     </div>
   );
 

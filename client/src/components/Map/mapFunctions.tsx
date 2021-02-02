@@ -1,11 +1,34 @@
+import { FlyToInterpolator } from 'react-map-gl';
+import { easeCubic } from 'd3-ease';
+
+/* Get a url parameter by name */
 export const getUrlString: Function = ((p: string, location: any) => new URLSearchParams(location.search).get(p));
 export const getUrlFloat: Function = ((p: string, location: any) => parseFloat(getUrlString(p, location) || ''));
 
+/* Get a url for an API route that provides GeoJSON for a block layer with the given layer (table) name */
 export const generateBlockLayerGeoJsonSourceUrl: Function = (baseUrl: string, layerName: string): string => 
   `${baseUrl}/api/geojson?layer=${layerName}`;
 
+/* Get a url for an API route that provides GeoJSON for a parcel layer given a block feature's FIPS number */
 export const generateParcelLayerGeoJsonSourceUrl: Function = (baseUrl: string, fips: string): string =>
   `${baseUrl}/api/geojson?fips=${fips}`;
+
+/* Determine whether the block layer or parcel layer is active */
+export const generateInteractiveLayerIds: Function = (selectedFeature: any) => {
+  return (selectedFeature.fips.length > 0 ) ? ['parcel-layer'] : ['block-layer']
+}
+
+/* Add extra properties to the map during a transition */
+export const generateTransitionProperties: Function = (transition: boolean) => {
+  return { ...(transition)
+    ? {
+        transitionDuration: 1000,
+        transitionInterpolator: new FlyToInterpolator(),
+        transitionEasing: easeCubic
+      }
+    : { transitionDuration: 0 }
+  }
+}
 
 /* Update the URL bar with viewport settings without triggering a render */
 export const updateUrlParams: Function = (sliderValues: any, latitude: number, longitude: number, zoom: number, mapStyleName: string) => {

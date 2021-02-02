@@ -7,6 +7,7 @@ export type SelectedFeature = {
   showPopup: boolean
   latitude: number
   longitude: number
+  properties: Object
 }
 
 export interface ViewportState {
@@ -28,7 +29,8 @@ const initialState: ViewportState = {
     fips: '',
     showPopup: false,
     latitude: 0,
-    longitude: 0
+    longitude: 0,
+    properties: {}
   },
   transition: false
 };
@@ -47,7 +49,8 @@ const viewport = createSlice({
         fips: payload.selectedFeature.fips,
         showPopup: payload.selectedFeature.showPopup,
         latitude: payload.selectedFeature.latitude,
-        longitude: payload.selectedFeature.longitude
+        longitude: payload.selectedFeature.longitude,
+        properties: payload.selectedFeature.properties
       };
       state.transition = payload.transition;
     },

@@ -1,9 +1,8 @@
-import { memo, useMemo, Fragment } from "react";
+import { memo, useMemo } from "react";
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMount } from 'react-use';
-import { Source, Layer, NavigationControl, InteractiveMap, FlyToInterpolator, Popup } from 'react-map-gl';
-import { easeCubic } from 'd3-ease';
+import { Source, Layer, NavigationControl, InteractiveMap, Popup } from 'react-map-gl';
 import SliderOverlay from './SliderOverlay/SliderOverlay';
 import MapStyleOverlay from './MapStyleOverlay/MapStyleOverlay';
 import InfoOverlay from './InfoOverlay/InfoOverlay';
@@ -14,7 +13,8 @@ import { updateLoadingMessage } from './LoadingIndicator/LoadingIndicatorStateSl
 import * as Config from '../../config/application.json';
 import { RootState } from '../../state/rootReducer';
 import { baseUrl, blockLayer, blockOutlineLayer, parcelLayer, mapProperties } from './mapVariables';
-import { generateBlockLayerGeoJsonSourceUrl, generateParcelLayerGeoJsonSourceUrl, updateUrlParams, generateBlockLayerFilter } from './mapFunctions';
+import { generateBlockLayerGeoJsonSourceUrl, generateParcelLayerGeoJsonSourceUrl, generateInteractiveLayerIds,
+  generateBlockLayerFilter, generateTransitionProperties, updateUrlParams} from './mapFunctions';
 import { onViewportChange, onMount, onMapClick, onLoad } from './mapEvents';
 import './Map.scss';
 
@@ -33,20 +33,29 @@ function Map () {
   const viewport: ViewportState = useSelector((state: RootState) => state.viewport);
   const sliderValues = useSelector((state: RootState) => state.sliders).sliders;
   let { latitude, longitude, zoom, selectedFeature, transition, style:mapStyleName } = viewport;
-  const mapStyleUrl = (mapStyleName === 'street') ? Config.mapStyle.street : Config.mapStyle.satellite;
+  const mapStyleUrl = useMemo(() => (mapStyleName === 'street') ? Config.mapStyle.street : Config.mapStyle.satellite, [mapStyleName]);
 
+  /* Url params */
   useMount(() => onMount(viewport, dispatch, location));
   useMemo(() => updateUrlParams(sliderValues, viewport.latitude, viewport.longitude, viewport.zoom, mapStyleName),
-   [sliderValues, viewport.latitude, viewport.longitude, viewport.zoom, mapStyleName]);
+    [sliderValues, viewport.latitude, viewport.longitude, viewport.zoom, mapStyleName]);
 
+  /* Event handlers */
   const handleViewportChange = (e: any) => onViewportChange(e, mapStyleName, selectedFeature, dispatch);
   const handleMapClick = (e: any) => onMapClick(e, viewport, selectedFeature, dispatch);
   const handleLoad = (e: any) => onLoad(e, dispatch, updateLoadingMessage);
 
-  const blockLayerGeoJsonSourceUrl = generateBlockLayerGeoJsonSourceUrl(baseUrl, Config.postgresTableNames.blockLayer);
-  const parcelLayerGeoJsonSourceUrl = generateParcelLayerGeoJsonSourceUrl(baseUrl, selectedFeature.fips);
-  const blockLayerFilter = useMemo(() => generateBlockLayerFilter(sliderValues), [sliderValues]);
+  /* Map data */
   const mapProps = useMemo(() => ({...mapProperties}), [])
+  const transitionProps = useMemo(() => generateTransitionProperties(transition), [transition]);
+  const blockLayerFilter = useMemo(() => generateBlockLayerFilter(sliderValues), [sliderValues]);
+  const interactiveLayerIds = useMemo(() => generateInteractiveLayerIds(selectedFeature), [selectedFeature]);
+  const blockLayerGeoJsonSourceUrl = useMemo(() => 
+    generateBlockLayerGeoJsonSourceUrl(baseUrl, Config.postgresTableNames.blockLayer), []);
+  const parcelLayerGeoJsonSourceUrl = useMemo(() => 
+    generateParcelLayerGeoJsonSourceUrl(baseUrl, selectedFeature.fips), [selectedFeature.fips]);
+
+console.log(viewport)
 
   return (
     <div className='map-container'>
@@ -57,20 +66,12 @@ function Map () {
         latitude={latitude}
         longitude={longitude}
         mapStyle={mapStyleUrl}
+        onLoad={handleLoad}
         onClick={handleMapClick}
         onViewportChange={handleViewportChange}   
         scrollZoom={false}
-        onLoad={handleLoad}
-        interactiveLayerIds={ (selectedFeature.fips.length > 0 ) ? ['parcel-layer'] : ['block-layer'] }
-        { ...
-          (transition)
-          ? {
-              transitionDuration: 1000,
-              transitionInterpolator: new FlyToInterpolator(),
-              transitionEasing: easeCubic
-            }
-          : { transitionDuration: 0 }
-        }
+        interactiveLayerIds={interactiveLayerIds}
+        {...transitionProps}
       >
 
         {/* The data and map loading indicator */}
@@ -110,27 +111,19 @@ function Map () {
           <Layer {...blockLayer} filter={blockLayerFilter} />
         </Source>
 
-        {
-          (selectedFeature.fips.length > 0)
-            ?
+        { selectedFeature.fips.length > 0 &&
           <Source id="parcel-source" type="geojson" data={parcelLayerGeoJsonSourceUrl}>
             <Layer {...parcelLayer} />
-            {
-              (selectedFeature.showPopup)
-                ?
-              <Popup closeOnClick={true} closeButton={false} anchor="top"
-                latitude={selectedFeature.latitude || latitude} longitude={selectedFeature.longitude || longitude}
-                onClose={() => dispatch(setViewport({...viewport, selectedFeature: {...selectedFeature, showPopup: false}}))}
-              >
-                <div>popup</div>
-              </Popup>
-                :
-              <Fragment/>
-            }
-          </Source>
-            :
-          <Fragment/>
-        }
+            { selectedFeature.showPopup &&
+                <Popup closeOnClick={true} closeButton={false} anchor="top"
+                  latitude={selectedFeature.latitude || latitude} longitude={selectedFeature.longitude || longitude}
+                  onClose={() => dispatch(setViewport({...viewport, selectedFeature: {...selectedFeature, showPopup: false}}))}
+                >
+                  <div className='popup-text'>
+                    {Object.entries(selectedFeature.properties).map(([k, v]) => <div>{k}: {v}</div>)}
+                  </div>
+                </Popup> }
+          </Source> }
 
       </InteractiveMap>
 
