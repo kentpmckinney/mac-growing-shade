@@ -1,5 +1,7 @@
 import { memo, useState } from "react";
 import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import './AccordionToggle.scss';
 
 type AccordionToggleProps = {
@@ -14,7 +16,10 @@ function AccordionToggle (props: AccordionToggleProps) {
 
   return (
     <div className='accordion-toggle-container' onClick={onSelect}>
-      {value ? 'Collapse Panel' : 'Expand Panel'}
+      <div>Measurements</div>
+      {value 
+        ? <FontAwesomeIcon icon={faChevronUp} />
+        : <FontAwesomeIcon icon={faChevronDown} />}
     </div>
   );
 
