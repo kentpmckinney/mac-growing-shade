@@ -49,7 +49,7 @@ class SliderOverlay extends BaseControl {
 
   _render() {
     return (
-      <div className='slider-overlay-container' ref={this._containerRef as RefObject<HTMLDivElement>} /* ref stops propagation of mouse/touch events */>
+      <div className='slider-overlay-container' ref={this._containerRef as RefObject<HTMLDivElement>}>
         <Accordion defaultActiveKey='0'>
           <Card>
             <Card.Header>

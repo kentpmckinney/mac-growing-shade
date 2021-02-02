@@ -7,7 +7,6 @@ export const mapProperties: any = {
   height:'100%',
   mapboxApiAccessToken: Config.mapboxPublicToken,
   reuseMaps: true,
-  interactiveLayerIds: ['block-layer'],
   mapOptions: {
     logoPosition: 'bottom-right',
     customAttribution: sanitizeHtml(Config.attribution, {
@@ -79,3 +78,5 @@ export const parcelLayer: any = {
     ]
   }
 }
+
+export const baseUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}`;

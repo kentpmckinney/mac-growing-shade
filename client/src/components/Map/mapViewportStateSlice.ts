@@ -1,12 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Config from '../../config/application.json';
 
+export type SelectedFeature = {
+  type: string
+  fips: string
+  showPopup: boolean
+  latitude: number
+  longitude: number
+}
+
 export interface ViewportState {
   latitude: number
   longitude: number
   zoom: number
   style: string
-  selectedFeature: string
+  selectedFeature: SelectedFeature
+  transition: boolean
 }
 
 const initialState: ViewportState = {
@@ -14,7 +23,14 @@ const initialState: ViewportState = {
   longitude: Config.startingMapProperties.center.longitude,
   zoom: Config.startingMapProperties.zoom,
   style: Config.startingMapProperties.style,
-  selectedFeature: ''
+  selectedFeature: {
+    type: 'block',
+    fips: '',
+    showPopup: false,
+    latitude: 0,
+    longitude: 0
+  },
+  transition: false
 };
 
 const viewport = createSlice({
@@ -26,7 +42,14 @@ const viewport = createSlice({
       state.longitude = payload.longitude;
       state.zoom = payload.zoom;
       state.style = payload.style;
-      state.selectedFeature = payload.selectedFeature;
+      state.selectedFeature = {
+        type: payload.selectedFeature.type,
+        fips: payload.selectedFeature.fips,
+        showPopup: payload.selectedFeature.showPopup,
+        latitude: payload.selectedFeature.latitude,
+        longitude: payload.selectedFeature.longitude
+      };
+      state.transition = payload.transition;
     },
   },
 });

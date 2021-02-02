@@ -7,10 +7,12 @@
   font-size: 0.7rem;
   margin-left: 10px;
   margin-top: 10px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
   background-color: $slider-overlay-background-color;
   opacity: $slider-overlay-opacity;
   cursor: pointer;
-  z-index: 999999999999999;
+  z-index: 100;
 }
 
 .slider-overlay-header {
