@@ -1,13 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Config from '../../config/application.json';
 
-export type SelectedFeature = {
-  type: string
-  fips: string
-  showPopup: boolean
-  latitude: number
-  longitude: number
+export type BlockFeature = {
+  latitude: number | null
+  longitude: number | null
   properties: Object
+  selected: string | null
+}
+
+export type ParcelFeature = {
+  latitude: number | null
+  longitude: number | null
+  isPopupVisible: boolean
+  properties: Object
+}
+
+export type Features = {
+  isTransitionInProgress: boolean
+  block: BlockFeature
+  parcel: ParcelFeature
 }
 
 export interface ViewportState {
@@ -15,8 +26,8 @@ export interface ViewportState {
   longitude: number
   zoom: number
   style: string
-  selectedFeature: SelectedFeature
-  transition: boolean
+  feature: Features
+  activeLayer: string | null
 }
 
 const initialState: ViewportState = {
@@ -24,15 +35,22 @@ const initialState: ViewportState = {
   longitude: Config.startingMapProperties.center.longitude,
   zoom: Config.startingMapProperties.zoom,
   style: Config.startingMapProperties.style,
-  selectedFeature: {
-    type: 'block',
-    fips: '',
-    showPopup: false,
-    latitude: 0,
-    longitude: 0,
-    properties: {}
-  },
-  transition: false
+  activeLayer: null,
+  feature: {
+    isTransitionInProgress: false,
+    block: {
+      latitude: null,
+      longitude: null,
+      selected: null,
+      properties: {}
+    },
+    parcel: {
+      latitude: null,
+      longitude: null,
+      properties: {},
+      isPopupVisible: false
+    }
+  }
 };
 
 const viewport = createSlice({
@@ -44,15 +62,22 @@ const viewport = createSlice({
       state.longitude = payload.longitude;
       state.zoom = payload.zoom;
       state.style = payload.style;
-      state.selectedFeature = {
-        type: payload.selectedFeature.type,
-        fips: payload.selectedFeature.fips,
-        showPopup: payload.selectedFeature.showPopup,
-        latitude: payload.selectedFeature.latitude,
-        longitude: payload.selectedFeature.longitude,
-        properties: payload.selectedFeature.properties
-      };
-      state.transition = payload.transition;
+      state.activeLayer = payload.activeLayer;
+      state.feature = {
+        isTransitionInProgress: payload.feature.isTransitionInProgress,
+        block: {
+          latitude: payload.feature.block.latitude,
+          longitude: payload.feature.block.longitude,
+          selected: payload.feature.block.selected,
+          properties: payload.feature.block.properties
+        },
+        parcel: {
+          latitude: payload.feature.parcel.latitude,
+          longitude: payload.feature.parcel.longitude,
+          properties: payload.feature.parcel.properties,
+          isPopupVisible: payload.feature.parcel.isPopupVisible
+        }
+      }
     },
   },
 });

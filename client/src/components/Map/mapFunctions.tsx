@@ -1,21 +1,24 @@
 import { FlyToInterpolator } from 'react-map-gl';
 import { easeCubic } from 'd3-ease';
 
+/* Check if a string is null or contains whitespace */
+export const isNullOrWhitespace = (s: string) => !s || !s.trim();
+
 /* Get a url parameter by name */
 export const getUrlString: Function = ((p: string, location: any) => new URLSearchParams(location.search).get(p));
 export const getUrlFloat: Function = ((p: string, location: any) => parseFloat(getUrlString(p, location) || ''));
 
 /* Get a url for an API route that provides GeoJSON for a block layer with the given layer (table) name */
-export const generateBlockLayerGeoJsonSourceUrl: Function = (baseUrl: string, layerName: string): string => 
+export const generateBlockLayerGeoJsonSourceUrl: Function = (baseUrl: string, layerName?: string): string => 
   `${baseUrl}/api/geojson?layer=${layerName}`;
 
 /* Get a url for an API route that provides GeoJSON for a parcel layer given a block feature's FIPS number */
-export const generateParcelLayerGeoJsonSourceUrl: Function = (baseUrl: string, fips: string): string =>
-  `${baseUrl}/api/geojson?fips=${fips}`;
+export const generateParcelLayerGeoJsonSourceUrl: Function = (baseUrl: string, properties?: any): string =>
+  `${baseUrl}/api/geojson?fips=${properties && properties['FIPS']}`;
 
 /* Determine whether the block layer or parcel layer is active */
-export const generateInteractiveLayerIds: Function = (selectedFeature: any) => {
-  return (selectedFeature.fips.length > 0 ) ? ['parcel-layer'] : ['block-layer']
+export const generateInteractiveLayerIds: Function = (activeLayer: string) => {
+  return activeLayer === 'parcel' ? ['parcel-layer'] : ['block-layer']
 }
 
 /* Add extra properties to the map during a transition */

@@ -32,7 +32,7 @@ function Map () {
   /* Read settings from the Redux store */
   const viewport: ViewportState = useSelector((state: RootState) => state.viewport);
   const sliderValues = useSelector((state: RootState) => state.sliders).sliders;
-  let { latitude, longitude, zoom, selectedFeature, transition, style:mapStyleName } = viewport;
+  let { latitude, longitude, zoom, feature, activeLayer, style:mapStyleName } = viewport;
   const mapStyleUrl = useMemo(() => (mapStyleName === 'street') ? Config.mapStyle.street : Config.mapStyle.satellite, [mapStyleName]);
 
   /* Url params */
@@ -41,19 +41,21 @@ function Map () {
     [sliderValues, viewport.latitude, viewport.longitude, viewport.zoom, mapStyleName]);
 
   /* Event handlers */
-  const handleViewportChange = (e: any) => onViewportChange(e, mapStyleName, selectedFeature, dispatch);
-  const handleMapClick = (e: any) => onMapClick(e, viewport, selectedFeature, dispatch);
+  const handleViewportChange = (e: any) => onViewportChange(e, mapStyleName, activeLayer, feature, dispatch);
+  const handleMapClick = (e: any) => onMapClick(e, viewport, dispatch);
   const handleLoad = (e: any) => onLoad(e, dispatch, updateLoadingMessage);
 
   /* Map data */
   const mapProps = useMemo(() => ({...mapProperties}), [])
-  const transitionProps = useMemo(() => generateTransitionProperties(transition), [transition]);
+  const transitionProps = useMemo(() => 
+    generateTransitionProperties(feature.isTransitionInProgress), [feature.isTransitionInProgress]);
   const blockLayerFilter = useMemo(() => generateBlockLayerFilter(sliderValues), [sliderValues]);
-  const interactiveLayerIds = useMemo(() => generateInteractiveLayerIds(selectedFeature), [selectedFeature]);
+  const interactiveLayerIds = useMemo(() => generateInteractiveLayerIds(activeLayer), [activeLayer]);
   const blockLayerGeoJsonSourceUrl = useMemo(() => 
     generateBlockLayerGeoJsonSourceUrl(baseUrl, Config.postgresTableNames.blockLayer), []);
   const parcelLayerGeoJsonSourceUrl = useMemo(() => 
-    generateParcelLayerGeoJsonSourceUrl(baseUrl, selectedFeature.fips), [selectedFeature.fips]);
+    /* @ts-ignore */
+    generateParcelLayerGeoJsonSourceUrl(baseUrl, feature.block.properties), [feature.block.properties]);
 
 console.log(viewport)
 
@@ -62,17 +64,16 @@ console.log(viewport)
 
       <InteractiveMap
         {...mapProps}
+        {...transitionProps}
         zoom={zoom}
+        scrollZoom={false}
         latitude={latitude}
         longitude={longitude}
         mapStyle={mapStyleUrl}
+        interactiveLayerIds={interactiveLayerIds}
         onLoad={handleLoad}
         onClick={handleMapClick}
-        onViewportChange={handleViewportChange}   
-        scrollZoom={false}
-        interactiveLayerIds={interactiveLayerIds}
-        {...transitionProps}
-      >
+        onViewportChange={handleViewportChange} >
 
         {/* The data and map loading indicator */}
         <div className='centered-container'>
@@ -111,18 +112,23 @@ console.log(viewport)
           <Layer {...blockLayer} filter={blockLayerFilter} />
         </Source>
 
-        { selectedFeature.fips.length > 0 &&
+        { activeLayer && activeLayer === 'parcel' &&
           <Source id="parcel-source" type="geojson" data={parcelLayerGeoJsonSourceUrl}>
             <Layer {...parcelLayer} />
-            { selectedFeature.showPopup &&
-                <Popup closeOnClick={true} closeButton={false} anchor="top"
-                  latitude={selectedFeature.latitude || latitude} longitude={selectedFeature.longitude || longitude}
-                  onClose={() => dispatch(setViewport({...viewport, selectedFeature: {...selectedFeature, showPopup: false}}))}
-                >
+            { feature.parcel && feature.parcel.isPopupVisible &&
+              <Popup
+                closeOnClick={true}
+                closeButton={false}
+                latitude={feature.parcel.latitude || latitude}
+                longitude={feature.parcel.longitude || longitude}
+                onClose={() => dispatch(setViewport(
+                  {...viewport, feature: {...feature, parcel: {...feature.parcel, isPopupVisible: false}}}))
+                }
+                anchor="top" >
                   <div className='popup-text'>
-                    {Object.entries(selectedFeature.properties).map(([k, v]) => <div>{k}: {v}</div>)}
+                    {Object.entries(feature?.parcel?.properties ?? {}).map(([k, v]) => <div>{k}: {v}</div>)}
                   </div>
-                </Popup> }
+              </Popup> }
           </Source> }
 
       </InteractiveMap>
