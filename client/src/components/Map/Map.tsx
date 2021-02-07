@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMount } from 'react-use';
 import { Source, Layer, NavigationControl, InteractiveMap, Popup } from 'react-map-gl';
-import SliderOverlay from './SliderOverlay/SliderOverlay';
+import SliderOverlay from './InputOverlay/InputOverlay';
 import MapStyleOverlay from './MapStyleOverlay/MapStyleOverlay';
 import InfoOverlay from './InfoOverlay/InfoOverlay';
 import LoadingIndicator from './LoadingIndicator/LoadingIndicator';
@@ -84,7 +84,7 @@ console.log(viewport)
 
         {/* The overlay containing the sliders */}
         {/* @ts-ignore */}
-        <SliderOverlay captureClick={true} captureScroll={true} captureDrag={true}/>
+        <SliderOverlay captureClick={true} captureScroll={true} captureDrag={true} activeLayer={activeLayer}/>
         
         {/* Overlay components in the upper-right that respond to viewport changes as a group */}
         <div className='overlay-group'>
@@ -119,6 +119,7 @@ console.log(viewport)
               <Popup
                 closeOnClick={true}
                 closeButton={false}
+                dynamicPosition={true}
                 latitude={feature.parcel.latitude || latitude}
                 longitude={feature.parcel.longitude || longitude}
                 onClose={() => dispatch(setViewport(
@@ -126,7 +127,8 @@ console.log(viewport)
                 }
                 anchor="top" >
                   <div className='popup-text'>
-                    {Object.entries(feature?.parcel?.properties ?? {}).map(([k, v]) => <div>{k}: {v}</div>)}
+                    {Object.entries(feature.parcel.properties ?? {}).map(([k, v]) =>
+                     <div key={k}>{k}: {v}</div>)}
                   </div>
               </Popup> }
           </Source> }

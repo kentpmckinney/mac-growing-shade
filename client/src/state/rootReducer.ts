@@ -1,5 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import sliderReducer from '../components/Map/SliderOverlay/Slider/SliderStateSlice';
+import sliderReducer from '../components/Map/InputOverlay/Slider/SliderStateSlice';
 import viewportReducer from '../components/Map/mapViewportStateSlice';
 import loadingMessageReducer from '../components/Map/LoadingIndicator/LoadingIndicatorStateSlice';
 

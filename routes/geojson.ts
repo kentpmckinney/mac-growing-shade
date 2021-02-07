@@ -9,7 +9,7 @@ module.exports = (app: Express.Application, pool: Pool) => {
     try {
 
       /* Get URL params */
-      const layer = request.query.layer || '';
+      //const layer = request.query.layer || '';
       const fips = request.query.fips || '';
 
       if (fips.length === 12) {

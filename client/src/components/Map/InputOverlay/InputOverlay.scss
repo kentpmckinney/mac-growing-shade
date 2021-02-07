@@ -1,24 +1,25 @@
 @import '../../../config/theme.scss';
 
-.slider-overlay-container {
+.input-overlay-container {
   width: $slider-overlay-width;
   height: auto;
   max-height: 80vh;
   font-size: 0.7rem;
   margin-left: 10px;
   margin-top: 10px;
-  background-color: $slider-overlay-background-color;
+  background-color: transparent;
   opacity: $slider-overlay-opacity;
   cursor: pointer;
   z-index: 100;
 }
 
-.slider-overlay-header {
+.input-overlay-header {
   display: flex;
   justify-content: center;
 }
 
-.slider-overlay-body {
+.input-overlay-body {
+  width: 100%;
   height: $slider-overlay-height;
   min-height: $slider-overlay-min-height;
   max-height: $slider-overlay-max-height;
@@ -26,6 +27,11 @@
   overflow-y: auto;
 }
 
-.slider-overlay-section-label {
+.input-overlay-section-label {
   color: $slider-overlay-section-label-color;
+}
+
+.card-body {
+  padding-left: 10px !important;
+  padding-right: 0px !important;
 }

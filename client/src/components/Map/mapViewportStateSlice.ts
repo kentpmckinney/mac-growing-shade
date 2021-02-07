@@ -35,7 +35,7 @@ const initialState: ViewportState = {
   longitude: Config.startingMapProperties.center.longitude,
   zoom: Config.startingMapProperties.zoom,
   style: Config.startingMapProperties.style,
-  activeLayer: null,
+  activeLayer: 'block',
   feature: {
     isTransitionInProgress: false,
     block: {

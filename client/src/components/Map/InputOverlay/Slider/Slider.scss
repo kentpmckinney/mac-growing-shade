@@ -2,7 +2,21 @@
 
 .slider-container {
   width: auto;
+  font-size: 14px;
   min-height: $slider-height;
+  margin-bottom: 0px;
+  margin-right: 10px;
+}
+
+.slider-fieldset {
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  background-color: #fafafa;
+}
+
+.slider-legend {
+  margin-left: 10px;
+  width: auto;
 }
 
 .slider-with-min-max {
@@ -20,6 +34,10 @@
 }
 
 .slider-label {
+  font-size: 14px;
+  //display: inline-flex;
+  padding-left: 5px;
+  padding-right: 5px;
   font-family: $font-family-slider-label;
   span {
     display: none;
@@ -33,6 +51,8 @@
 }
 
 .input-range {
+  margin-top: 10px;
+  margin-bottom: 15px;
   height: 1.5rem !important;
   width: 80% !important;
 }
@@ -42,7 +62,21 @@
   border: 3px solid #0095ce;
 }
 
+.input-range__slider:hover {
+  background: #0095ce;
+}
+
 .input-range__track--active {
   background: #0095ce;
   opacity: 0.4;
+}
+
+.input-range__label--min,
+.input-range__label--max {
+  font-size: 10px;
+  bottom: -10px !important;
+}
+
+.input-range__label--value {
+  font-size: 12px;
 }

@@ -23,9 +23,12 @@ export const generateInteractiveLayerIds: Function = (activeLayer: string) => {
 
 /* Add extra properties to the map during a transition */
 export const generateTransitionProperties: Function = (transition: boolean) => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return { transitionDuration: 0 }
+  }
   return { ...(transition)
     ? {
-        transitionDuration: 1000,
+        transitionDuration: 500,
         transitionInterpolator: new FlyToInterpolator(),
         transitionEasing: easeCubic
       }

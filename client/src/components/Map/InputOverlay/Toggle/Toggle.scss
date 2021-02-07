@@ -1,0 +1,52 @@
+@import '../../../../config/theme.scss';
+@import '~css-toggle-switch/dist/toggle-switch.css';
+
+.toggle-container {
+  background: #fdfdfd;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.toggle-container > label:checked {
+  color: white;
+}
+
+.toggle-button {
+  background: #6dd0f7;
+  border: 3px solid #0095ce;
+  border-radius: 5px;
+}
+
+.toggle-input:checked {
+  color: white;
+}
+
+.toggle-fieldset {
+  border: 1px solid lightgray;
+  border-radius: 10px;
+}
+
+.toggle-legend {
+  margin-left: 10px;
+  width: auto;
+}
+
+.toggle-label {
+  font-size: 14px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-family: $font-family-slider-label;
+  span {
+    display: none;
+  }
+}
+.toggle-label:hover {
+  span {
+    display: inline;
+    color: blue;
+  }
+}
+
+label {
+  font-size: 10px;
+}

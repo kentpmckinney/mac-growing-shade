@@ -3,9 +3,10 @@ import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 import Slider, { SliderProps } from './Slider/Slider';
 import AccordionToggle from './AccordionToggle/AccordionToggle';
+import Toggle from './Toggle/Toggle';
 import { BaseControl } from 'react-map-gl';
 import * as Config from '../../../config/application.json';
-import './SliderOverlay.scss';
+import './InputOverlay.scss';
 import './AccordionToggle/AccordionToggle.scss';
 
 type SliderDefinition = SliderProps;
@@ -49,33 +50,40 @@ class SliderOverlay extends BaseControl {
 
   _render() {
     return (
-      <div className='slider-overlay-container' ref={this._containerRef as RefObject<HTMLDivElement>}>
+      <div className='input-overlay-container' ref={this._containerRef as RefObject<HTMLDivElement>}>
         <Accordion defaultActiveKey='0'>
           <Card>
             <Card.Header>
-              <div className="slider-overlay-header">
+              <div className="input-overlay-header">
                 <AccordionToggle eventKey='0'></AccordionToggle>
               </div>
             </Card.Header>
             <Accordion.Collapse eventKey='0'>
-              <Card.Body>
-                <div className="slider-overlay-body">
+              <Card.Body className='card-body'>
+                <div className="input-overlay-body">
 
                   {/* Dynamically render sliders as they can change based on context */}
-                  {this.state.sliderDefinitionSets.map((sliderDefinitionSet, i) => 
+                  {this.state.sliderDefinitionSets.map((sliderDefinitionSet: any, i: number) => 
                     <div key={`sliderSet-${i}`}>
-                      <div className='slider-overlay-section-label'>{sliderDefinitionSet.name}</div>
+                      <div className='input-overlay-section-label'>{sliderDefinitionSet.name}</div>
                       <br/>
-                      {sliderDefinitionSet.sliders.map((s, j) => 
-                        <Slider key={`slider-${j}`}
-                          min={s.min} max={s.max} defaultValue={s.defaultValue} step={s.step} name={s.name}
-                          label={s.label} unit={s.unit} width={s.width} description={s.description}
-                          table={s.table} column={s.column}
-                        />
-                      )}
+                      {sliderDefinitionSet.sliders
+                        .filter((e: any) => e.display.includes(this.props.activeLayer))
+                        .map((s: any, j: number) =>
+                          (s.type === 'slider')
+                            ?
+                          <Slider key={`slider-${j}`}
+                            min={s.min} max={s.max} defaultValue={s.defaultValue} step={s.step} name={s.name}
+                            label={s.label} unit={s.unit} width={s.width} description={s.description}
+                            table={s.table} column={s.column} display={s.display}/>
+                            :
+                          <Toggle key={`toggle-${j}`}
+                            name={s.name} label={s.label} left={s.left} center={s.center} right={s.right}
+                            description={s.description}/>
+                        )
+                      }
                     </div>
-                  ).reduce((a: any, c: any, i: number) => [...a, <hr key={`hr-${i}`}/>, c], []).slice(1)} {/* Join slider sets with <hr/> */}
-                  {/* The above reduce() always produces an extra leading <hr/> due to the starting [] value hence the slice */}
+                  )}
 
                 </div>
               </Card.Body>

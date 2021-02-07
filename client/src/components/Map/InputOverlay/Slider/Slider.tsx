@@ -22,6 +22,10 @@ export type SliderProps = {
   description: string
   table: string
   column: string
+  display: string[]
+  left?: string
+  center?: string
+  right?: string
 }
 
 function Slider (props: SliderProps) {
@@ -73,28 +77,25 @@ function Slider (props: SliderProps) {
 
   return (
     <div className='slider-container' key={`slider-${name}`}>
-
-      {/* Show a label that can be clicked on to view a popover */}
-      <OverlayTrigger trigger="click" placement="right" overlay={popover} rootClose>
-        <div className='slider-label'>{props.label} <span>ⓘ</span></div>
-      </OverlayTrigger>
-
-      <br/>
-
-      {/* Show the slider with min and max values on each side */}
-      <div className='slider-with-min-max'>
-
-        <InputRange
-          minValue={props.min}
-          maxValue={props.max}
-          step={props.step}
-          formatLabel={v => `${monetaryUnit}${v}${otherUnit}`}
-          value={value}
-          onChange={onChange}
-        />
-
-      </div>
-
+      <fieldset className='slider-fieldset'>
+        <legend className='slider-legend'>
+          {/* Show a label that can be clicked on to view a popover */}
+          <OverlayTrigger trigger="click" placement="right" overlay={popover} rootClose>
+            <div className='slider-label'>{props.label}<span>&nbsp;ⓘ</span></div>
+          </OverlayTrigger>
+        </legend>
+        {/* Show the slider with min and max values on each side */}
+        <div className='slider-with-min-max'>
+          <InputRange
+            minValue={props.min}
+            maxValue={props.max}
+            step={props.step}
+            formatLabel={v => `${monetaryUnit}${v}${otherUnit}`}
+            value={value}
+            onChange={onChange}
+          />
+        </div>
+      </fieldset>
     </div>
   );
 
