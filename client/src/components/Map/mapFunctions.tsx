@@ -60,7 +60,15 @@ export const updateUrlParams: Function = (sliderValues: any, latitude: number, l
 /* The 'filter' breaks if s.column is an empty string hence the Array.filter function to remove invalid entries */
 export const generateBlockLayerFilter = (sliderValues: any) => [ 'all',
   ...sliderValues
+    .filter((s: any) => s.type === 'slider')
     .flatMap((s: any) => [['>=', s.column, s.value.min],['<=', s.column, s.value.max]])
+    .filter((s: any) => (typeof s === 'string') || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
+];
+
+export const generateParcelLayerFilter = (toggleValues: any) => [ 'all',
+  ...toggleValues
+    .filter((s: any) => s.type === 'toggle' && s.value !== '')
+    .flatMap((s: any) => [['==', s.column, s.value.toLowerCase().replace(/^sfr$/, 'SFR').replace(/^mfr$/, 'MFR')]])
     .filter((s: any) => (typeof s === 'string') || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
 ];
 

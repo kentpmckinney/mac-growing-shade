@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMount } from 'react-use';
 import { Source, Layer, NavigationControl, InteractiveMap, Popup } from 'react-map-gl';
-import SliderOverlay from './InputOverlay/InputOverlay';
+import InputOverlay from './InputOverlay/InputOverlay';
 import MapStyleOverlay from './MapStyleOverlay/MapStyleOverlay';
 import InfoOverlay from './InfoOverlay/InfoOverlay';
 import LoadingIndicator from './LoadingIndicator/LoadingIndicator';
@@ -14,7 +14,7 @@ import * as Config from '../../config/application.json';
 import { RootState } from '../../state/rootReducer';
 import { baseUrl, blockLayer, blockOutlineLayer, parcelLayer, mapProperties } from './mapVariables';
 import { generateBlockLayerGeoJsonSourceUrl, generateParcelLayerGeoJsonSourceUrl, generateInteractiveLayerIds,
-  generateBlockLayerFilter, generateTransitionProperties, updateUrlParams} from './mapFunctions';
+  generateBlockLayerFilter, generateParcelLayerFilter, generateTransitionProperties, updateUrlParams} from './mapFunctions';
 import { onViewportChange, onMount, onMapClick, onLoad } from './mapEvents';
 import './Map.scss';
 
@@ -32,6 +32,7 @@ function Map () {
   /* Read settings from the Redux store */
   const viewport: ViewportState = useSelector((state: RootState) => state.viewport);
   const sliderValues = useSelector((state: RootState) => state.sliders).sliders;
+  const toggleValues = useSelector((state: RootState) => state.toggles).toggles;
   let { latitude, longitude, zoom, feature, activeLayer, style:mapStyleName } = viewport;
   const mapStyleUrl = useMemo(() => (mapStyleName === 'street') ? Config.mapStyle.street : Config.mapStyle.satellite, [mapStyleName]);
 
@@ -50,6 +51,7 @@ function Map () {
   const transitionProps = useMemo(() => 
     generateTransitionProperties(feature.isTransitionInProgress), [feature.isTransitionInProgress]);
   const blockLayerFilter = useMemo(() => generateBlockLayerFilter(sliderValues), [sliderValues]);
+  const parcelLayerFilter = useMemo(() => generateParcelLayerFilter(toggleValues), [toggleValues]);
   const interactiveLayerIds = useMemo(() => generateInteractiveLayerIds(activeLayer), [activeLayer]);
   const blockLayerGeoJsonSourceUrl = useMemo(() => 
     generateBlockLayerGeoJsonSourceUrl(baseUrl, Config.postgresTableNames.blockLayer), []);
@@ -57,6 +59,10 @@ function Map () {
     /* @ts-ignore */
     generateParcelLayerGeoJsonSourceUrl(baseUrl, feature.block.properties), [feature.block.properties]);
 
+console.log(sliderValues)
+console.log(toggleValues)
+    console.log(blockLayerFilter)
+    console.log(parcelLayerFilter)
 console.log(viewport)
 
   return (
@@ -84,7 +90,7 @@ console.log(viewport)
 
         {/* The overlay containing the sliders */}
         {/* @ts-ignore */}
-        <SliderOverlay captureClick={true} captureScroll={true} captureDrag={true} activeLayer={activeLayer}/>
+        <InputOverlay captureClick={true} captureScroll={true} captureDrag={true} activeLayer={activeLayer}/>
         
         {/* Overlay components in the upper-right that respond to viewport changes as a group */}
         <div className='overlay-group'>
@@ -114,7 +120,7 @@ console.log(viewport)
 
         { activeLayer && activeLayer === 'parcel' &&
           <Source id="parcel-source" type="geojson" data={parcelLayerGeoJsonSourceUrl}>
-            <Layer {...parcelLayer} />
+            <Layer {...parcelLayer} filter={parcelLayerFilter} />
             { feature.parcel && feature.parcel.isPopupVisible &&
               <Popup
                 closeOnClick={true}

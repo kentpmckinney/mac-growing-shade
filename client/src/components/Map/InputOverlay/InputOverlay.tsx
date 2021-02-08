@@ -19,7 +19,7 @@ type SliderDefinitionSet = {
 const baseUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}`;
 const serverStatusUrl = `${baseUrl}/api/status`;
 
-class SliderOverlay extends BaseControl {
+class InputOverlay extends BaseControl {
   [x: string]: any;
   state = { sliderDefinitionSets: [] as SliderDefinitionSet[]}
 
@@ -79,7 +79,7 @@ class SliderOverlay extends BaseControl {
                             :
                           <Toggle key={`toggle-${j}`}
                             name={s.name} label={s.label} left={s.left} center={s.center} right={s.right}
-                            description={s.description}/>
+                            table='' column={s.column} description={s.description}/>
                         )
                       }
                     </div>
@@ -96,4 +96,4 @@ class SliderOverlay extends BaseControl {
   
 }
 
-export default SliderOverlay;
+export default InputOverlay;

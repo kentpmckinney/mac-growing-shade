@@ -10,6 +10,7 @@ export interface SliderItem {
   value: SliderValue
   table: string
   column: string
+  type: string
 }
 
 export interface SliderCollection {
@@ -25,14 +26,14 @@ const sliders = createSlice({
   initialState,
   reducers: {
     updateSliderValue(state: SliderCollection, { payload }: PayloadAction<SliderItem>) {
-      const { name, value, table, column } = payload;
+      const { name, value, table, column, type } = payload;
       let s = state.sliders.find( (x: SliderItem): boolean => x.name === name );
       if (s !== undefined)
       {
         s.value = { min: value.min, max: value.max };
       }
       else {
-        state.sliders.push({name, value, table, column});
+        state.sliders.push({name, value, table, column, type});
       }
     },
   }

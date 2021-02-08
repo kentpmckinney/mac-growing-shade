@@ -17,10 +17,6 @@
   border-radius: 5px;
 }
 
-.toggle-input:checked {
-  color: white;
-}
-
 .toggle-fieldset {
   border: 1px solid lightgray;
   border-radius: 10px;
@@ -40,13 +36,11 @@
     display: none;
   }
 }
-.toggle-label:hover {
-  span {
-    display: inline;
-    color: blue;
-  }
-}
 
 label {
   font-size: 10px;
+}
+
+.toggle-input:checked > label {
+  color: white;
 }

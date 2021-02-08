@@ -26,6 +26,7 @@ export type SliderProps = {
   left?: string
   center?: string
   right?: string
+  type?: string
 }
 
 function Slider (props: SliderProps) {
@@ -34,6 +35,7 @@ function Slider (props: SliderProps) {
   const name = props.name || '';
   const table = props.table || '';
   const column = props.column || '';
+  const type = 'slider';
   const dispatch = useAppDispatch();
 
   /* Distinguish between monetary and other types of units */
@@ -52,7 +54,7 @@ function Slider (props: SliderProps) {
 
   /* Write the slider's default value to the Redux store on component mount */
   useMount((): void => {
-      dispatch(updateSliderValue({ name, value, table, column }))
+      dispatch(updateSliderValue({ name, value, table, column, type }))
     }
   );
 
@@ -64,7 +66,7 @@ function Slider (props: SliderProps) {
   /* Write the slider's value to the Redux store as the value changes */
   const onChange = (e: any): void => {
     const value = {min: e.min || props.min, max: e.max || props.max};
-    dispatch( updateSliderValue( { name, value, table, column } ) );
+    dispatch( updateSliderValue( { name, value, table, column, type } ) );
   }
 
   /* Define a popover that lets the user click to see a description for the slider's value */
