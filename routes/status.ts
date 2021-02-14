@@ -3,14 +3,7 @@
 import * as Express from "express";
 import { Pool, PoolClient } from "pg";
 import * as Config from '../client/src/config/application.json';
-
-type SliderMinMax = {
-  name: string
-  min: number
-  max: number
-  table: string
-  column: string
-}
+import { Input } from '../client/src/components/Map/InputOverlay/InputOverlay';
 
 module.exports = (app: Express.Application, pool: Pool) => {
 
@@ -43,10 +36,10 @@ module.exports = (app: Express.Application, pool: Pool) => {
         }
 
         /* Concatenate the sliders into an array and map to a new array with name and min/max values based on what's actually in the database */
-        const sliders = await Promise.all(
-          Config.sliderSets
-            .reduce((a: any, c: any) => [...a, ...c.sliders], []) /* Concatenate the sliders from all slider sets into a single array */
-            .map(async (s: SliderMinMax) => {
+        const inputs = await Promise.all(
+          Config.inputSets
+            .reduce((a: any, c: any) => [...a, ...c.inputs], []) /* Concatenate the sliders from all slider sets into a single array */
+            .map(async (s: Partial<Input>) => {
               /* Map just the name, min, and max values and update the min and max values at the same time */
               return {
                 name: s.name,
@@ -59,7 +52,7 @@ module.exports = (app: Express.Application, pool: Pool) => {
         let responseJson = {
           status: 'OK',
           time: new Date(),
-          sliderMinMaxValues: sliders
+          inputMinMaxValues: inputs
         }
         response.json(responseJson);
 

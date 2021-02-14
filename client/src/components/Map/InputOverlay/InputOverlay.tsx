@@ -1,7 +1,7 @@
 import { RefObject } from 'react';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
-import Slider, { SliderProps } from './Slider/Slider';
+import Slider from './Slider/Slider';
 import AccordionToggle from './AccordionToggle/AccordionToggle';
 import Toggle from './Toggle/Toggle';
 import { BaseControl } from 'react-map-gl';
@@ -9,11 +9,28 @@ import * as Config from '../../../config/application.json';
 import './InputOverlay.scss';
 import './AccordionToggle/AccordionToggle.scss';
 
-type SliderDefinition = SliderProps;
-
-type SliderDefinitionSet = {
+export type Input = {
   name: string
-  sliders: SliderDefinition[]
+  label: string
+  width: string
+  description: string
+  table: string
+  column: string
+  min?: number
+  max?: number
+  unit?: string
+  defaultValue?: any
+  step?: number
+  display?: string[]
+  left?: string
+  center?: string
+  right?: string
+  type?: string
+}
+
+type InputSet = {
+  name: string
+  inputs: Input[]
 }
 
 const baseUrl = `${window.location.protocol}//${window.location.host.replace('3000', '5000')}`;
@@ -21,30 +38,30 @@ const serverStatusUrl = `${baseUrl}/api/status`;
 
 class InputOverlay extends BaseControl {
   [x: string]: any;
-  state = { sliderDefinitionSets: [] as SliderDefinitionSet[]}
+  state = { inputDefinitionSets: [] as InputSet[]}
 
   componentDidMount() {
     /* Query the server for its status and also to get the dynamic min/max values for each slider which is part of the server response */
     fetch(serverStatusUrl).then(r => r.json()).then(j => {
-      const dynamicMinMaxValues = j.sliderMinMaxValues;
+      const dynamicMinMaxValues = j.inputMinMaxValues;
       /* Create a copy of the slider definitions from the config file and then inject the min and max values so they are dynamic rather than hard-coded */
-      const finalSliderSets =
-        Config.sliderSets
+      const finalInputSets =
+        Config.inputSets
           .map((set: any) => {
             /* This first map iterates through each slider set in the config file */
             return {
               name: set.name,
-              sliders: [...set.sliders.map((configSlider: SliderDefinition) => {
+              inputs: [...set.inputs.map((configInput: Input) => {
                 /* This second map iterates through each individual slider in the config file and it replaces the min and max values as it maps */
                 return {
-                  ...configSlider,
-                  min: dynamicMinMaxValues.filter((dynamicSlider: SliderDefinition) => dynamicSlider.name === configSlider.name)[0].min,
-                  max: dynamicMinMaxValues.filter((dynamicSlider: SliderDefinition) => dynamicSlider.name === configSlider.name)[0].max
+                  ...configInput,
+                  min: dynamicMinMaxValues.filter((d: Input) => d.name === configInput.name)[0].min,
+                  max: dynamicMinMaxValues.filter((d: Input) => d.name === configInput.name)[0].max
                 }
               })]
             }
           });
-      this.setState({ sliderDefinitionSets: finalSliderSets });
+      this.setState({ inputDefinitionSets: finalInputSets });
     }).catch(e => `Error fetching /api/status: ${console.error(e)}`);
   }
 
@@ -63,11 +80,11 @@ class InputOverlay extends BaseControl {
                 <div className="input-overlay-body">
 
                   {/* Dynamically render sliders as they can change based on context */}
-                  {this.state.sliderDefinitionSets.map((sliderDefinitionSet: any, i: number) => 
+                  {this.state.inputDefinitionSets.map((inputDefinitionSet: any, i: number) => 
                     <div key={`sliderSet-${i}`}>
-                      <div className='input-overlay-section-label'>{sliderDefinitionSet.name}</div>
+                      <div className='input-overlay-section-label'>{inputDefinitionSet.name}</div>
                       <br/>
-                      {sliderDefinitionSet.sliders
+                      {inputDefinitionSet.inputs
                         .filter((e: any) => e.display.includes(this.props.activeLayer))
                         .map((s: any, j: number) =>
                           (s.type === 'slider')

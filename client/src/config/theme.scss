@@ -22,12 +22,12 @@ $color-heading: black;
 $color-text: darkgray;
 $color-background: white;
 $color-nav-bar-background: white;
-$slider-overlay-background-color: rgba(255, 255, 255, 1);
-$slider-overlay-section-label-color: navy;
+$input-overlay-background-color: rgba(255, 255, 255, 1);
+$input-overlay-section-label-color: navy;
 
-:root {
-  color-scheme: light dark;
-}
+// :root {
+  
+// }
 
 @media (prefers-color-scheme: dark) {
   
@@ -37,7 +37,7 @@ $slider-overlay-section-label-color: navy;
 
 $navigation-control-right: 36px;
 $navigation-control-top: 5px;
-$info-overlay-right: 10px;
+$info-overlay-right: 5px;
 $info-overlay-top: 5px;
 $style-overlay-right: 5px;
 $style-overlay-top: 5px;
@@ -48,37 +48,37 @@ $navbar-height: 56px;
 $font-size-nav-logo: 2rem;
 $info-guide-font-size: 0.7rem;
 $slider-height: 105px;
-$slider-overlay-width: 280px;
-$slider-overlay-height: 70vh;
-$slider-overlay-min-height: 30vh;
-$slider-overlay-max-height: 550px;
-$slider-overlay-opacity: 0.9;
+$input-overlay-width: 280px;
+$input-overlay-height: 70vh;
+$input-overlay-min-height: 30vh;
+$input-overlay-max-height: 550px;
+$input-overlay-opacity: 0.9;
 
 /* Small devices (landscape phones, 576px and up) */
 @media (max-width: 767px) { 
-  .slider-overlay-container { width: 220px; }
-  .slider-container { height: 35px; }
+  .input-overlay-container { width: 220px; }
+  .input-container { height: 35px; }
   html { font-size: 14px; }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-  .slider-overlay-container { width: 250px; }
-  .slider-container { height: 65px; }
+  .input-overlay-container { width: 250px; }
+  .input-container { height: 65px; }
   html { font-size: 16px; }
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  .slider-overlay-container { width: 280px; }
-  .slider-container { height: 85px; }
+  .input-overlay-container { width: 280px; }
+  .input-container { height: 85px; }
   html { font-size: 18px; }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-  .slider-overlay-container { width: 320px; }
-  .slider-container { height: 100px; }
+  .input-overlay-container { width: 320px; }
+  .input-container { height: 100px; }
   html { font-size: 20px; }
 }
 

@@ -17,11 +17,11 @@
     "zoom": 11,
     "style": "street"
   },
-  "sliderSets":
+  "inputSets":
   [
     {
       "name": "Environmental Factors",
-      "sliders": [
+      "inputs": [
         {
           "min": 0, "max": 100, "label": "Tree Cover (%)", "name": "treeCover", "unit": "%", "width": "240px", "defaultValue": {"min": 10, "max": 30}, "step": 1,
           "description": "The percentage of canopy (tree) cover over an area",
@@ -41,7 +41,7 @@
     },
     {
       "name": "Social Factors",
-      "sliders": [
+      "inputs": [
         {
           "min": 0, "max": 260000, "label": "Median Household Income", "name": "medianIncome", "unit": "$", "width": "230px", "defaultValue": {"min": 4000, "max": 12000}, "step": 2000,
           "description": "The median household income in U.S. dollars",
