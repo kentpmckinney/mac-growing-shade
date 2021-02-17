@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node dist/index.js",
-    "build-ts": "tsc --build",
+    "build-ts": "tsc --build --traceResolution",
     "client": "npm run start --prefix client",
     "server": "nodemon --ext 'ts,json' --exec 'ts-node index.ts'",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
