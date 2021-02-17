@@ -17,7 +17,8 @@ describe('Test the Slider component', () => {
           <Provider store={Store}>
             <Slider
               min={0} max={100} label='Label' name='Name' width='100px' unit=''
-              defaultValue={50} step={1} description=''
+              defaultValue={{min: 50, max: 55}} step={1} description='' table='' column=''
+              display={['block']}
             />
           </Provider>
         </StrictMode>
