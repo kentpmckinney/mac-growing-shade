@@ -20,11 +20,12 @@
     "noImplicitReturns": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
-    "outDir": "dist"
+    "noEmit": true
   },
   "include": [
-    "src"
-, "tests", "tests/App.test.ts"  ]
+    "src",
+    "tests",
+    "tests/App.test.ts"
+  ]
 }
