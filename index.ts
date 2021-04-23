@@ -1,16 +1,17 @@
 "use strict";
 
 import * as Dotenv from 'dotenv';
-if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== 'production') {
-  /* Read environment variables from a .env file in the root folder for local development */
-  Dotenv.config({path: __dirname + '/.env'});
-}
+Dotenv.config({path: __dirname + '/.env'});
 import * as Express from 'express';
 import * as Cors from 'cors';
 import * as Compression from 'compression';
 import * as Path from 'path';
 import { Pool } from 'pg';
 const app = Express();
+
+/* Determine whether the Node.js environment is development or production */
+const isProdEnvironment = 
+  process.env.NODE_ENV !== undefined && process.env.NODE_ENV === "production";
 
 /* Heroku free postgres allows up to 20 concurrent connections */
 const pool = new Pool({
@@ -20,23 +21,34 @@ const pool = new Pool({
 });
 
 pool.on('error', (e: Error) => {
-  if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== 'production') {
-    console.error(`Database pool error: ${e}`);
-  }
+  if (isProdEnvironment) console.error(`Database pool error: ${e}`);
 });
 
 /* Headers */
 app.use(function (req, res, next) {
   res.setHeader(
     'Content-Security-Policy',
-    "default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: 'unsafe-inline'; child-src blob: ; worker-src 'self' blob: ; script-src 'self' https://www.youtube.com blob: 'unsafe-inline' 'unsafe-eval' "
+    `default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline';\
+     img-src 'self' data: blob: 'unsafe-inline'; child-src blob: ;\
+     worker-src 'self' blob: ;\
+     script-src 'self' https://www.youtube.com blob: 'unsafe-inline' 'unsafe-eval' `
   );
+  const expireAfterMinutes = 60;
+  const cacheControlHeaderValue = isProdEnvironment
+    ? `public, max-age=${expireAfterMinutes/2 * 60}, 
+       stale-while-revalidate=${expireAfterMinutes/2 * 6}`
+    : `no-cache`
+  res.header('Cache-Control', cacheControlHeaderValue);
   next();
 });
 
 /* Middleware */
+app.use(Compression({ filter: shouldCompress }))
+function shouldCompress (req, res) {
+  if (req.headers['x-no-compression']) return false;
+  return Compression.filter(req, res);
+}
 app.use(Cors());
-app.use(Compression());
 app.use(Express.urlencoded({ extended: false }));
 
 /* Routes */
