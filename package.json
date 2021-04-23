@@ -14,7 +14,7 @@
     "server": "nodemon --ext 'ts,json' --exec 'ts-node index.ts'",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install --prefix client && npm run build --prefix client",
-    "postinstall": "tsc --build --prefix client",
+    "postinstall": "tsc --build --project client",
     "watch-ts": "tsc -w",
     "test": "mocha"
   },
