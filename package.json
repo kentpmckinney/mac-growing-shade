@@ -1,20 +1,20 @@
 {
   "name": "growing-shade",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "main": "index.ts",
   "engines": {
-    "node": "14.15.x",
-    "npm": "6.x"
+    "node": "14.16.x",
+    "npm": "7.9.x"
   },
   "scripts": {
     "start": "node dist/index.js",
-    "build-ts": "tsc --build --traceResolution",
+    "build-ts": "tsc --build",
     "client": "npm run start --prefix client",
     "server": "nodemon --ext 'ts,json' --exec 'ts-node index.ts'",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install --prefix client && npm run build --prefix client",
-    "postinstall": "tsc --build --traceResolution",
+    "postinstall": "tsc --build",
     "watch-ts": "tsc -w",
     "test": "mocha"
   },
