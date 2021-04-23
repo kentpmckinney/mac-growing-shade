@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "main": "./build/index.js",
+  "main": "dist/index.js",
   "dependencies": {
     "@fontsource/amatic-sc": "^4.1.0",
     "@fontsource/nanum-gothic": "^4.1.0",

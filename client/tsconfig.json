@@ -6,6 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "outDir": "dist/",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -21,11 +22,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "noEmit": true
   },
   "include": [
-    "src",
+    "src/**/*",
     "tests",
     "tests/App.test.ts"
+  ],
+  "exclude" :[
+    "node_modules",
+    "dist"
   ]
 }
