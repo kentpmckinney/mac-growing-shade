@@ -2,17 +2,17 @@
   "name": "growing-shade",
   "version": "0.2.0",
   "description": "",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "engines": {
     "node": "14.16.x",
     "npm": "7.9.x"
   },
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node node --optimize_for_size --max_old_space_size=460 --gc_interval=100  dist/index.js",
     "client": "npm run start --prefix client",
     "server": "nodemon --ext 'ts,json' --exec 'ts-node index.ts'",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "tsc && cd client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "postinstall": "tsc",
     "test": "mocha"
   },
   "repository": {
