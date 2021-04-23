@@ -61,8 +61,8 @@
     "yargs-parser": "^20.2.5"
   },
   "scripts": {
+    "build": "tsc",
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "jest",
     "test:watch": "jest --watch",
     "eject": "react-scripts eject"
