@@ -22,13 +22,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
+    "noEmit": true
   },
   "include": [
     "src/**/*",
     "tests",
     "tests/App.test.ts"
   ],
-  "exclude" :[
+  "exclude": [
     "node_modules",
     "dist"
   ]

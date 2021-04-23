@@ -12,7 +12,7 @@
     "client": "npm run start --prefix client",
     "server": "nodemon --ext 'ts,json' --exec 'ts-node index.ts'",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "postinstall": "tsc",
+    "heroku-postbuild": "tsc && cd client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "test": "mocha"
   },
   "repository": {
