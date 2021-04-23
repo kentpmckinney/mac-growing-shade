@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "main": "/client/dist/index.js",
+  "main": "./build/index.js",
   "dependencies": {
     "@fontsource/amatic-sc": "^4.1.0",
     "@fontsource/nanum-gothic": "^4.1.0",
@@ -61,8 +61,8 @@
     "yargs-parser": "^20.2.5"
   },
   "scripts": {
-    "start": "node /client/dist/index.js",
-    "heroku-postbuild": "tsc & cd client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "jest",
     "test:watch": "jest --watch"
   },
