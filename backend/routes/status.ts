@@ -2,8 +2,7 @@
 
 import * as Express from "express";
 import { Pool, PoolClient } from "pg";
-import * as Config from '../../frontend//src/config/application.json';
-import { Input } from '../../frontend/src/components/Map/InputOverlay/InputOverlay';
+import * as Config from '../../frontend/src/config/application.json';
 
 module.exports = (app: Express.Application, pool: Pool) => {
 
@@ -39,7 +38,7 @@ module.exports = (app: Express.Application, pool: Pool) => {
         const inputs = await Promise.all(
           Config.inputSets
             .reduce((a: any, c: any) => [...a, ...c.inputs], []) /* Concatenate the sliders from all slider sets into a single array */
-            .map(async (s: Partial<Input>) => {
+            .map(async (s: any) => {
               /* Map just the name, min, and max values and update the min and max values at the same time */
               return {
                 name: s.name,

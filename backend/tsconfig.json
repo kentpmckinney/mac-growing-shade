@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "ES5",
     "noImplicitAny": false,
     "noEmitOnError": true,
     "removeComments": false,
@@ -11,12 +12,8 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["./node_modules/@types"],
-
   },
   "include": [
-    "*"
-  ],
-  "exclude": [
-    "dist", "node_modules", "../frontend/**/*"
+    "index.ts", "routes/geojson.ts", "routes/status.ts"
   ]
 }

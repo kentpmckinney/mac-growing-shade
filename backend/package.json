@@ -10,8 +10,9 @@
   "scripts": {
     "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 dist/index.js",
     "server": "nodemon --ext 'ts,json' --exec 'ts-node index.ts'",
-    "dev": "tsc && npm run server",
-    "postinstall": "tsc",
+    "compile": "tsc --target es5 --module commonjs --outDir dist --sourcemap --resolveJsonModule index.ts routes/*",
+    "dev": "npm run server",
+    "postinstall": "npm run compile",
     "test": "mocha"
   },
   "repository": {
