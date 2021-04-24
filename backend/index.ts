@@ -1,7 +1,6 @@
 "use strict";
 
-import { config } from 'dotenv';
-config({path: __dirname + '/.env'});
+import './dotEnv';
 import * as Express from 'express';
 import * as Cors from 'cors';
 import * as Compression from 'compression';
