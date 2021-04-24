@@ -1,9 +1,8 @@
 "use strict";
 
-import * as Dotenv from 'dotenv';
 if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== 'production') {
   /* Read environment variables for a .env file in the root folder for local developement */
-  Dotenv.config({path: __dirname + '/.env'});
+  require('dotenv').config();
 }
 import * as Express from 'express';
 import * as Cors from 'cors';
