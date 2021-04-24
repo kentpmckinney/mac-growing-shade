@@ -73,7 +73,9 @@ require("./routes/geojson")(app, pool);
 
 /* Default handler for requests not handled by one of the above routes */
 if (process.env.NODE_ENV === "production") {
-  app.use(Express.static(path.join(__dirname, "/../../../frontend/build")));
+  const frontEndPath = path.join(__dirname, "/../../../frontend/build");
+  app.use(Express.static(frontEndPath));
+  app.use("*", Express.static(frontEndPath));
 }
 
 /* Listen for and handle incoming requests */
