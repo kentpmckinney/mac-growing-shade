@@ -4,6 +4,7 @@ if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== 'production')
   /* Read environment variables for a .env file in the root folder for local developement */
   require('dotenv').config();
 }
+var path = require('path');
 import * as Express from 'express';
 import * as Cors from 'cors';
 import * as Compression from 'compression';
@@ -69,9 +70,9 @@ require("./routes/geojson")(app, pool);
 
 /* Default handler for requests not handled by one of the above routes */
 if (process.env.NODE_ENV === "production") {
-  app.use(Express.static("../frontend/build"));
+  app.use(Express.static(path.join(__dirname, '/../../../frontend/build')));
   app.get("/", (request: Express.Request, response: Express.Response) => {
-    response.sendFile(Path.resolve("../frontend/build/index.html"));
+    response.sendFile(path.join(__dirname, '/../../../frontend/build/index.html'));
   });
 }
 
