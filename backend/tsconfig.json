@@ -4,8 +4,6 @@
     "noImplicitAny": false,
     "noEmitOnError": true,
     "removeComments": false,
-    "sourceMap": true,
-    "baseUrl": ".",
     "outDir": "dist",
     "resolveJsonModule": true,
     "jsx": "preserve",
@@ -14,6 +12,9 @@
     "typeRoots": ["./node_modules/@types"],
   },
   "include": [
-    "index.ts", "routes/geojson.ts", "routes/status.ts"
+    "index.ts", "routes/*", "../../frontend/src/config/application.json"
+  ],
+  "exclude": [
+    "frontend/**", "node_modules/**"
   ]
 }
