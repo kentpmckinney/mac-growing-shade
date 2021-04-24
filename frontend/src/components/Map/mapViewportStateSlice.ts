@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import * as Config from '../../config/application.json';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import * as Config from '../../config/application.json'
 
 export type BlockFeature = {
   latitude: number | null
@@ -51,18 +51,18 @@ const initialState: ViewportState = {
       isPopupVisible: false
     }
   }
-};
+}
 
 const viewport = createSlice({
   name: 'viewport',
   initialState,
   reducers: {
     setViewport(state: ViewportState, { payload }: PayloadAction<ViewportState>) {
-      state.latitude = payload.latitude;
-      state.longitude = payload.longitude;
-      state.zoom = payload.zoom;
-      state.style = payload.style;
-      state.activeLayer = payload.activeLayer;
+      state.latitude = payload.latitude
+      state.longitude = payload.longitude
+      state.zoom = payload.zoom
+      state.style = payload.style
+      state.activeLayer = payload.activeLayer
       state.feature = {
         isTransitionInProgress: payload.feature.isTransitionInProgress,
         block: {
@@ -78,9 +78,9 @@ const viewport = createSlice({
           isPopupVisible: payload.feature.parcel.isPopupVisible
         }
       }
-    },
-  },
-});
+    }
+  }
+})
 
-export const { setViewport } = viewport.actions;
-export default viewport.reducer;
+export const { setViewport } = viewport.actions
+export default viewport.reducer

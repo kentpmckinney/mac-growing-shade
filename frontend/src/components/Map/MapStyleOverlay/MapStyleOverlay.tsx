@@ -1,14 +1,10 @@
-import { memo } from 'react';
+import { memo } from 'react'
 //import { RefObject } from 'react';
 //import { BaseControl } from 'react-map-gl';
-import StyleToggle from './StyleToggle/StyleToggle';
+import StyleToggle from './StyleToggle/StyleToggle'
 
 function MapStyleOverlay() {
-
-  return (
-      <StyleToggle/>
-  );
-
+  return <StyleToggle />
 }
 
-export default memo(MapStyleOverlay);
+export default memo(MapStyleOverlay)

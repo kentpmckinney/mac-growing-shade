@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export type LoadingMessage = {
   message: string
@@ -6,18 +6,18 @@ export type LoadingMessage = {
 
 const initialState: LoadingMessage = {
   message: 'Loading Map...'
-};
+}
 
-const sliders = createSlice({ 
+const sliders = createSlice({
   name: 'loading',
   initialState,
   reducers: {
     updateLoadingMessage(state: LoadingMessage, { payload }: PayloadAction<LoadingMessage>) {
-      const { message } = payload;
-      state.message = message;
-    },
+      const { message } = payload
+      state.message = message
+    }
   }
-});
+})
 
-export const { updateLoadingMessage } = sliders.actions;
-export default sliders.reducer;
+export const { updateLoadingMessage } = sliders.actions
+export default sliders.reducer

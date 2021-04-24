@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface ToggleItem {
   name: string
@@ -14,25 +14,23 @@ export interface ToggleCollection {
 
 const initialState: ToggleCollection = {
   toggles: []
-};
+}
 
-const toggles = createSlice({ 
+const toggles = createSlice({
   name: 'toggles',
   initialState,
   reducers: {
     updateToggleValue(state: ToggleCollection, { payload }: PayloadAction<ToggleItem>) {
-      const { name, value, table, column, type } = payload;
-      let s = state.toggles.find( (x: ToggleItem): boolean => x.name === name );
-      if (s !== undefined)
-      {
-        s.value = value;
+      const { name, value, table, column, type } = payload
+      let s = state.toggles.find((x: ToggleItem): boolean => x.name === name)
+      if (s !== undefined) {
+        s.value = value
+      } else {
+        state.toggles.push({ name, value, table, column, type })
       }
-      else {
-        state.toggles.push({name, value, table, column, type});
-      }
-    },
+    }
   }
-});
+})
 
-export const { updateToggleValue } = toggles.actions;
-export default toggles.reducer;
+export const { updateToggleValue } = toggles.actions
+export default toggles.reducer

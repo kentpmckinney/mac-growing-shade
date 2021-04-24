@@ -1,20 +1,26 @@
-import { FlyToInterpolator } from 'react-map-gl';
-import { easeCubic } from 'd3-ease';
+import { FlyToInterpolator } from 'react-map-gl'
+import { easeCubic } from 'd3-ease'
 
 /* Check if a string is null or contains whitespace */
-export const isNullOrWhitespace = (s: string) => !s || !s.trim();
+export const isNullOrWhitespace = (s: string) => !s || !s.trim()
 
 /* Get a url parameter by name */
-export const getUrlString: Function = ((p: string, location: any) => new URLSearchParams(location.search).get(p));
-export const getUrlFloat: Function = ((p: string, location: any) => parseFloat(getUrlString(p, location) || ''));
+export const getUrlString: Function = (p: string, location: any) =>
+  new URLSearchParams(location.search).get(p)
+export const getUrlFloat: Function = (p: string, location: any) =>
+  parseFloat(getUrlString(p, location) || '')
 
 /* Get a url for an API route that provides GeoJSON for a block layer with the given layer (table) name */
-export const generateBlockLayerGeoJsonSourceUrl: Function = (baseUrl: string, layerName?: string): string => 
-  `${baseUrl}/api/geojson?layer=${layerName}`;
+export const generateBlockLayerGeoJsonSourceUrl: Function = (
+  baseUrl: string,
+  layerName?: string
+): string => `${baseUrl}/api/geojson?layer=${layerName}`
 
 /* Get a url for an API route that provides GeoJSON for a parcel layer given a block feature's FIPS number */
-export const generateParcelLayerGeoJsonSourceUrl: Function = (baseUrl: string, properties?: any): string =>
-  `${baseUrl}/api/geojson?fips=${properties && properties['FIPS']}`;
+export const generateParcelLayerGeoJsonSourceUrl: Function = (
+  baseUrl: string,
+  properties?: any
+): string => `${baseUrl}/api/geojson?fips=${properties && properties['FIPS']}`
 
 /* Determine whether the block layer or parcel layer is active */
 export const generateInteractiveLayerIds: Function = (activeLayer: string) => {
@@ -26,29 +32,40 @@ export const generateTransitionProperties: Function = (transition: boolean) => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     return { transitionDuration: 0 }
   }
-  return { ...(transition)
-    ? {
-        transitionDuration: 500,
-        transitionInterpolator: new FlyToInterpolator(),
-        transitionEasing: easeCubic
-      }
-    : { transitionDuration: 0 }
+  return {
+    ...(transition
+      ? {
+          transitionDuration: 500,
+          transitionInterpolator: new FlyToInterpolator(),
+          transitionEasing: easeCubic
+        }
+      : { transitionDuration: 0 })
   }
 }
 
 /* Update the URL bar with viewport settings without triggering a render */
-export const updateUrlParams: Function = (sliderValues: any, latitude: number, longitude: number, zoom: number, mapStyleName: string) => {
+export const updateUrlParams: Function = (
+  sliderValues: any,
+  latitude: number,
+  longitude: number,
+  zoom: number,
+  mapStyleName: string
+) => {
   try {
     const sliderUrlValues = new URLSearchParams(
-      sliderValues.map((x: any) => [x.name, (x.value && x.value.min) ? `${x.value.min}-${x.value.max}` : ""])
-    ).toString();
+      sliderValues.map((x: any) => [
+        x.name,
+        x.value && x.value.min ? `${x.value.min}-${x.value.max}` : ''
+      ])
+    ).toString()
 
-    window.history.replaceState(null, 'Branch Out Gresham',
+    window.history.replaceState(
+      null,
+      'Branch Out Gresham',
       `/map?${sliderUrlValues}&lat=${latitude}&lon=${longitude}&zoom=${zoom}&style=${mapStyleName}`
-    );
-  }
-  catch (e) {
-    console.error(`Error updating URL params. Details: ${e}`);
+    )
+  } catch (e) {
+    console.error(`Error updating URL params. Details: ${e}`)
   }
 }
 
@@ -58,19 +75,26 @@ export const updateUrlParams: Function = (sliderValues: any, latitude: number, l
 /* The first expression affects all subsequent arguments, and the expression within an argument affects 'column' and 'value' */
 /* 'All' means the feature will show if all of the other expressions are true, and those are all 'column >= value' */
 /* The 'filter' breaks if s.column is an empty string hence the Array.filter function to remove invalid entries */
-export const generateBlockLayerFilter = (sliderValues: any) => [ 'all',
+export const generateBlockLayerFilter = (sliderValues: any) => [
+  'all',
   ...sliderValues
     .filter((s: any) => s.type === 'slider')
-    .flatMap((s: any) => [['>=', s.column, s.value.min],['<=', s.column, s.value.max]])
-    .filter((s: any) => (typeof s === 'string') || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
-];
+    .flatMap((s: any) => [
+      ['>=', s.column, s.value.min],
+      ['<=', s.column, s.value.max]
+    ])
+    .filter((s: any) => typeof s === 'string' || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
+]
 
-export const generateParcelLayerFilter = (toggleValues: any) => [ 'all',
+export const generateParcelLayerFilter = (toggleValues: any) => [
+  'all',
   ...toggleValues
     .filter((s: any) => s.type === 'toggle' && s.value !== '')
-    .flatMap((s: any) => [['==', s.column, s.value.toLowerCase().replace(/^sfr$/, 'SFR').replace(/^mfr$/, 'MFR')]])
-    .filter((s: any) => (typeof s === 'string') || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
-];
+    .flatMap((s: any) => [
+      ['==', s.column, s.value.toLowerCase().replace(/^sfr$/, 'SFR').replace(/^mfr$/, 'MFR')]
+    ])
+    .filter((s: any) => typeof s === 'string' || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
+]
 
 /* Get a reference to the underlying map */
 // const mapRef = createRef<any>();
