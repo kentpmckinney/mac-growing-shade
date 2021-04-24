@@ -2,8 +2,8 @@
 
 import * as Express from "express";
 import { Pool, PoolClient } from "pg";
-import * as Config from '../client/src/config/application.json';
-import { Input } from '../client/src/components/Map/InputOverlay/InputOverlay';
+import * as Config from '../../frontend//src/config/application.json';
+import { Input } from '../../frontend/src/components/Map/InputOverlay/InputOverlay';
 
 module.exports = (app: Express.Application, pool: Pool) => {
 

@@ -1,0 +1,55 @@
+{
+  "name": "growing-shade",
+  "version": "0.2.0",
+  "description": "",
+  "main": "dist/index.js",
+  "engines": {
+    "node": "14.16.x",
+    "npm": "7.9.x"
+  },
+  "scripts": {
+    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 dist/index.js",
+    "server": "nodemon --ext 'ts,json' --exec 'ts-node index.ts'",
+    "dev": "tsc && npm run server",
+    "postinstall": "tsc",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/..."
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/..."
+  },
+  "homepage": "https://github.com/...#readme",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.5.0",
+    "@types/compression": "^1.7.0",
+    "@types/cors": "^2.8.9",
+    "@types/express": "^4.17.11",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.21",
+    "@types/pg": "^7.14.8",
+    "@types/sanitize-html": "^1.27.0",
+    "compression": "^1.7.4",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-promise-router": "^4.0.1",
+    "helmet": "^4.3.1",
+    "miniprofiler": "^1.2.3",
+    "mocha": "^8.2.1",
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.1",
+    "node-postgres": "^0.6.2",
+    "nodemon": "^2.0.7",
+    "pg": "^8.5.1",
+    "sanitize-html": "^2.3.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3",
+    "yargs-parser": "^20.2.5"
+  }
+}

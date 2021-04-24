@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "es2015"
     ],
     "outDir": "dist/",
+    "baseUrl": ".",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,7 +23,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "noEmit": true
+    "noEmit": true,
+    "typeRoots": ["./node_modules/@types"]
   },
   "include": [
     "src/**/*",
@@ -30,7 +32,6 @@
     "tests/App.test.ts"
   ],
   "exclude": [
-    "node_modules",
-    "dist"
+    "node_modules", "dist"
   ]
 }
