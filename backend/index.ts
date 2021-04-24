@@ -1,6 +1,6 @@
 "use strict";
 
-import './dotEnv';
+require('dotenv').config();
 import * as Express from 'express';
 import * as Cors from 'cors';
 import * as Compression from 'compression';
