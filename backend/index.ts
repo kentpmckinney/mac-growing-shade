@@ -1,36 +1,39 @@
 "use strict";
 
-if (process.env.NODE_ENV === undefined || process.env.NODE_ENV !== 'production') {
+if (
+  process.env.NODE_ENV === undefined ||
+  process.env.NODE_ENV !== "production"
+) {
   /* Read environment variables for a .env file in the root folder for local developement */
-  require('dotenv').config();
+  require("dotenv").config();
 }
-var path = require('path');
-import * as Express from 'express';
-import * as Cors from 'cors';
-import * as Compression from 'compression';
-import * as Path from 'path';
-import { Pool } from 'pg';
+var path = require("path");
+import * as Express from "express";
+import * as Cors from "cors";
+import * as Compression from "compression";
+import * as Path from "path";
+import { Pool } from "pg";
 const app = Express();
 
 /* Determine whether the Node.js environment is development or production */
-const isProdEnvironment = 
+const isProdEnvironment =
   process.env.NODE_ENV !== undefined && process.env.NODE_ENV === "production";
 
 /* Heroku free postgres allows up to 20 concurrent connections */
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   max: 20,
-  ssl: { rejectUnauthorized: false }
+  ssl: { rejectUnauthorized: false },
 });
 
-pool.on('error', (e: Error) => {
+pool.on("error", (e: Error) => {
   if (isProdEnvironment) console.error(`Database pool error: ${e}`);
 });
 
 /* Headers */
 app.use(function (req, res, next) {
   res.setHeader(
-    'Content-Security-Policy',
+    "Content-Security-Policy",
     `default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline';\
      img-src 'self' data: blob: 'unsafe-inline'; child-src blob: ;\
      worker-src 'self' blob: ;\
@@ -38,17 +41,17 @@ app.use(function (req, res, next) {
   );
   const expireAfterMinutes = 60;
   const cacheControlHeaderValue = isProdEnvironment
-    ? `public, max-age=${expireAfterMinutes/2 * 60}, \
-    stale-while-revalidate=${expireAfterMinutes/2 * 6}`
-    : `no-cache`
-  res.header('Cache-Control', cacheControlHeaderValue);
+    ? `public, max-age=${(expireAfterMinutes / 2) * 60}, \
+    stale-while-revalidate=${(expireAfterMinutes / 2) * 6}`
+    : `no-cache`;
+  res.header("Cache-Control", cacheControlHeaderValue);
   next();
 });
 
 /* Middleware */
-app.use(Compression({ filter: shouldCompress }))
-function shouldCompress (req, res) {
-  if (req.headers['x-no-compression']) return false;
+app.use(Compression({ filter: shouldCompress }));
+function shouldCompress(req, res) {
+  if (req.headers["x-no-compression"]) return false;
   return Compression.filter(req, res);
 }
 app.use(Cors());
@@ -70,12 +73,9 @@ require("./routes/geojson")(app, pool);
 
 /* Default handler for requests not handled by one of the above routes */
 if (process.env.NODE_ENV === "production") {
-  app.use(Express.static(path.join(__dirname, '/../../../frontend/build')));
-  app.get("/", (request: Express.Request, response: Express.Response) => {
-    response.sendFile(path.join(__dirname, '/../../../frontend/build/index.html'));
-  });
+  app.use(Express.static(path.join(__dirname, "/../../../frontend/build")));
 }
- 
+
 /* Listen for and handle incoming requests */
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
