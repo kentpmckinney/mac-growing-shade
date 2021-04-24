@@ -10,19 +10,19 @@ import './App.scss'
 
 function App() {
   return (
-    <div className="app-container">
+    <div className='app-container'>
       <Router>
-        <div className="app-header">
+        <div className='app-header'>
           <NavBar />
         </div>
-        <div className="app-content">
+        <div className='app-content'>
           <Switch>
-            <Route exact path={['/']} component={Home}></Route>
-            <Route exact path={'/project-overview'} component={ProjectOverview}></Route>
-            <Route exact path={'/project-timeline'} component={ProjectOverview}></Route>
-            <Route exact path={'/project-team'} component={ProjectOverview}></Route>
-            <Route path={'/map*'} component={Map}></Route>
-            <Route exact path={'/contact'} component={Contact}></Route>
+            <Route exact path={['/']} component={Home} />
+            <Route exact path="/project-overview" component={ProjectOverview} />
+            <Route exact path="/project-timeline" component={ProjectOverview} />
+            <Route exact path="/project-team" component={ProjectOverview} />
+            <Route path="/map*" component={Map} />
+            <Route exact path="/contact" component={Contact} />
           </Switch>
         </div>
       </Router>

@@ -40,11 +40,11 @@ class InputOverlay extends BaseControl {
   [x: string]: any
   state = { inputDefinitionSets: [] as InputSet[] }
 
-  componentDidMount() {
+  componentDidMount(): any {
     /* Query the server for its status and also to get the dynamic min/max values for each slider which is part of the server response */
     fetch(serverStatusUrl)
-      .then((r) => r.json())
-      .then((j) => {
+      .then(r => r.json())
+      .then(j => {
         const dynamicMinMaxValues = j.inputMinMaxValues
         /* Create a copy of the slider definitions from the config file and then inject the min and max values so they are dynamic rather than hard-coded */
         const finalInputSets = Config.inputSets.map((set: any) => {
@@ -65,29 +65,28 @@ class InputOverlay extends BaseControl {
         })
         this.setState({ inputDefinitionSets: finalInputSets })
       })
-      .catch((e) => `Error fetching /api/status: ${console.error(e)}`)
+      .catch(e => `Error fetching /api/status: ${console.error(e)}`)
   }
 
-  _render() {
+  _render(): any {
     return (
       <div
-        className="input-overlay-container"
-        ref={this._containerRef as RefObject<HTMLDivElement>}
-      >
-        <Accordion defaultActiveKey="0">
+        className='input-overlay-container'
+        ref={this._containerRef as RefObject<HTMLDivElement>}>
+        <Accordion defaultActiveKey='0'>
           <Card>
             <Card.Header>
-              <div className="input-overlay-header">
-                <AccordionToggle eventKey="0"></AccordionToggle>
+              <div className='input-overlay-header'>
+                <AccordionToggle eventKey='0' />
               </div>
             </Card.Header>
-            <Accordion.Collapse eventKey="0">
-              <Card.Body className="card-body">
-                <div className="input-overlay-body">
+            <Accordion.Collapse eventKey='0'>
+              <Card.Body className='card-body'>
+                <div className='input-overlay-body'>
                   {/* Dynamically render sliders as they can change based on context */}
                   {this.state.inputDefinitionSets.map((inputDefinitionSet: any, i: number) => (
                     <div key={`sliderSet-${i}`}>
-                      <div className="input-overlay-section-label">{inputDefinitionSet.name}</div>
+                      <div className='input-overlay-section-label'>{inputDefinitionSet.name}</div>
                       <br />
                       {inputDefinitionSet.inputs
                         .filter((e: any) => e.display.includes(this.props.activeLayer))
@@ -116,7 +115,7 @@ class InputOverlay extends BaseControl {
                               left={s.left}
                               center={s.center}
                               right={s.right}
-                              table=""
+                              table=''
                               column={s.column}
                               description={s.description}
                             />

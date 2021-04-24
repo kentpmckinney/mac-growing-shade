@@ -22,7 +22,7 @@ const toggles = createSlice({
   reducers: {
     updateToggleValue(state: ToggleCollection, { payload }: PayloadAction<ToggleItem>) {
       const { name, value, table, column, type } = payload
-      let s = state.toggles.find((x: ToggleItem): boolean => x.name === name)
+      const s = state.toggles.find((x: ToggleItem): boolean => x.name === name)
       if (s !== undefined) {
         s.value = value
       } else {

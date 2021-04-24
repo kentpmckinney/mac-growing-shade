@@ -44,11 +44,11 @@ function Slider(props: SliderProps) {
   /* Use a URL query parameter as the default value if available */
   const location = useLocation()
   const getUrlParam = (p: string) => new URLSearchParams(location.search).get(p)
-  let param = getUrlParam(name)
+  const param = getUrlParam(name)
   const getMin = () => parseInt(param?.split(',')[0] || '')
   const getMax = () => parseInt(param?.split(',')[1] || '')
-  let min = getMin() || props.defaultValue.min
-  let max = getMax() || props.defaultValue.max
+  const min = getMin() || props.defaultValue.min
+  const max = getMax() || props.defaultValue.max
   let value = { min, max }
 
   /* Write the slider's default value to the Redux store on component mount */
@@ -59,9 +59,7 @@ function Slider(props: SliderProps) {
   /* Read the slider's value from the Redux store */
   const { sliders } = useSelector((state: RootState): SliderCollection => state.sliders)
   const slider = sliders.filter((x: SliderItem): boolean => x.name === props.name)[0]
-  if (slider !== undefined) {
-    value = slider.value
-  }
+  if (slider !== undefined) value = slider.value
 
   /* Write the slider's value to the Redux store as the value changes */
   const onChange = (e: any): void => {

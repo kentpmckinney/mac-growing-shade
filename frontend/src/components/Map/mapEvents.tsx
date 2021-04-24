@@ -11,7 +11,7 @@ export const onViewportChange: Function = (
   feature: any,
   dispatch: Function
 ) => {
-  /* 
+  /*
 
       if ( viewport.longitude < MyOverlay.maxBounds.minLongitude ) {
         viewport.longitude = MyOverlay.maxBounds.minLongitude;
@@ -114,6 +114,7 @@ export const onMapClick: Function = (e: any, viewport: any, dispatch: AppDispatc
         )
       )
     }
+
     if (clickIsOffFeature) {
       dispatch(
         setViewport(
@@ -198,6 +199,7 @@ export const onMapClick: Function = (e: any, viewport: any, dispatch: AppDispatc
         )
       )
     }
+
     return
   }
 }

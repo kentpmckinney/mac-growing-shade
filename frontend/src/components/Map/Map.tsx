@@ -26,10 +26,9 @@ import { onViewportChange, onMount, onMapClick, onLoad } from './mapEvents'
 import './Map.scss'
 
 /* The following lines work around a bug in recent versions of react-map-gl that prevents running on Heroku */
-import mapboxgl from 'mapbox-gl'
+//import mapboxgl from 'mapbox-gl'
 // @ts-ignore
-// eslint-disable-next-line import/no-webpack-loader-syntax
-mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default
+//mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default
 
 function Map() {
   const dispatch = useAppDispatch()
@@ -39,7 +38,7 @@ function Map() {
   const viewport: ViewportState = useSelector((state: RootState) => state.viewport)
   const sliderValues = useSelector((state: RootState) => state.sliders).sliders
   const toggleValues = useSelector((state: RootState) => state.toggles).toggles
-  let { latitude, longitude, zoom, feature, activeLayer, style: mapStyleName } = viewport
+  const { latitude, longitude, zoom, feature, activeLayer, style: mapStyleName } = viewport
   const mapStyleUrl = useMemo(
     () => (mapStyleName === 'street' ? Config.mapStyle.street : Config.mapStyle.satellite),
     [mapStyleName]

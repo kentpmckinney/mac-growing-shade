@@ -34,9 +34,7 @@ function Toggle(props: ToggleProps) {
   /* Read the slider's value from the Redux store */
   const { toggles } = useSelector((state: RootState): ToggleCollection => state.toggles)
   const toggle = toggles.filter((x: ToggleItem): boolean => x.name === props.name)[0]
-  if (toggle !== undefined) {
-    value = toggle.value
-  }
+  if (toggle !== undefined) value = toggle.value
 
   /* Write the slider's value to the Redux store as the value changes */
   const onChange = (e: any): void => {
@@ -85,7 +83,7 @@ function Toggle(props: ToggleProps) {
             name={props.name}
             type="radio"
             onChange={onChange}
-            value={''}
+            value=""
             defaultChecked
           />
           <label className="toggle-input-label" htmlFor={`${props.name}-center`}>
