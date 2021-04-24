@@ -69,7 +69,8 @@
     "postinstall": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
-    "format": "prettier --write '**/*.{ts,tsx}'"
+    "format": "prettier --write '**/*.{ts,tsx}'",
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "eslintConfig": {
     "extends": [
