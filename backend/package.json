@@ -3,7 +3,6 @@
   "version": "0.2.0",
   "description": "",
   "main": "dist/index.js",
-  "type": "module",
   "engines": {
     "node": "14.16.x",
     "npm": "7.9.x"
