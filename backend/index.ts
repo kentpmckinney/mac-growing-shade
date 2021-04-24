@@ -37,8 +37,8 @@ app.use(function (req, res, next) {
   );
   const expireAfterMinutes = 60;
   const cacheControlHeaderValue = isProdEnvironment
-    ? `public, max-age=${expireAfterMinutes/2 * 60}, 
-       stale-while-revalidate=${expireAfterMinutes/2 * 6}`
+    ? `public, max-age=${expireAfterMinutes/2 * 60}, \
+    stale-while-revalidate=${expireAfterMinutes/2 * 6}`
     : `no-cache`
   res.header('Cache-Control', cacheControlHeaderValue);
   next();
