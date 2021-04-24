@@ -66,6 +66,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "dev": "npm run start",
+    "postinstall": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch"
   },

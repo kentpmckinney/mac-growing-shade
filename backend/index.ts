@@ -69,7 +69,7 @@ require("./routes/geojson")(app, pool);
 if (process.env.NODE_ENV === "production") {
   app.use(Express.static("client/build"));
   app.get("/", (request: Express.Request, response: Express.Response) => {
-    response.sendFile(Path.resolve(__dirname, "client", "build", "index.html"));
+    response.sendFile(Path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
 }
 
