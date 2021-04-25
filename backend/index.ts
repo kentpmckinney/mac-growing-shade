@@ -9,9 +9,9 @@ if (
 }
 var path = require("path");
 import * as Express from "express";
+import * as Helmet from "helmet";
 import * as Cors from "cors";
 import * as Compression from "compression";
-import * as Path from "path";
 import { Pool } from "pg";
 const app = Express();
 
@@ -49,6 +49,7 @@ app.use(function (req, res, next) {
 });
 
 /* Middleware */
+app.use(Helmet.hidePoweredBy());
 app.use(Compression({ filter: shouldCompress }));
 function shouldCompress(req, res) {
   if (req.headers["x-no-compression"]) return false;

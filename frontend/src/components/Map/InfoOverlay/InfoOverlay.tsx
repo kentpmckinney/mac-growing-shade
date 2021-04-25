@@ -1,4 +1,4 @@
-import { memo, useState, forwardRef } from 'react'
+import { memo, useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
@@ -6,14 +6,7 @@ import Popover from 'react-bootstrap/Popover'
 import ReactPlayer from 'react-player'
 import './InfoOverlay.scss'
 
-/* Define a popover that informs the user there is a video guide available */
-const infoPopover: JSX.Element = (
-  <Popover id='popover-basic'>
-    <Popover.Content>Click here to watch a video guide for using this map</Popover.Content>
-  </Popover>
-)
-
-const InfoOverlay = forwardRef(() => {
+const InfoOverlay = () => {
   const [showModal, setShowModal] = useState(false)
   const closeModal = (): void => setShowModal(false)
   const openModal = (): void => setShowModal(true)
@@ -21,7 +14,16 @@ const InfoOverlay = forwardRef(() => {
   return (
     <div>
       {/* The clickable UI 'Guide' element on the map */}
-      <OverlayTrigger defaultShow={true} placement='left' overlay={infoPopover} rootClose>
+      <OverlayTrigger
+        defaultShow={true}
+        placement='left'
+        overlay={
+          <Popover id='popover-basic'>
+            <Popover.Content>Click here to watch a video guide for using this map</Popover.Content>
+          </Popover>
+        }
+        rootClose
+        transition={false}>
         <div className='info-overlay-container'>
           <span>ⓘ&nbsp;</span>
           <span className='info-overlay-text' onClick={openModal}>
@@ -31,7 +33,7 @@ const InfoOverlay = forwardRef(() => {
       </OverlayTrigger>
 
       {/* The modal box that appears with a video guide for usage of the map */}
-      <Modal show={showModal} onHide={closeModal} size='lg' centered>
+      <Modal show={showModal} onHide={closeModal} size='lg' centered transition={false}>
         <Modal.Body>
           <div>Video Guide For Using The Mapping Tool</div>
           <div>&nbsp;</div>
@@ -54,6 +56,6 @@ const InfoOverlay = forwardRef(() => {
       </Modal>
     </div>
   )
-})
+}
 
 export default memo(InfoOverlay)
