@@ -20,15 +20,10 @@ import {
   generateBlockLayerFilter,
   generateParcelLayerFilter,
   generateTransitionProperties,
-  updateUrlParams
+  updateUrlParams,
 } from './mapFunctions'
 import { onViewportChange, onMount, onMapClick, onLoad } from './mapEvents'
 import './Map.scss'
-
-/* The following lines work around a bug in recent versions of react-map-gl that prevents running on Heroku */
-//import mapboxgl from 'mapbox-gl'
-// @ts-ignore
-//mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default
 
 function Map() {
   const dispatch = useAppDispatch()
@@ -91,7 +86,7 @@ function Map() {
   console.log(viewport)
 
   return (
-    <div className="map-container">
+    <div className='map-container'>
       <InteractiveMap
         {...mapProps}
         {...transitionProps}
@@ -103,11 +98,10 @@ function Map() {
         interactiveLayerIds={interactiveLayerIds}
         onLoad={handleLoad}
         onClick={handleMapClick}
-        onViewportChange={handleViewportChange}
-      >
+        onViewportChange={handleViewportChange}>
         {/* The data and map loading indicator */}
-        <div className="centered-container">
-          <div className="loading-indicator">
+        <div className='centered-container'>
+          <div className='loading-indicator'>
             <LoadingIndicator />
           </div>
         </div>
@@ -122,31 +116,31 @@ function Map() {
         />
 
         {/* Overlay components in the upper-right that respond to viewport changes as a group */}
-        <div className="overlay-group">
+        <div className='overlay-group'>
           {/* The overlay containing an interface to choose the style of the map */}
-          <div className="style-overlay">
+          <div className='style-overlay'>
             <MapStyleOverlay />
           </div>
 
           {/* The overlay containing the info guide */}
-          <div className="info-overlay">
+          <div className='info-overlay'>
             <InfoOverlay />
           </div>
 
           {/* The navigation control with zoom in/out */}
-          <div className="navigation-control">
+          <div className='navigation-control'>
             <NavigationControl showCompass={false} />
           </div>
         </div>
 
         {/* Data source and interactive layer */}
-        <Source id="block-source" type="geojson" data={blockLayerGeoJsonSourceUrl}>
+        <Source id='block-source' type='geojson' data={blockLayerGeoJsonSourceUrl}>
           <Layer {...blockOutlineLayer} filter={blockLayerFilter} />
           <Layer {...blockLayer} filter={blockLayerFilter} />
         </Source>
 
         {activeLayer && activeLayer === 'parcel' && (
-          <Source id="parcel-source" type="geojson" data={parcelLayerGeoJsonSourceUrl}>
+          <Source id='parcel-source' type='geojson' data={parcelLayerGeoJsonSourceUrl}>
             <Layer {...parcelLayer} filter={parcelLayerFilter} />
             {feature.parcel && feature.parcel.isPopupVisible && (
               <Popup
@@ -159,13 +153,12 @@ function Map() {
                   dispatch(
                     setViewport({
                       ...viewport,
-                      feature: { ...feature, parcel: { ...feature.parcel, isPopupVisible: false } }
+                      feature: { ...feature, parcel: { ...feature.parcel, isPopupVisible: false } },
                     })
                   )
                 }
-                anchor="top"
-              >
-                <div className="popup-text">
+                anchor='top'>
+                <div className='popup-text'>
                   {Object.entries(feature.parcel.properties ?? {}).map(([k, v]) => (
                     <div key={k}>
                       {k}: {v}
