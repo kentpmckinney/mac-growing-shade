@@ -70,33 +70,33 @@ function Slider(props: SliderProps) {
   /* Define a popover that lets the user click to see a description for the slider's value */
   const popover: JSX.Element = useMemo(
     () => (
-      <Popover id="popover-basic">
-        <Popover.Title as="h3">{props.label}</Popover.Title>
-        <Popover.Content>{props.description}</Popover.Content>
+      <Popover id='popover-basic'>
+        <Popover.Header as='h3'>{props.label}</Popover.Header>
+        <Popover.Body>{props.description}</Popover.Body>
       </Popover>
     ),
     [props.label, props.description]
   )
 
   return (
-    <div className="slider-container" key={`slider-${name}`}>
-      <fieldset className="slider-fieldset">
-        <legend className="slider-legend">
+    <div className='slider-container' key={`slider-${name}`}>
+      <fieldset className='slider-fieldset'>
+        <legend className='slider-legend'>
           {/* Show a label that can be clicked on to view a popover */}
-          <OverlayTrigger trigger="click" placement="right" overlay={popover} rootClose>
-            <div className="slider-label">
+          <OverlayTrigger trigger='click' placement='right' overlay={popover} rootClose>
+            <div className='slider-label'>
               {props.label}
               <span>&nbsp;ⓘ</span>
             </div>
           </OverlayTrigger>
         </legend>
         {/* Show the slider with min and max values on each side */}
-        <div className="slider-with-min-max">
+        <div className='slider-with-min-max'>
           <InputRange
             minValue={props.min}
             maxValue={props.max}
             step={props.step}
-            formatLabel={(v) => `${monetaryUnit}${v}${otherUnit}`}
+            formatLabel={v => `${monetaryUnit}${v}${otherUnit}`}
             value={value}
             onChange={onChange}
           />

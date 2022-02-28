@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import * as Config from '../../config/application.json'
+import Config from '../../config/application.json'
 
 export type BlockFeature = {
   latitude: number | null
@@ -42,15 +42,15 @@ const initialState: ViewportState = {
       latitude: null,
       longitude: null,
       selected: null,
-      properties: {}
+      properties: {},
     },
     parcel: {
       latitude: null,
       longitude: null,
       properties: {},
-      isPopupVisible: false
-    }
-  }
+      isPopupVisible: false,
+    },
+  },
 }
 
 const viewport = createSlice({
@@ -69,17 +69,17 @@ const viewport = createSlice({
           latitude: payload.feature.block.latitude,
           longitude: payload.feature.block.longitude,
           selected: payload.feature.block.selected,
-          properties: payload.feature.block.properties
+          properties: payload.feature.block.properties,
         },
         parcel: {
           latitude: payload.feature.parcel.latitude,
           longitude: payload.feature.parcel.longitude,
           properties: payload.feature.parcel.properties,
-          isPopupVisible: payload.feature.parcel.isPopupVisible
-        }
+          isPopupVisible: payload.feature.parcel.isPopupVisible,
+        },
       }
-    }
-  }
+    },
+  },
 })
 
 export const { setViewport } = viewport.actions

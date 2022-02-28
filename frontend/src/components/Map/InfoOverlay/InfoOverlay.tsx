@@ -19,7 +19,7 @@ const InfoOverlay = () => {
         placement='left'
         overlay={
           <Popover id='popover-basic'>
-            <Popover.Content>Click here to watch a video guide for using this map</Popover.Content>
+            <Popover.Body>Click here to watch a video guide for using this map</Popover.Body>
           </Popover>
         }
         rootClose

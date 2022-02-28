@@ -1,5 +1,5 @@
 import sanitizeHtml from 'sanitize-html'
-import * as Config from '../../config/application.json'
+import Config from '../../config/application.json'
 
 /* Define static properties of the map */
 export const mapProperties: any = {
@@ -11,9 +11,9 @@ export const mapProperties: any = {
     logoPosition: 'bottom-right',
     customAttribution: sanitizeHtml(Config.attribution, {
       allowedTags: ['b', 'i', 'em', 'strong', 'a'],
-      allowedAttributes: { a: ['href'] }
-    })
-  }
+      allowedAttributes: { a: ['href'] },
+    }),
+  },
 }
 
 /* Define static properties of the block layer */
@@ -28,9 +28,9 @@ export const blockLayer: any = {
       'case',
       ['boolean', ['feature-state', 'hover'], false],
       '#2ebaaf',
-      '#0095ce'
-    ]
-  }
+      '#0095ce',
+    ],
+  },
 }
 
 /* Define static properties of the block outline layer */
@@ -40,8 +40,8 @@ export const blockOutlineLayer: any = {
   minzoom: 10,
   paint: {
     'line-color': '#0076a3',
-    'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 2]
-  }
+    'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 2],
+  },
 }
 
 /* Define static properties of the parcel layer */
@@ -56,9 +56,9 @@ export const parcelLayer: any = {
       'case',
       ['boolean', ['feature-state', 'hover'], false],
       '#0000ff',
-      '#0000ff'
-    ]
-  }
+      '#0000ff',
+    ],
+  },
 }
 
 export const baseUrl = `${window.location.protocol}//${window.location.host.replace(

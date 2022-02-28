@@ -7,32 +7,32 @@ import './NavBar.scss'
 
 function NavBar() {
   return (
-    <div className="nav-container">
-      <Navbar className="navbar" bg="light" expand="sm">
-        <Navbar.Brand as={NavLink} exact to="/" className="logo-text">
+    <div className='nav-container'>
+      <Navbar className='navbar' bg='light' expand='sm'>
+        <Navbar.Brand as={NavLink} to='/' className='logo-text'>
           Branch Out Gresham
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link as={NavLink} exact to="/">
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav className='mr-auto'>
+            <Nav.Link as={NavLink} to='/'>
               Home
             </Nav.Link>
-            <NavDropdown title="Project" id="basic-nav-dropdown">
-              <NavDropdown.Item as={NavLink} exact to="/project-overview">
+            <NavDropdown title='Project' id='basic-nav-dropdown'>
+              <NavDropdown.Item as={NavLink} to='/project-overview'>
                 Overview
               </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} exact to="/project-timeline">
+              <NavDropdown.Item as={NavLink} to='/project-timeline'>
                 Timeline
               </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} exact to="/project-team">
+              <NavDropdown.Item as={NavLink} to='/project-team'>
                 Team
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link as={NavLink} exact to="/map">
+            <Nav.Link as={NavLink} to='/map'>
               Mapping Tool
             </Nav.Link>
-            <Nav.Link as={NavLink} exact to="/contact">
+            <Nav.Link as={NavLink} to='/contact'>
               Contact Us
             </Nav.Link>
           </Nav>

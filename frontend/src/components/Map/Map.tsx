@@ -10,7 +10,7 @@ import LoadingIndicator from './LoadingIndicator/LoadingIndicator'
 import { useAppDispatch } from '../../state/store'
 import { setViewport, ViewportState } from './mapViewportStateSlice'
 import { updateLoadingMessage } from './LoadingIndicator/LoadingIndicatorStateSlice'
-import * as Config from '../../config/application.json'
+import Config from '../../config/application.json'
 import { RootState } from '../../state/rootReducer'
 import { baseUrl, blockLayer, blockOutlineLayer, parcelLayer, mapProperties } from './mapVariables'
 import {
@@ -146,7 +146,6 @@ function Map() {
               <Popup
                 closeOnClick={true}
                 closeButton={false}
-                dynamicPosition={true}
                 latitude={feature.parcel.latitude || latitude}
                 longitude={feature.parcel.longitude || longitude}
                 onClose={() =>

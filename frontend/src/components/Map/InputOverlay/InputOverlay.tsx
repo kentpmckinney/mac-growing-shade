@@ -5,7 +5,7 @@ import Slider from './Slider/Slider'
 import AccordionToggle from './AccordionToggle/AccordionToggle'
 import Toggle from './Toggle/Toggle'
 import { BaseControl } from 'react-map-gl'
-import * as Config from '../../../config/application.json'
+import Config from '../../../config/application.json'
 import './InputOverlay.scss'
 import './AccordionToggle/AccordionToggle.scss'
 
@@ -57,10 +57,10 @@ class InputOverlay extends BaseControl {
                 return {
                   ...configInput,
                   min: dynamicMinMaxValues.filter((d: Input) => d.name === configInput.name)[0].min,
-                  max: dynamicMinMaxValues.filter((d: Input) => d.name === configInput.name)[0].max
+                  max: dynamicMinMaxValues.filter((d: Input) => d.name === configInput.name)[0].max,
                 }
-              })
-            ]
+              }),
+            ],
           }
         })
         this.setState({ inputDefinitionSets: finalInputSets })

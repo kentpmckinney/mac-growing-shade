@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import NavBar from './NavBar/NavBar'
 import Map from './Map/Map'
 import Home from './Home/Home'
@@ -16,14 +16,14 @@ function App() {
           <NavBar />
         </div>
         <div className='app-content'>
-          <Switch>
-            <Route exact path={['/']} component={Home} />
-            <Route exact path="/project-overview" component={ProjectOverview} />
-            <Route exact path="/project-timeline" component={ProjectOverview} />
-            <Route exact path="/project-team" component={ProjectOverview} />
-            <Route path="/map*" component={Map} />
-            <Route exact path="/contact" component={Contact} />
-          </Switch>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/project-overview' element={<ProjectOverview />} />
+            <Route path='/project-timeline' element={<ProjectOverview />} />
+            <Route path='/project-team' element={<ProjectOverview />} />
+            <Route path='/map*' element={<Map />} />
+            <Route path='/contact' element={<Contact />} />
+          </Routes>
         </div>
       </Router>
     </div>
