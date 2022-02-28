@@ -37,9 +37,9 @@ export const generateTransitionProperties: Function = (transition: boolean) => {
       ? {
           transitionDuration: 500,
           transitionInterpolator: new FlyToInterpolator(),
-          transitionEasing: easeCubic,
+          transitionEasing: easeCubic
         }
-      : { transitionDuration: 0 }),
+      : { transitionDuration: 0 })
   }
 }
 
@@ -55,7 +55,7 @@ export const updateUrlParams: Function = (
     const sliderUrlValues = new URLSearchParams(
       sliderValues.map((x: any) => [
         x.name,
-        x.value && x.value.min ? `${x.value.min}-${x.value.max}` : '',
+        x.value && x.value.min ? `${x.value.min}-${x.value.max}` : ''
       ])
     ).toString()
 
@@ -81,11 +81,9 @@ export const generateBlockLayerFilter = (sliderValues: any) => [
     .filter((s: any) => s.type === 'slider')
     .flatMap((s: any) => [
       ['>=', s.column, s.value.min],
-      ['<=', s.column, s.value.max],
+      ['<=', s.column, s.value.max]
     ])
-    .filter(
-      (s: any) => typeof s === 'string' || (Array.isArray(s) && s.length >= 2 && s[1] !== '')
-    ),
+    .filter((s: any) => typeof s === 'string' || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
 ]
 
 export const generateParcelLayerFilter = (toggleValues: any) => [
@@ -93,11 +91,9 @@ export const generateParcelLayerFilter = (toggleValues: any) => [
   ...toggleValues
     .filter((s: any) => s.type === 'toggle' && s.value !== '')
     .flatMap((s: any) => [
-      ['==', s.column, s.value.toLowerCase().replace(/^sfr$/, 'SFR').replace(/^mfr$/, 'MFR')],
+      ['==', s.column, s.value.toLowerCase().replace(/^sfr$/, 'SFR').replace(/^mfr$/, 'MFR')]
     ])
-    .filter(
-      (s: any) => typeof s === 'string' || (Array.isArray(s) && s.length >= 2 && s[1] !== '')
-    ),
+    .filter((s: any) => typeof s === 'string' || (Array.isArray(s) && s.length >= 2 && s[1] !== ''))
 ]
 
 /* Get a reference to the underlying map */
